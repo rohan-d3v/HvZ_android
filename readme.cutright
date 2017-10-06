@@ -1,4 +1,9 @@
 # Week 2 (10/2-10/6)
+- setup basic human view
+-- added buttons, layout, onclick binds
+- setup incubation view
+-- added timer and information
+- planning to get modals working if I have time on Friday
 
 # Week 1 (9/25-9/29)
 - setup basic app

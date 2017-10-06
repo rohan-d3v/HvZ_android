@@ -6,13 +6,48 @@
     android:layout_height="match_parent"
     tools:context="edu.acase.hvz.hvz_app.HumanActivity">
 
-    <TextView
+    <Button
+        android:id="@+id/caughtButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:text="caughtButton"
+        android:textAllCaps="false"
+        android:textSize="18sp"
+        android:visibility="visible"
+        tools:layout_editor_absoluteX="16dp"
+        tools:text="Got Caught"
+        app:layout_constraintBaseline_toBaselineOf="@+id/reportButton" />
+
+    <Button
+        android:id="@+id/reportButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="reportButton"
+        android:textAllCaps="false"
+        android:textSize="18sp"
+        tools:layout_editor_absoluteX="194dp"
+        tools:layout_editor_absoluteY="447dp"
+        tools:text="Sighted Zombie" />
+
+    <Button
+        android:id="@+id/infoButton"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:text="infoButton"
+        android:textAllCaps="false"
+        android:textSize="18sp"
+        tools:layout_editor_absoluteX="16dp"
+        tools:text="i"
+        app:layout_constraintBaseline_toBaselineOf="@+id/helpButton" />
+
+    <Button
+        android:id="@+id/helpButton"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:text="helpButton"
+        android:textSize="18sp"
+        tools:layout_editor_absoluteX="296dp"
+        tools:layout_editor_absoluteY="16dp"
+        tools:text="?" />
 
 </android.support.constraint.ConstraintLayout>
