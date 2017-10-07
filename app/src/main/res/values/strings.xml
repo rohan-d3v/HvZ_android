@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">HvZ-app</string>
+    <string name="title_activity_zombie">ZombieActivity</string>
 </resources>

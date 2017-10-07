@@ -3,3 +3,11 @@ Commit 1: Week of 9/25
 -Get google maps API key (Google developer/ cloud)
 -Research simple API implementation
 -Test api on app on emulator (have not tested on phone)
+
+Commit 2: Week of Oct 2
+-Research Android studio
+-Create basic layout for Zombie View
+-Implement layout with buttons for timer
+-Test on Phone
+-Phone emulator broken (Kvm not installed/ found)
+-activation for virtual machine on BIOS

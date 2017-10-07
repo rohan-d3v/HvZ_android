@@ -16,7 +16,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+<<<<<<< HEAD
+        <activity
+            android:name=".Zombie"
+            android:label="@string/title_activity_zombie"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+=======
         <activity android:name=".IncubatingActivity"></activity>
+>>>>>>> 13d1aed180a45862506682bd90236dc55e672e59
     </application>
 
 </manifest>
