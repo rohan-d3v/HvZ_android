@@ -7,7 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
-
+/*
  new CountDownTimer(30000, 1000) {
 
 public void onTick(long millisUntilFinished) {
@@ -18,7 +18,7 @@ public void onFinish() {
         mTextField.setText("done!");
         }
         }.start();
-
+*/
 public class Zombie extends AppCompatActivity {
 
     @Override
@@ -27,7 +27,7 @@ public class Zombie extends AppCompatActivity {
         setContentView(R.layout.activity_zombie);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
+/*
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -36,6 +36,7 @@ public class Zombie extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+        */
     }
 
 }
