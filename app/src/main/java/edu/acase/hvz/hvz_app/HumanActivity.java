@@ -1,31 +1,81 @@
 package edu.acase.hvz.hvz_app;
 
+import android.*;
+import android.Manifest;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-public class HumanActivity extends AppCompatActivity implements OnMapReadyCallback {
-   private GoogleMap gmap;
+public class HumanActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnMapLongClickListener{
+
+    class mapInfoWindowAdapter implements GoogleMap.InfoWindowAdapter {
+        private final View view;
+
+        public mapInfoWindowAdapter() {
+            view = getLayoutInflater().inflate(R.layout.custom_marker_info_contents, null);
+        }
+
+        @Override
+        public View getInfoWindow(Marker marker) {
+            TextView title = ((TextView) view.findViewById(R.id.title));
+            title.setText(marker.getTitle());
+
+            TextView snippet = ((TextView) view.findViewById(R.id.snippet));
+            snippet.setText(marker.getSnippet());
+
+            return view;
+        }
+
+        @Override
+        public View getInfoContents(Marker marker) {
+            return null;
+        }
+    }
+
+    private GoogleMap gmap;
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
         gmap = googleMap;
-        // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(-34, 151);
-        gmap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        gmap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+        gmap.setIndoorEnabled(false);
+        gmap.setTrafficEnabled(false);
+        gmap.getUiSettings().setMapToolbarEnabled(false);
+        //gmap.setMyLocationEnabled(true); //needs a permissions check
+
+        // Add a marker for the quad and zoom in there
+        LatLng cwruQuad = new LatLng(41.50325, -81.60755);
+        LatLngBounds campusBounds = new LatLngBounds(new LatLng(41.502535, -81.608143), new LatLng(41.510880, -81.602874));
+        gmap.setLatLngBoundsForCameraTarget(campusBounds);
+
+        gmap.addMarker(new MarkerOptions().position(cwruQuad).title("CWRU quad"));
+        gmap.moveCamera(CameraUpdateFactory.newLatLng(cwruQuad));
+        gmap.setMinZoomPreference(15);
+        gmap.setOnMapLongClickListener(this);
+        gmap.setInfoWindowAdapter(new mapInfoWindowAdapter());
+    }
+
+    @Override
+    public void onMapLongClick(LatLng point) {
+        Marker newMarker = gmap.addMarker(new MarkerOptions()
+                .position(point)
+                .snippet(point.toString()));
+        newMarker.setTitle(newMarker.getId());
     }
 
     @Override
@@ -33,8 +83,8 @@ public class HumanActivity extends AppCompatActivity implements OnMapReadyCallba
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_human);
 
-        //MapFragment mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.mapView);
-        //mapFragment.getMapAsync(this);
+        MapFragment mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
+        mapFragment.getMapAsync(this);
 
         final Button helpButton = (Button) findViewById(R.id.helpButton),
                      infoButton = (Button) findViewById(R.id.infoButton),

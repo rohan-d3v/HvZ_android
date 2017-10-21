@@ -1,3 +1,8 @@
+# Week 4 (10/16-10/20)
+- got map markers working
+-- setup custom map markers (so we can load in our information from API calls)
+- setup map zoom and bounds to the campus
+
 # Week 3 (10/9-10/13)
 - added map to human view
 -- setup map rendering, api keys
