@@ -24,7 +24,7 @@ public class IncubatingActivity extends AppCompatActivity {
         final Context context = this;
         zombieButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Intent goToNextActivity = new Intent(getApplicationContext(), Zombie.class);
+                Intent goToNextActivity = new Intent(getApplicationContext(), Z.class);
                 startActivity(goToNextActivity);
                 finish(); //prevent back button
             }
