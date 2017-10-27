@@ -5,6 +5,7 @@ import android.Manifest;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -111,6 +112,9 @@ public class HumanActivity extends AppCompatActivity implements OnMapReadyCallba
                         .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 //dismiss dialog
+                                Intent goToNextActivity = new Intent(getApplicationContext(), IncubatingActivity.class);
+                                startActivity(goToNextActivity);
+                                finish(); //prevent back button
                             }
                         })
                         .show();

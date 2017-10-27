@@ -1,7 +1,13 @@
 package edu.acase.hvz.hvz_app;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 
 public class IncubatingActivity extends AppCompatActivity {
 
@@ -13,5 +19,15 @@ public class IncubatingActivity extends AppCompatActivity {
         //run countdown timer
         //occasionally synchronize timer
         //if timer is finished, transition to zombieActivity
+
+        final Button zombieButton = (Button) findViewById(R.id.zombieButton);
+        final Context context = this;
+        zombieButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent goToNextActivity = new Intent(getApplicationContext(), Zombie.class);
+                startActivity(goToNextActivity);
+                finish(); //prevent back button
+            }
+        });
     }
 }
