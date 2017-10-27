@@ -11,3 +11,12 @@ Commit 2: Week of Oct 2
 -Test on Phone
 -Phone emulator broken (Kvm not installed/ found)
 -activation for virtual machine on BIOS
+
+Commit 5: Week of Oct 21
+- Map View for Zombies
+- Button to Transition page to stunned 
+- Help, info and sightedzombie
+- Timer (switches back to zombie view)
+- Obtained a new IP: 129.22.151.80
+	* Rails is still being set up, the HvZ git repo is for lack of better terms quite broken and requires outdated methods and software to run. Still teasing out a working app
+	* Rails was installed using nginx and unicorn, while I was used to Apache and Passanger. Incompatibility resulted in everything breaking on the website

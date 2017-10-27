@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="edu.acase.hvz.hvz_app">
+
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -15,16 +17,32 @@
         <activity android:name=".HumanActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
             android:name=".Zombie"
             android:label="@string/title_activity_zombie"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
-        <activity android:name=".IncubatingActivity"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".IncubatingActivity" />
+
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyArwM4wxHTfziNMCjvYVfkQN22QXKGwHWY" />
+
+        <activity
+            android:name=".Z"
+            android:label="@string/title_activity_z"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".stunned"
+            android:label="@string/title_activity_stunned"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".MainActivity"
+            android:label="@string/title_activity_main"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
+
 </manifest>

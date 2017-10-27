@@ -3,4 +3,7 @@
     <string name="title_activity_human">HumanActivity</string>
     <string name="title_activity_zombie">ZombieActivity</string>
     <string name="google_android_map_api_key">AIzaSyArwM4wxHTfziNMCjvYVfkQN22QXKGwHWY</string>
+    <string name="title_activity_z">Z</string>
+    <string name="title_activity_stunned">stunned</string>
+    <string name="title_activity_main">MainActivity</string>
 </resources>
