@@ -123,17 +123,8 @@ public class HumanActivity extends AppCompatActivity implements OnMapReadyCallba
         });
         caughtButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                AlertDialog.Builder builder = CommonDialogs.getAlertBuilder(context);
-                builder.setTitle("Got Caught")
-                        .setIcon(android.R.drawable.ic_dialog_alert)
-                        .setMessage("Usage info goes here")
-                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                //dismiss dialog
-                            }
-                        })
-                        .show();
-
+                Intent i = new Intent(getApplicationContext(),Z.class);
+                startActivity(i);
             }
         });
     }
