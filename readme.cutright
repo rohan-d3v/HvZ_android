@@ -1,6 +1,14 @@
 # Week 6 (10/30-11/3)
-- wrote some dummy apis for the server, will fill in with real calls once they work
-- really fighting this stupid server. rails thinks all the api paths are valid, but for some reason they aren't exposed. can't find any references to this issue online, might be due to our old ass version of rails? don't know how this server was set up, can't even find the freaking log files...
+- fought server & won
+-- mirroring http://35.163.170.184 to https://github.com/rohanezio/eecs395HvZ
+- setup basic api for people, missions
+- TODO: migrations, api hooks
+-- human & zombie reports (w LAT/LONG for pins)
+- TODO: api hooks on app side
+-- human & zombie view initializations fetch reports 
+- TODO: authentication
+-- cwru SSO
+-- auth to api (?), get user state & info
 
 # Week 5 (10/23-10/27)
 - state transitions
