@@ -1,7 +1,5 @@
 package edu.acase.hvz.hvz_app;
 
-import android.*;
-import android.Manifest;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -9,7 +7,6 @@ import android.content.Intent;
 import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -111,7 +108,6 @@ public class HumanActivity extends AppCompatActivity implements OnMapReadyCallba
                         .setMessage("Usage info goes here")
                         .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
-                                //dismiss dialog
                                 Intent goToNextActivity = new Intent(getApplicationContext(), IncubatingActivity.class);
                                 startActivity(goToNextActivity);
                                 finish(); //prevent back button
@@ -123,7 +119,7 @@ public class HumanActivity extends AppCompatActivity implements OnMapReadyCallba
         });
         caughtButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Intent i = new Intent(getApplicationContext(),Z.class);
+                Intent i = new Intent(getApplicationContext(),ZombieActivity.class);
                 startActivity(i);
             }
         });

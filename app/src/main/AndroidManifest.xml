@@ -32,11 +32,11 @@
             android:value="AIzaSyArwM4wxHTfziNMCjvYVfkQN22QXKGwHWY" />
 
         <activity
-            android:name=".Z"
+            android:name=".ZombieActivity"
             android:label="@string/title_activity_z"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".stunned"
+            android:name=".StunnedActivity"
             android:label="@string/title_activity_stunned"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity

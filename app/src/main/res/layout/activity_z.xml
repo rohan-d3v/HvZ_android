@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="edu.acase.hvz.hvz_app.Z">
+    tools:context="edu.acase.hvz.hvz_app.ZombieActivity">
 
     <Button
         android:id="@+id/caughtButton"
@@ -79,6 +79,6 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        tools:context="edu.acase.hvz.hvz_app.Z" />
+        tools:context="edu.acase.hvz.hvz_app.ZombieActivity" />
 
 </android.support.constraint.ConstraintLayout>

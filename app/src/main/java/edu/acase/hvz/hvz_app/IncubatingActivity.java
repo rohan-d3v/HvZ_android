@@ -1,8 +1,6 @@
 package edu.acase.hvz.hvz_app;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -24,7 +22,7 @@ public class IncubatingActivity extends AppCompatActivity {
         final Context context = this;
         zombieButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Intent goToNextActivity = new Intent(getApplicationContext(), Z.class);
+                Intent goToNextActivity = new Intent(getApplicationContext(), ZombieActivity.class);
                 startActivity(goToNextActivity);
                 finish(); //prevent back button
             }
