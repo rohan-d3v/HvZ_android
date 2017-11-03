@@ -20,3 +20,17 @@ Commit 5: Week of Oct 21
 - Obtained a new IP: 129.22.151.80
 	* Rails is still being set up, the HvZ git repo is for lack of better terms quite broken and requires outdated methods and software to run. Still teasing out a working app
 	* Rails was installed using nginx and unicorn, while I was used to Apache and Passanger. Incompatibility resulted in everything breaking on the website
+
+Commit 6: Week of Oct 28
+- Set up a working/ functioning dev server
+- Have a working website: http://ec2-35-163-170-184.us-west-2.compute.amazonaws.com
+- School VM wasn't working switched to amazon ecs and re-set up the website
+- Fixed a lot of code on the website as it was constantly breaking
+	* Specific Code fixes can be found on the git repo
+- Created a git repo for our specific version of the website: https://github.com/rohanezio/eecs395HvZ
+- Switched the dev server from outdated nginx unicorn combo to apache2 passenger combination with stack 
+	* There was a reccent update made to rails 4.2 on the original repo, which has resulted in the uncovering of multiple multiple bugs that have broken/ potentially break the website
+	* The whole gem install had to be re-written (not a lot of work to write but figuring out backwards compatibility for every gem took time)
+	* Any gem that's not the latest version is the most recent compatible version
+- Deployment instructions with step by step accompanying code and commands were written (starting from a clean install of ubuntu)
+	* Also in the git repo
