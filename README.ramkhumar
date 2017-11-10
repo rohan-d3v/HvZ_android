@@ -34,3 +34,13 @@ Commit 6: Week of Oct 28
 	* Any gem that's not the latest version is the most recent compatible version
 - Deployment instructions with step by step accompanying code and commands were written (starting from a clean install of ubuntu)
 	* Also in the git repo
+
+Commit 7: Week of Nov 4
+- Fixed multiple underlying cracks/ bugs
+	* Specific bug fixed can be found on the git repo(link above)
+- Fixed all the parts of the website that the API hooks into to get the relevant information
+	* Some of the pages are dummied because the actual pages are badly written enough that they need to be completely re-written, which I am in the process of doing
+	* All the things that the API needs from the website are currently at least functional and can output data as required
+- Set up rake commands to auto setup a fake game with fake players
+	* Although me and aaron are registered, the extra players will help with testing when admin pages are created/ when sightings of specific players are needed as zombie sighting markers are placed
+- Set up a common custom marker creation section for use when the humans sight zombies or when the zombies sight humans. The class is common and the code is generic/ common enough that both sets can call it with just separate markers and if statements for if zombie or human
