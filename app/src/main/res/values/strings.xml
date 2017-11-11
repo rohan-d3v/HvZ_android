@@ -6,4 +6,6 @@
     <string name="title_activity_z">Z</string>
     <string name="title_activity_stunned">stunned</string>
     <string name="title_activity_main">MainActivity</string>
+    <string name="title_activity_maps">MapsActivity</string>
+    <string name="title_activity_edit">editActivity</string>
 </resources>
