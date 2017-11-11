@@ -1,12 +1,26 @@
-# Week 7 (11/6-11/10)
+# Week 7 + weekend (11/6-11/12)
 - fixed permissions issue on server
 - got custom serialization working for api responses
 - setup api for games, registrations
--- API hooks (will need to adjust serializers)
-http://ec2-35-163-170-184.us-west-2.compute.amazonaws.com/api/v1/missions
-http://ec2-35-163-170-184.us-west-2.compute.amazonaws.com/api/v1/people
-http://ec2-35-163-170-184.us-west-2.compute.amazonaws.com/api/v1/games
-http://ec2-35-163-170-184.us-west-2.compute.amazonaws.com/api/v1/registrations
+- improved api for people
+
+server: http://ec2-35-163-170-184.us-west-2.compute.amazonaws.com
+- setup documentation for api
+/doc
+
+- API hooks (will need to adjust controllers/serializers for permissions, authentication)
+/api/v1/missions
+	/api/v1/missions/:id
+/api/v1/people
+	/api/v1/people/:id
+/api/v1/games
+	/api/v1/games/:id
+/api/v1/registrations
+	/api/v1/registrations/:id
+	/api/v1/registrations/by_faction/human
+	/api/v1/registrations/by_faction/zombie
+	/api/v1/registrations/by_faction/deceased
+
 - commit history on https://github.com/rohanezio/eecs395HvZ
 
 # Week 6 (10/30-11/3)
