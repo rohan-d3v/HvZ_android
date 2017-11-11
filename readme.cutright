@@ -1,8 +1,10 @@
 # Week 7 + weekend (11/6-11/12)
 - fixed permissions issue on server
 - got custom serialization working for api responses
+- added models for humans + zombie reports, +apis
 - setup api for games, registrations
 - improved api for people
+- squashed bug with empty collections for the api
 
 server: http://ec2-35-163-170-184.us-west-2.compute.amazonaws.com
 - setup documentation for api
@@ -20,6 +22,10 @@ server: http://ec2-35-163-170-184.us-west-2.compute.amazonaws.com
 	/api/v1/registrations/by_faction/human
 	/api/v1/registrations/by_faction/zombie
 	/api/v1/registrations/by_faction/deceased
+/api/v1/human_reports
+	/api/v1/human_reports/:id
+/api/v1/zombie_reports
+	/api/v1/zombie_reports/:id
 
 - commit history on https://github.com/rohanezio/eecs395HvZ
 
