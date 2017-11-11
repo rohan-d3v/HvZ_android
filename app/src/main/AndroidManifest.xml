@@ -42,6 +42,14 @@
         <activity
             android:name=".MainActivity"
             android:label="@string/title_activity_main"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".MapsActivity"
+            android:label="@string/title_activity_maps"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".editActivity"
+            android:label="@string/title_activity_edit"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
