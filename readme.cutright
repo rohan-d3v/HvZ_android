@@ -1,3 +1,14 @@
+# Week 7 (11/6-11/10)
+- fixed permissions issue on server
+- got custom serialization working for api responses
+- setup api for games, registrations
+-- API hooks (will need to adjust serializers)
+http://ec2-35-163-170-184.us-west-2.compute.amazonaws.com/api/v1/missions
+http://ec2-35-163-170-184.us-west-2.compute.amazonaws.com/api/v1/people
+http://ec2-35-163-170-184.us-west-2.compute.amazonaws.com/api/v1/games
+http://ec2-35-163-170-184.us-west-2.compute.amazonaws.com/api/v1/registrations
+- commit history on https://github.com/rohanezio/eecs395HvZ
+
 # Week 6 (10/30-11/3)
 - fought server & won
 -- mirroring http://35.163.170.184 to https://github.com/rohanezio/eecs395HvZ
