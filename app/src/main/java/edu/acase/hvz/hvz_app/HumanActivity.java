@@ -8,6 +8,7 @@ import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -31,12 +32,8 @@ public class HumanActivity extends AppCompatActivity implements OnMapReadyCallba
 
         @Override
         public View getInfoWindow(Marker marker) {
-            TextView title = ((TextView) view.findViewById(R.id.title));
-            title.setText(marker.getTitle());
-
             TextView snippet = ((TextView) view.findViewById(R.id.snippet));
             snippet.setText(marker.getSnippet());
-
             return view;
         }
 
@@ -61,7 +58,7 @@ public class HumanActivity extends AppCompatActivity implements OnMapReadyCallba
         LatLngBounds campusBounds = new LatLngBounds(new LatLng(41.502535, -81.608143), new LatLng(41.510880, -81.602874));
         gmap.setLatLngBoundsForCameraTarget(campusBounds);
 
-        gmap.addMarker(new MarkerOptions().position(cwruQuad).title("CWRU quad"));
+        gmap.addMarker(new MarkerOptions().position(cwruQuad).snippet("This is where the report goes..."));
         gmap.moveCamera(CameraUpdateFactory.newLatLng(cwruQuad));
         gmap.setMinZoomPreference(15);
         gmap.setOnMapLongClickListener(this);
@@ -121,6 +118,7 @@ public class HumanActivity extends AppCompatActivity implements OnMapReadyCallba
             public void onClick(View v) {
                 Intent i = new Intent(getApplicationContext(),ZombieActivity.class);
                 startActivity(i);
+                finish(); //prevent back button
             }
         });
     }

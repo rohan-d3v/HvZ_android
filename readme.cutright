@@ -6,6 +6,10 @@ server changes
 app changes
 - add all the missing import statements (how was the last build possibly compiling???)
 - general refactoring
+- update the custom markers 
+- setup models and api request handling
+- custom deserializer, request model for zombiereports (untested)
+-- ps. android does not make json requests painless at all...
 
 # Week 7 + weekend (11/6-11/12)
 - fixed permissions issue on server

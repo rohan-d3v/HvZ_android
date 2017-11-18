@@ -14,6 +14,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyArwM4wxHTfziNMCjvYVfkQN22QXKGwHWY" />
+
         <activity android:name=".HumanActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -21,19 +25,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".Zombie"
-            android:label="@string/title_activity_zombie"
-            android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".IncubatingActivity" />
-
-        <meta-data
-            android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyArwM4wxHTfziNMCjvYVfkQN22QXKGwHWY" />
 
         <activity
             android:name=".ZombieActivity"
-            android:label="@string/title_activity_z"
+            android:label="ZombieActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".StunnedActivity"
@@ -48,8 +44,8 @@
             android:label="@string/title_activity_maps"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".editActivity"
-            android:label="@string/title_activity_edit"
+            android:name=".EditActivity"
+            android:label="EditActivity"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
