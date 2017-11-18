@@ -50,6 +50,10 @@
         <activity
             android:name=".editActivity"
             android:label="@string/title_activity_edit"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".adminActivity"
+            android:label="@string/title_activity_admin"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
