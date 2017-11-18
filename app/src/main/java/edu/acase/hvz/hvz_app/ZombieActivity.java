@@ -74,7 +74,7 @@ public class ZombieActivity extends AppCompatActivity implements OnMapReadyCallb
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_z);
+        setContentView(R.layout.activity_zombie);
 
         MapFragment mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
@@ -110,8 +110,8 @@ public class ZombieActivity extends AppCompatActivity implements OnMapReadyCallb
         });
         caughtButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Intent i = new Intent(getApplicationContext(),StunnedActivity.class);
-                startActivity(i);
+                startActivity(new Intent(getApplicationContext(), StunnedActivity.class));
+                finish(); //prevent back button
             }
         });
     }
