@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="edu.acase.hvz.hvz_app.HumanActivity">
+
+    <Button
+        android:id="@+id/caughtButton3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="172dp"
+        android:layout_marginLeft="116dp"
+        android:text="View messages"
+        android:textAllCaps="false"
+        android:textSize="18sp"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        tools:text="view messages" />
+
+    <Button
+        android:id="@+id/caughtButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="424dp"
+        android:layout_marginLeft="120dp"
+        android:text="Admin Registration"
+        android:textAllCaps="false"
+        android:textSize="18sp"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        tools:text="Register person" />
+
+    <Button
+        android:id="@+id/caughtButton2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="240dp"
+        android:layout_marginLeft="100dp"
+        android:text="Mission Attendance"
+        android:textAllCaps="false"
+        android:textSize="18sp"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        tools:text="Mission Attendance" />
+
+    <Button
+        android:id="@+id/reportButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="368dp"
+        android:layout_marginRight="100dp"
+        android:text="Find player by code"
+        android:textAllCaps="false"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        tools:text="Find player by code" />
+
+    <Button
+        android:id="@+id/infoButton"
+        android:layout_width="144dp"
+        android:layout_height="65dp"
+        android:layout_marginLeft="120dp"
+        android:layout_marginTop="156dp"
+        android:text="Edit game info"
+        android:textAllCaps="false"
+        android:textSize="18sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="edit game info" />
+
+    <Button
+        android:id="@+id/helpButton"
+        android:layout_width="142dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="372dp"
+        android:text="Infractions"
+        android:textSize="18sp"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteX="121dp"
+        tools:text="Infractions" />
+
+</android.support.constraint.ConstraintLayout>

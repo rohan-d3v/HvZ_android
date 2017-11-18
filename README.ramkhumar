@@ -44,3 +44,16 @@ Commit 7: Week of Nov 4
 - Set up rake commands to auto setup a fake game with fake players
 	* Although me and aaron are registered, the extra players will help with testing when admin pages are created/ when sightings of specific players are needed as zombie sighting markers are placed
 - Set up a common custom marker creation section for use when the humans sight zombies or when the zombies sight humans. The class is common and the code is generic/ common enough that both sets can call it with just separate markers and if statements for if zombie or human
+
+Commit 8: Week of Nov 11
+- Is there a bug spray for code? So many bug fixes 
+	* Details in the website git repo. Refer there
+	* Mission attendance bug is still broken. Have consulted significant contributors and original code writers from 2009
+- Identified a significantly greater amount of bugs
+- Created an admin view for all the admin functions
+	* Button clicks
+	* Edit Game info
+	* Register Person
+	* Find Player by code
+	* View Messages
+	* Infractions
