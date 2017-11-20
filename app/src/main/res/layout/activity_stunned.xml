@@ -14,35 +14,33 @@
         tools:layout_editor_absoluteX="0dp"
         tools:layout_editor_absoluteY="0dp">
 
-        <EditText
-            android:id="@+id/editText2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginLeft="57dp"
-            android:layout_marginStart="57dp"
-            android:layout_marginTop="87dp"
-            android:ems="10"
-            android:inputType="textPersonName"
-            android:text="You got Stunned"
-            android:textAlignment="center"
-            android:textSize="24sp" />
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="280dp"
+            android:layout_height="96dp"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:text="You got stunned"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textSize="36sp"
+            tools:layout_editor_absoluteX="49dp"
+            tools:layout_editor_absoluteY="228dp"
+            tools:text="You got stunned" />
 
         <TextView
             android:id="@+id/textView1"
             android:layout_width="280dp"
             android:layout_height="96dp"
-            android:layout_alignEnd="@+id/editText2"
-            android:layout_alignRight="@+id/editText2"
-            android:layout_below="@+id/editText2"
-            android:layout_marginTop="46dp"
-            android:text="Large Text"
+            android:layout_alignLeft="@+id/textView3"
+            android:layout_alignParentTop="true"
+            android:layout_alignStart="@+id/textView3"
+            android:layout_marginTop="48dp"
+            android:text="You got stunned"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textSize="36sp"
             tools:layout_editor_absoluteX="49dp"
-            tools:layout_editor_absoluteY="228dp" />
+            tools:layout_editor_absoluteY="228dp"
+            tools:text="You got stunned"/>
     </RelativeLayout>
 
 </android.support.constraint.ConstraintLayout>

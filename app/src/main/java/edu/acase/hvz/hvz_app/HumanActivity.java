@@ -47,6 +47,7 @@ public class HumanActivity extends AppCompatActivity implements OnMapReadyCallba
     }
 
     private GoogleMap gmap;
+    private static final int EDIT_REQUEST = 1;
 
     @Override
     public void onMapReady(GoogleMap googleMap) {

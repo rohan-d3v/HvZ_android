@@ -14,7 +14,11 @@ import android.widget.EditText;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
- class editActivity extends Activity {
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Locale;
+
+class editActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -23,14 +27,21 @@ import com.google.android.gms.maps.model.MarkerOptions;
         final LatLng latlng = (LatLng) getIntent().getParcelableExtra("location");
 
         final EditText title = (EditText) findViewById(R.id.title);
+        final EditText time = (EditText) findViewById(R.id.time);
+        SimpleDateFormat timeF = new SimpleDateFormat("HH:mm", Locale.getDefault());
+        final String t = timeF.format(Calendar.getInstance().getTime());
+
         Button boton = (Button) findViewById(R.id.save);
         boton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View view) {
                 MarkerOptions marker = new MarkerOptions().position(latlng);
-                if (title.getText() != null) {
-                    marker.title(title.getText().toString());
-                }
+                StringBuilder info = new StringBuilder();
+                info.append(title.getText().toString());
+                info.append(" human(s), ");
+                time.setText(t);
+                info.append(time.getText().toString());
+                marker.title(info.toString());
 
                 Intent resultIntent = new Intent();
                 resultIntent.putExtra("marker", marker);

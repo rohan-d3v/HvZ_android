@@ -21,18 +21,6 @@
         app:layout_constraintLeft_toLeftOf="parent"
         tools:text="Got Stunned" />
 
-    <Button
-        android:id="@+id/reportButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginRight="8dp"
-        android:text="Sighted Human"
-        android:textAllCaps="false"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        tools:text="Human!" />
 
     <Button
         android:id="@+id/infoButton"
@@ -49,15 +37,15 @@
 
     <Button
         android:id="@+id/helpButton"
-        android:layout_width="48dp"
+        android:layout_width="135dp"
         android:layout_height="48dp"
         android:layout_marginRight="8dp"
         android:layout_marginTop="8dp"
-        android:text="\?"
+        android:text="Contact Us"
         android:textSize="18sp"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="\?" />
+        tools:text="Contact Us" />
 
     <TextView
         android:id="@+id/textView1"

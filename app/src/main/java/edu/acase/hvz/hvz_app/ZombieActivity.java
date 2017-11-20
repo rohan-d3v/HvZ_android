@@ -1,9 +1,11 @@
 package edu.acase.hvz.hvz_app;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -46,6 +48,7 @@ public class ZombieActivity extends AppCompatActivity implements OnMapReadyCallb
     }
 
     private GoogleMap gmap;
+    private static final int EDIT_REQUEST = 1;
 
     @Override
     public void onMapReady(GoogleMap Map) {
@@ -61,14 +64,14 @@ public class ZombieActivity extends AppCompatActivity implements OnMapReadyCallb
         gmap.setMinZoomPreference(15);
         gmap.setOnMapLongClickListener(this);
         gmap.setInfoWindowAdapter(new mapInfoWindowAdapter());
+
     }
 
     @Override
     public void onMapLongClick(LatLng point) {
-        Marker newMarker = gmap.addMarker(new MarkerOptions()
-                .position(point)
-                .snippet(point.toString()));
-        newMarker.setTitle(newMarker.getId());
+            Intent edit = new Intent(ZombieActivity.this, editActivity.class);
+            edit.putExtra("location", point);
+            ZombieActivity.this.startActivityForResult(edit, EDIT_REQUEST);
     }
 
     @Override
@@ -87,25 +90,13 @@ public class ZombieActivity extends AppCompatActivity implements OnMapReadyCallb
         final Context context = this;
         helpButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                CommonDialogs.getHelpButtonDialog(context, v);
+        Intent viewIntent = new Intent("android.intent.action.VIEW", Uri.parse("http://www.stackoverflow.com/"));
+        startActivity(viewIntent);
             }
         });
         infoButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 CommonDialogs.getInfoButtonDialog(context, v);
-            }
-        });
-        reportButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                AlertDialog.Builder builder = CommonDialogs.getAlertBuilder(context);
-                builder.setTitle("Sighted Human")
-                        .setMessage("Code for fropped pin and form goes here")
-                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                            }
-                        })
-                        .show();
-
             }
         });
         caughtButton.setOnClickListener(new View.OnClickListener() {
@@ -121,5 +112,19 @@ public class ZombieActivity extends AppCompatActivity implements OnMapReadyCallb
             return new AlertDialog.Builder(context, android.R.style.Theme_Material_Dialog_Alert);
         else
             return new AlertDialog.Builder(context);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch(requestCode) {
+            case (EDIT_REQUEST) : {
+                if (resultCode == Activity.RESULT_OK) {
+                    MarkerOptions markerOptions = data.getParcelableExtra("marker");
+                    gmap.addMarker(markerOptions);
+                }
+                break;
+            }
+        }
     }
 }
