@@ -1,3 +1,7 @@
+# Week 9 (11/20-11/24)
+- seeds for zombie & human report, refactor of models
+
+
 # Week 8 (11/13-11/17)
 server changes
 - changed api documentation path to be /api from /doc
