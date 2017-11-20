@@ -1,5 +1,6 @@
 package edu.acase.hvz.hvz_app;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -129,5 +130,19 @@ public class HumanActivity extends AppCompatActivity implements OnMapReadyCallba
             return new AlertDialog.Builder(context, android.R.style.Theme_Material_Dialog_Alert);
         else
             return new AlertDialog.Builder(context);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch(requestCode) {
+            case (EDIT_REQUEST) : {
+                if (resultCode == Activity.RESULT_OK) {
+                    MarkerOptions markerOptions = data.getParcelableExtra("marker");
+                    gmap.addMarker(markerOptions);
+                }
+                break;
+            }
+        }
     }
 }

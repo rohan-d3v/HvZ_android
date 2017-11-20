@@ -23,8 +23,7 @@
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            </intent-filter></activity>
         <activity android:name=".IncubatingActivity" />
 
         <activity
@@ -40,17 +39,8 @@
             android:label="@string/title_activity_main"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-<<<<<<< HEAD
-            android:name=".editActivity"
-            android:label="@string/title_activity_edit"
-=======
-            android:name=".MapsActivity"
-            android:label="@string/title_activity_maps"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
             android:name=".EditActivity"
             android:label="EditActivity"
->>>>>>> 9d648bd2faf456be1f94cbc39a6f0e5b31bee9c4
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".AdminActivity"

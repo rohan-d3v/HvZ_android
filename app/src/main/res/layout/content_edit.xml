@@ -38,7 +38,6 @@
             android:id="@+id/save"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-<<<<<<< HEAD
             android:layout_marginLeft="8dp"
             app:layout_constraintLeft_toLeftOf="parent"
             android:layout_marginRight="8dp"
@@ -48,8 +47,7 @@
             android:layout_marginBottom="200dp"
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp" />
-=======
+
             android:text="Save"/>
     </LinearLayout>
->>>>>>> 9d648bd2faf456be1f94cbc39a6f0e5b31bee9c4
 </android.support.constraint.ConstraintLayout>

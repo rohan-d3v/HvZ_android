@@ -25,9 +25,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/stunnedMsg"
         app:layout_constraintVertical_bias="0.013" />
-
-<<<<<<< HEAD
-        <TextView
+     <TextView
             android:id="@+id/textView3"
             android:layout_width="280dp"
             android:layout_height="96dp"
@@ -54,8 +52,6 @@
             tools:layout_editor_absoluteX="49dp"
             tools:layout_editor_absoluteY="228dp"
             tools:text="You got stunned"/>
-    </RelativeLayout>
-=======
     <TextView
         android:id="@+id/stunnedMsg"
         android:layout_width="wrap_content"
@@ -73,6 +69,4 @@
         app:layout_constraintHorizontal_bias="0.508"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
->>>>>>> 9d648bd2faf456be1f94cbc39a6f0e5b31bee9c4
-
 </android.support.constraint.ConstraintLayout>

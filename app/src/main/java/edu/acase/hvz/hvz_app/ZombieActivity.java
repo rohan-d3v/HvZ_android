@@ -69,7 +69,7 @@ public class ZombieActivity extends AppCompatActivity implements OnMapReadyCallb
 
     @Override
     public void onMapLongClick(LatLng point) {
-            Intent edit = new Intent(ZombieActivity.this, editActivity.class);
+            Intent edit = new Intent(ZombieActivity.this, EditActivity.class);
             edit.putExtra("location", point);
             ZombieActivity.this.startActivityForResult(edit, EDIT_REQUEST);
     }
@@ -84,8 +84,7 @@ public class ZombieActivity extends AppCompatActivity implements OnMapReadyCallb
 
         final Button helpButton = (Button) findViewById(R.id.helpButton),
                 infoButton = (Button) findViewById(R.id.infoButton),
-                reportButton = (Button) findViewById(R.id.reportButton),
-                caughtButton = (Button) findViewById(R.id.caughtButton);
+                reportButton = (Button) findViewById(R.id.reportButton);
 
         final Context context = this;
         helpButton.setOnClickListener(new View.OnClickListener() {
@@ -97,12 +96,6 @@ public class ZombieActivity extends AppCompatActivity implements OnMapReadyCallb
         infoButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 CommonDialogs.getInfoButtonDialog(context, v);
-            }
-        });
-        caughtButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), StunnedActivity.class));
-                finish(); //prevent back button
             }
         });
     }
