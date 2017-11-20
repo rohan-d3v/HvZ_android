@@ -23,9 +23,9 @@
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter></activity>
+            </intent-filter>
+        </activity>
         <activity android:name=".IncubatingActivity" />
-
         <activity
             android:name=".ZombieActivity"
             android:label="ZombieActivity"
@@ -45,7 +45,7 @@
         <activity
             android:name=".AdminActivity"
             android:label="@string/title_activity_admin"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>

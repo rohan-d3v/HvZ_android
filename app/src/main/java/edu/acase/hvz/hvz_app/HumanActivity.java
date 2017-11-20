@@ -70,8 +70,8 @@ public class HumanActivity extends AppCompatActivity implements OnMapReadyCallba
     @Override
     public void onMapLongClick(LatLng point) {
         Marker newMarker = gmap.addMarker(new MarkerOptions()
-                .position(point)
-                .snippet(point.toString()));
+                        .position(point)
+                        .snippet(point.toString()));
         newMarker.setTitle(newMarker.getId());
     }
 
@@ -85,7 +85,6 @@ public class HumanActivity extends AppCompatActivity implements OnMapReadyCallba
 
         final Button helpButton = (Button) findViewById(R.id.helpButton),
                      infoButton = (Button) findViewById(R.id.infoButton),
-                     reportButton = (Button) findViewById(R.id.reportButton),
                      caughtButton = (Button) findViewById(R.id.caughtButton);
 
         final Context context = this;
@@ -99,23 +98,7 @@ public class HumanActivity extends AppCompatActivity implements OnMapReadyCallba
                 CommonDialogs.getInfoButtonDialog(context, v);
             }
         });
-        reportButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                AlertDialog.Builder builder = CommonDialogs.getAlertBuilder(context);
-                builder.setTitle("Sighted Zombie")
-                        .setIcon(android.R.drawable.presence_video_busy)
-                        .setMessage("Usage info goes here")
-                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                Intent goToNextActivity = new Intent(getApplicationContext(), IncubatingActivity.class);
-                                startActivity(goToNextActivity);
-                                finish(); //prevent back button
-                            }
-                        })
-                        .show();
 
-            }
-        });
         caughtButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent i = new Intent(getApplicationContext(),ZombieActivity.class);

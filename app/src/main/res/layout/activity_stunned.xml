@@ -7,7 +7,7 @@
     tools:context="edu.acase.hvz.hvz_app.StunnedActivity">
 
     <TextView
-        android:id="@+id/timer"
+        android:id="@+id/textView1"
         android:layout_width="280dp"
         android:layout_height="96dp"
         android:layout_below="@+id/stunnedMsg"
@@ -16,7 +16,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="24dp"
-        android:text="Time:Remaining"
+        android:text="Time Remaining"
         android:textAlignment="center"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textSize="36sp"
@@ -24,34 +24,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/stunnedMsg"
-        app:layout_constraintVertical_bias="0.013" />
-     <TextView
-            android:id="@+id/textView3"
-            android:layout_width="280dp"
-            android:layout_height="96dp"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:text="You got stunned"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textSize="36sp"
-            tools:layout_editor_absoluteX="49dp"
-            tools:layout_editor_absoluteY="228dp"
-            tools:text="You got stunned" />
+        app:layout_constraintVertical_bias="0.17" />
 
-        <TextView
-            android:id="@+id/textView1"
-            android:layout_width="280dp"
-            android:layout_height="96dp"
-            android:layout_alignLeft="@+id/textView3"
-            android:layout_alignParentTop="true"
-            android:layout_alignStart="@+id/textView3"
-            android:layout_marginTop="48dp"
-            android:text="You got stunned"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textSize="36sp"
-            tools:layout_editor_absoluteX="49dp"
-            tools:layout_editor_absoluteY="228dp"
-            tools:text="You got stunned"/>
     <TextView
         android:id="@+id/stunnedMsg"
         android:layout_width="wrap_content"

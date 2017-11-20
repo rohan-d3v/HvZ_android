@@ -18,93 +18,39 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 public class ZombieActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnMapLongClickListener{
-
-    class mapInfoWindowAdapter implements GoogleMap.InfoWindowAdapter {
-        private final View view;
-
-        public mapInfoWindowAdapter() {
-            view = getLayoutInflater().inflate(R.layout.custom_marker_info_contents, null);
-        }
-
-        @Override
-        public View getInfoWindow(Marker marker) {
-            TextView title = ((TextView) view.findViewById(R.id.title));
-            title.setText(marker.getTitle());
-
-            TextView snippet = ((TextView) view.findViewById(R.id.snippet));
-            snippet.setText(marker.getSnippet());
-
-            return view;
-        }
-
-        @Override
-        public View getInfoContents(Marker marker) {
-            return null;
-        }
-    }
-
     private GoogleMap gmap;
     private static final int EDIT_REQUEST = 1;
 
     @Override
-    public void onMapReady(GoogleMap Map) {
-        gmap = Map;
+    public void onMapReady(GoogleMap googleMap) {
+        gmap = googleMap;
         gmap.setIndoorEnabled(false);
         gmap.setTrafficEnabled(false);
         gmap.getUiSettings().setMapToolbarEnabled(false);
+        //gmap.setMyLocationEnabled(true); //needs a permissions check
 
-        LatLng nrv = new LatLng(41.513883, -81.605746);
+        // Add a marker for the quad and zoom in there
+        LatLng cwruQuad = new LatLng(41.50325, -81.60755);
+        LatLngBounds campusBounds = new LatLngBounds(new LatLng(41.502535, -81.608143), new LatLng(41.510880, -81.602874));
+        gmap.setLatLngBoundsForCameraTarget(campusBounds);
 
-        gmap.addMarker(new MarkerOptions().position(nrv).title("North Res Village"));
-        gmap.moveCamera(CameraUpdateFactory.newLatLng(nrv));
+        gmap.addMarker(new MarkerOptions().position(cwruQuad).snippet("Quad"));
+        gmap.moveCamera(CameraUpdateFactory.newLatLng(cwruQuad));
         gmap.setMinZoomPreference(15);
         gmap.setOnMapLongClickListener(this);
-        gmap.setInfoWindowAdapter(new mapInfoWindowAdapter());
 
     }
 
     @Override
     public void onMapLongClick(LatLng point) {
-            Intent edit = new Intent(ZombieActivity.this, EditActivity.class);
-            edit.putExtra("location", point);
-            ZombieActivity.this.startActivityForResult(edit, EDIT_REQUEST);
-    }
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_zombie);
-
-        MapFragment mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
-        mapFragment.getMapAsync(this);
-
-        final Button helpButton = (Button) findViewById(R.id.helpButton),
-                infoButton = (Button) findViewById(R.id.infoButton),
-                reportButton = (Button) findViewById(R.id.reportButton);
-
-        final Context context = this;
-        helpButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-        Intent viewIntent = new Intent("android.intent.action.VIEW", Uri.parse("http://www.stackoverflow.com/"));
-        startActivity(viewIntent);
-            }
-        });
-        infoButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                CommonDialogs.getInfoButtonDialog(context, v);
-            }
-        });
-    }
-
-    private AlertDialog.Builder getModalBuilder(Context context) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-            return new AlertDialog.Builder(context, android.R.style.Theme_Material_Dialog_Alert);
-        else
-            return new AlertDialog.Builder(context);
+        Intent edit = new Intent(ZombieActivity.this, EditActivity.class);
+        edit.putExtra("location", point);
+        ZombieActivity.this.startActivityForResult(edit, EDIT_REQUEST);
     }
 
     @Override
@@ -119,5 +65,40 @@ public class ZombieActivity extends AppCompatActivity implements OnMapReadyCallb
                 break;
             }
         }
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_zombie);
+
+        MapFragment mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
+        mapFragment.getMapAsync(this);
+
+        final Button helpButton = (Button) findViewById(R.id.helpButton),
+                infoButton = (Button) findViewById(R.id.infoButton),
+                caughtButton = (Button) findViewById(R.id.caughtButton);
+
+        final Context context = this;
+        helpButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent viewIntent = new Intent("android.intent.action.VIEW", Uri.parse("http://www.stackoverflow.com/"));
+                startActivity(viewIntent);            }
+        });
+        infoButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent i = new Intent(getApplicationContext(),HumanActivity.class);
+                startActivity(i);
+                finish(); //prevent back button
+            }
+        });
+
+        caughtButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent i = new Intent(getApplicationContext(),StunnedActivity.class);
+                startActivity(i);
+                finish(); //prevent back button
+            }
+        });
     }
 }

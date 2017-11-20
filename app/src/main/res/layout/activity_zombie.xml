@@ -13,13 +13,13 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:layout_marginLeft="8dp"
-        android:text="Got Stunned"
+        android:text="Stunned"
         android:textAllCaps="false"
         android:textSize="18sp"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        tools:text="Got Stunned" />
+        tools:text="Stunned" />
 
 
     <Button
@@ -37,7 +37,7 @@
 
     <Button
         android:id="@+id/helpButton"
-        android:layout_width="135dp"
+        android:layout_width="137dp"
         android:layout_height="48dp"
         android:layout_marginRight="8dp"
         android:layout_marginTop="8dp"
@@ -46,17 +46,6 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="Contact Us" />
-
-    <TextView
-        android:id="@+id/textView1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginLeft="34dp"
-        android:layout_marginTop="58dp"
-        android:text="Large Text"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <fragment
         android:id="@+id/map"
