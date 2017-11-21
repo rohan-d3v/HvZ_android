@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -21,6 +22,8 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+
+import edu.acase.hvz.hvz_app.api.requests.ZombieReportRequest;
 
 public class HumanActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnMapLongClickListener{
 
@@ -104,6 +107,13 @@ public class HumanActivity extends AppCompatActivity implements OnMapReadyCallba
                 Intent i = new Intent(getApplicationContext(),ZombieActivity.class);
                 startActivity(i);
                 finish(); //prevent back button
+            }
+        });
+        final Button getZombieReportsButton = (Button) findViewById(R.id.test_getZombieReports);
+        getZombieReportsButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                ZombieReportRequest request = new ZombieReportRequest();
+                request.fetchAll();
             }
         });
     }

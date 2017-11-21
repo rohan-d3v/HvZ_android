@@ -4,30 +4,34 @@ import com.google.android.gms.maps.model.LatLng;
 import java.util.Date;
 
 
-public class ZombieReportModel {
+public class HumanReportModel {
     final int DATABASE_ID;
     LatLng location;
-    int numZombies;
+    int numHumans, typicalMagSize;
     Date timeSighted;
 
-    public ZombieReportModel(int DATABASE_ID) {
+    public HumanReportModel(int DATABASE_ID) {
         this.DATABASE_ID = DATABASE_ID;
     }
 
     public LatLng getLocation() { return location; }
-    public int getNumZombies() { return numZombies; }
+    public int getNumHumans() { return numHumans; }
     public Date getTimeSighted() { return timeSighted; }
+    public int getTypicalMagSize() { return typicalMagSize; }
 
     public void setLocation(LatLng location) { this.location = location; }
-    public void setNumZombies(int numZombies) { this.numZombies = numZombies; }
+    public void setNumHumans(int numHumans) { this.numHumans = numHumans; }
+    public void setTypicalMagSize(int typicalMagSize) { this.typicalMagSize = typicalMagSize; }
     public void setTimeSighted(Date timeSighted) { this.timeSighted = timeSighted; }
+
 
     @Override
     public String toString() {
-        return "ZombieReportModel{" +
+        return "HumanReportModel{" +
                 "DATABASE_ID=" + DATABASE_ID +
                 ", location=" + location +
-                ", numZombies=" + numZombies +
+                ", numHumans=" + numHumans +
+                ", typicalMagSize=" + typicalMagSize +
                 ", timeSighted=" + timeSighted +
                 '}';
     }
