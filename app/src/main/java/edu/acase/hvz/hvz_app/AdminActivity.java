@@ -23,29 +23,7 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 public class AdminActivity extends AppCompatActivity {
-    class mapInfoWindowAdapter implements GoogleMap.InfoWindowAdapter {
-        private final View view;
 
-        public mapInfoWindowAdapter() {
-            view = getLayoutInflater().inflate(R.layout.custom_marker_info_contents, null);
-        }
-
-        @Override
-        public View getInfoWindow(Marker marker) {
-            TextView title = ((TextView) view.findViewById(R.id.title));
-            title.setText(marker.getTitle());
-
-            TextView snippet = ((TextView) view.findViewById(R.id.snippet));
-            snippet.setText(marker.getSnippet());
-
-            return view;
-        }
-
-        @Override
-        public View getInfoContents(Marker marker) {
-            return null;
-        }
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

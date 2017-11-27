@@ -18,17 +18,16 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
 
-class EditActivity extends Activity {
+public class HumanReport extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_edit);
+        setContentView(R.layout.activity_humanreport);
 
         final LatLng latlng = (LatLng) getIntent().getParcelableExtra("location");
 
         final EditText title = (EditText) findViewById(R.id.title);
         final EditText time = (EditText) findViewById(R.id.time);
-        final EditText mag = (EditText)  findViewById(R.id.mag);
         final EditText loc = (EditText)  findViewById(R.id.lat);
         SimpleDateFormat timeF = new SimpleDateFormat("HH:mm", Locale.getDefault());
         final String t = timeF.format(Calendar.getInstance().getTime());
@@ -40,9 +39,8 @@ class EditActivity extends Activity {
             public void onClick(final View view) {
                 MarkerOptions marker = new MarkerOptions().position(latlng);
                 StringBuilder info = new StringBuilder();
-                 double number, magazine, lat, lng;
+                double number, magazine, lat, lng;
                 number = Double.parseDouble(title.getText().toString());
-                magazine = Double.parseDouble(mag.getText().toString());
                 lat = latlng.latitude;
                 lng = latlng.longitude;
 
@@ -50,9 +48,6 @@ class EditActivity extends Activity {
                 info.append(", ");
 
                 time.setText(t);
-                info.append(magazine);
-                info.append(", ");
-
                 info.append(time.getText().toString());
                 info.append(", ");
 

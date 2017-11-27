@@ -5,9 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="edu.acase.hvz.hvz_app.EditActivity"
-    tools:showIn="@layout/activity_edit">
-
+    tools:context="edu.acase.hvz.hvz_app.HumanReport"
+    tools:showIn="@layout/activity_humanreport">
     <EditText
         android:id="@+id/title"
         android:layout_width="match_parent"
@@ -15,7 +14,7 @@
         android:layout_marginBottom="450dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
-        android:hint="Number of humans"
+        android:hint="Number of Zombies"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHorizontal_bias="0.444"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -25,7 +24,7 @@
         android:id="@+id/time"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="350dp"
+        android:layout_marginBottom="400dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:hint="Current Time (wil be autofilled)"
@@ -34,22 +33,10 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent" />
     <EditText
-        android:id="@+id/mag"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="400dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:hint="Magazine size"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="0.444"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent" />
-    <EditText
         android:id="@+id/lat"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="300dp"
+        android:layout_marginBottom="350dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:hint="Latitude and Longitude (will be autofilled)"
@@ -68,5 +55,4 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         tools:text="Save" />
-
 </android.support.constraint.ConstraintLayout>

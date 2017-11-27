@@ -9,22 +9,6 @@
     android:background="@drawable/round_rectangle_shape"
     android:orientation="vertical">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="100sp"
-        android:layout_margin="10sp"
-        android:orientation="vertical">
-        <TextView
-            android:id="@+id/snippet"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textAlignment="textStart"
-            android:layout_gravity="start"
-            android:textColor="#ffffff"
-            android:textSize="16sp" />
-    </LinearLayout>
-
     <!-- spacer to bottom -->
     <FrameLayout
         android:layout_width="match_parent"
@@ -37,16 +21,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
-
-        <Button
-            android:id="@+id/button2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Edit Report"
-            android:textAlignment="center"
-            android:layout_centerInParent="true"
-            android:textAllCaps="false"
-            android:layout_margin="5sp"/>
     </RelativeLayout>
 
 </LinearLayout>

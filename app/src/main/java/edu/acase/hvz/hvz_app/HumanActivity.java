@@ -27,25 +27,6 @@ import edu.acase.hvz.hvz_app.api.requests.ZombieReportRequest;
 
 public class HumanActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnMapLongClickListener{
 
-    class mapInfoWindowAdapter implements GoogleMap.InfoWindowAdapter {
-        private final View view;
-
-        public mapInfoWindowAdapter() {
-            view = getLayoutInflater().inflate(R.layout.custom_marker_info_contents, null);
-        }
-
-        @Override
-        public View getInfoWindow(Marker marker) {
-            TextView snippet = ((TextView) view.findViewById(R.id.snippet));
-            snippet.setText(marker.getSnippet());
-            return view;
-        }
-
-        @Override
-        public View getInfoContents(Marker marker) {
-            return null;
-        }
-    }
 
     private GoogleMap gmap;
     private static final int EDIT_REQUEST = 1;
@@ -67,15 +48,14 @@ public class HumanActivity extends AppCompatActivity implements OnMapReadyCallba
         gmap.moveCamera(CameraUpdateFactory.newLatLng(cwruQuad));
         gmap.setMinZoomPreference(15);
         gmap.setOnMapLongClickListener(this);
-        gmap.setInfoWindowAdapter(new mapInfoWindowAdapter());
+        //gmap.setInfoWindowAdapter(new mapInfoWindowAdapter());
     }
 
     @Override
     public void onMapLongClick(LatLng point) {
-        Marker newMarker = gmap.addMarker(new MarkerOptions()
-                        .position(point)
-                        .snippet(point.toString()));
-        newMarker.setTitle(newMarker.getId());
+        Intent edit = new Intent(HumanActivity.this, HumanReport.class);
+        edit.putExtra("location", point);
+        HumanActivity.this.startActivityForResult(edit, EDIT_REQUEST);
     }
 
     @Override
@@ -104,7 +84,7 @@ public class HumanActivity extends AppCompatActivity implements OnMapReadyCallba
 
         caughtButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Intent i = new Intent(getApplicationContext(),ZombieActivity.class);
+                Intent i = new Intent(getApplicationContext(),IncubatingActivity.class);
                 startActivity(i);
                 finish(); //prevent back button
             }

@@ -46,6 +46,10 @@
             android:name=".AdminActivity"
             android:label="@string/title_activity_admin"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".HumanReport"
+            android:label="@string/title_activity_human_report"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>
