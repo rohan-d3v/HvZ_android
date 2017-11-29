@@ -77,8 +77,8 @@ public class HumanActivity extends BaseActivity implements OnMapReadyCallback, G
         for (ZombieReportModel zombieReport: zombieReports) {
             gmap.addMarker(new MarkerOptions().position(zombieReport.getLocation()).snippet(zombieReport.snippet()));
         }
-        gmap.addMarker(new MarkerOptions().position(cwruQuad).snippet("This is where the report goes..."));
 
+        //specify custom marker format
         gmap.setInfoWindowAdapter(new mapInfoWindowAdapter());
     }
 
