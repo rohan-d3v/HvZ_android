@@ -8,7 +8,7 @@ import android.widget.TextView;
 
 import java.util.concurrent.TimeUnit;
 
-public class StunnedActivity extends AppCompatActivity {
+public class StunnedActivity extends BaseActivity {
 
     TextView text1;
 

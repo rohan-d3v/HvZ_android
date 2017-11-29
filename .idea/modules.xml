@@ -2,10 +2,10 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/HvZ-app.iml" filepath="$PROJECT_DIR$/HvZ-app.iml" />
       <module fileurl="file://C:\Users\rohan\cwrurepos\eecs395_fall2017_hvz\HvZ-app.iml" filepath="C:\Users\rohan\cwrurepos\eecs395_fall2017_hvz\HvZ-app.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://C:\Users\rohan\cwrurepos\eecs395_fall2017_hvz\app\app.iml" filepath="C:\Users\rohan\cwrurepos\eecs395_fall2017_hvz\app\app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/eecs395_fall2017_hvz.iml" filepath="$PROJECT_DIR$/eecs395_fall2017_hvz.iml" />
       <module fileurl="file://C:\Users\Aaron\AndroidStudioProjects\HvZ-app\eecs395_fall2017_hvz.iml" filepath="C:\Users\Aaron\AndroidStudioProjects\HvZ-app\eecs395_fall2017_hvz.iml" />
     </modules>
   </component>

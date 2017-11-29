@@ -23,13 +23,35 @@ import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.util.List;
+
+import edu.acase.hvz.hvz_app.api.models.ZombieReportModel;
 import edu.acase.hvz.hvz_app.api.requests.ZombieReportRequest;
 
-public class HumanActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnMapLongClickListener{
-
-
+public class HumanActivity extends BaseActivity implements OnMapReadyCallback, GoogleMap.OnMapLongClickListener {
     private GoogleMap gmap;
     private static final int EDIT_REQUEST = 1;
+
+    class mapInfoWindowAdapter implements GoogleMap.InfoWindowAdapter {
+        private final View view;
+
+        public mapInfoWindowAdapter() {
+            view = getLayoutInflater().inflate(R.layout.custom_marker_info_contents, null);
+        }
+
+        @Override
+        public View getInfoWindow(Marker marker) {
+            TextView snippet = ((TextView) view.findViewById(R.id.snippet));
+            snippet.setText(marker.getSnippet());
+            return view;
+        }
+
+        @Override
+        public View getInfoContents(Marker marker) {
+            return null;
+        }
+    }
+
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
@@ -39,23 +61,36 @@ public class HumanActivity extends AppCompatActivity implements OnMapReadyCallba
         gmap.getUiSettings().setMapToolbarEnabled(false);
         //gmap.setMyLocationEnabled(true); //needs a permissions check
 
-        // Add a marker for the quad and zoom in there
+        // Set the campus bounds
         LatLng cwruQuad = new LatLng(41.50325, -81.60755);
         LatLngBounds campusBounds = new LatLngBounds(new LatLng(41.502535, -81.608143), new LatLng(41.510880, -81.602874));
         gmap.setLatLngBoundsForCameraTarget(campusBounds);
-
-        gmap.addMarker(new MarkerOptions().position(cwruQuad).snippet("This is where the report goes..."));
-        gmap.moveCamera(CameraUpdateFactory.newLatLng(cwruQuad));
         gmap.setMinZoomPreference(15);
         gmap.setOnMapLongClickListener(this);
-        //gmap.setInfoWindowAdapter(new mapInfoWindowAdapter());
+
+        // Center the camera on campus
+        gmap.moveCamera(CameraUpdateFactory.newLatLng(cwruQuad));
+
+        // populate with reports
+        ZombieReportRequest zombieReportRequest = new ZombieReportRequest();
+        List<ZombieReportModel> zombieReports = zombieReportRequest.fetchAll();
+        for (ZombieReportModel zombieReport: zombieReports) {
+            gmap.addMarker(new MarkerOptions().position(zombieReport.getLocation()).snippet(zombieReport.snippet()));
+        }
+        gmap.addMarker(new MarkerOptions().position(cwruQuad).snippet("This is where the report goes..."));
+
+        gmap.setInfoWindowAdapter(new mapInfoWindowAdapter());
     }
 
     @Override
     public void onMapLongClick(LatLng point) {
-        Intent edit = new Intent(HumanActivity.this, HumanReport.class);
+        /*Intent edit = new Intent(HumanActivity.this, HumanReport.class);
         edit.putExtra("location", point);
-        HumanActivity.this.startActivityForResult(edit, EDIT_REQUEST);
+        HumanActivity.this.startActivityForResult(edit, EDIT_REQUEST); */
+        Marker newMarker = gmap.addMarker(new MarkerOptions()
+                .position(point)
+                .snippet(point.toString()));
+        newMarker.setTitle(newMarker.getId());
     }
 
     @Override
