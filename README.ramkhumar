@@ -60,3 +60,9 @@ Commit 8.5: Thanksgiving week
 - Combined MapsActivity into ZombieActivity
 - Edited marker thing so there is a form that now edits the marker title
 - Edited Incubating Activity
+
+Commit 9: Week of November 25
+- Zombie sighting marker and form
+- Human sighting marker and form
+- Incubation screen/ form
+- Assigned vairable for all marker info to input into api

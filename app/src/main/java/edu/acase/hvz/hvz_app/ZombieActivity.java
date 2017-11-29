@@ -83,7 +83,9 @@ public class ZombieActivity extends AppCompatActivity implements OnMapReadyCallb
         helpButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent viewIntent = new Intent("android.intent.action.VIEW", Uri.parse("http://www.stackoverflow.com/"));
-                startActivity(viewIntent);            }
+                startActivity(viewIntent);
+
+            }
         });
         infoButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
