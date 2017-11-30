@@ -4,6 +4,10 @@
     <modules>
       <module fileurl="file://C:\Users\rohan\cwrurepos\eecs395_fall2017_hvz\HvZ-app.iml" filepath="C:\Users\rohan\cwrurepos\eecs395_fall2017_hvz\HvZ-app.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+<<<<<<< HEAD
+=======
+      <module fileurl="file://C:\Users\rohan\cwrurepos\eecs395_fall2017_hvz\app\app.iml" filepath="C:\Users\rohan\cwrurepos\eecs395_fall2017_hvz\app\app.iml" />
+>>>>>>> eb484095b5739c1f7b2b5b29f2f191168a66d6ee
       <module fileurl="file://$PROJECT_DIR$/eecs395_fall2017_hvz.iml" filepath="$PROJECT_DIR$/eecs395_fall2017_hvz.iml" />
       <module fileurl="file://C:\Users\Aaron\AndroidStudioProjects\HvZ-app\eecs395_fall2017_hvz.iml" filepath="C:\Users\Aaron\AndroidStudioProjects\HvZ-app\eecs395_fall2017_hvz.iml" />
     </modules>

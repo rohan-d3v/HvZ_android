@@ -2,6 +2,7 @@ package edu.acase.hvz.hvz_app;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -23,14 +24,19 @@ import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import edu.acase.hvz.hvz_app.api.models.ZombieReportModel;
 import edu.acase.hvz.hvz_app.api.requests.ZombieReportRequest;
 
 public class HumanActivity extends BaseActivity implements OnMapReadyCallback, GoogleMap.OnMapLongClickListener {
     private GoogleMap gmap;
+    private Map<MarkerOptions, MapMarker> markerMap = new HashMap<>();
     private static final int EDIT_REQUEST = 1;
+    protected final String LOG_TAG = "human_report";
+    protected final Logger logger = new Logger(LOG_TAG);
 
     class mapInfoWindowAdapter implements GoogleMap.InfoWindowAdapter {
         private final View view;
@@ -40,9 +46,18 @@ public class HumanActivity extends BaseActivity implements OnMapReadyCallback, G
         }
 
         @Override
-        public View getInfoWindow(Marker marker) {
+        public View getInfoWindow(final Marker marker) {
             TextView snippet = ((TextView) view.findViewById(R.id.snippet));
             snippet.setText(marker.getSnippet());
+            final Button editReportButton = (Button) view.findViewById(R.id.editReportButton);
+            editReportButton.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    logger.debug("presed edit button on a marker");
+                    Intent edit = new Intent(HumanActivity.this, new HumanReport(markerMap.get(marker)).getClass());
+                    //edit.putExtra("location", point);
+                    HumanActivity.this.startActivityForResult(edit, EDIT_REQUEST);
+                }
+            });
             return view;
         }
 
@@ -75,22 +90,49 @@ public class HumanActivity extends BaseActivity implements OnMapReadyCallback, G
         ZombieReportRequest zombieReportRequest = new ZombieReportRequest();
         List<ZombieReportModel> zombieReports = zombieReportRequest.fetchAll();
         for (ZombieReportModel zombieReport: zombieReports) {
-            gmap.addMarker(new MarkerOptions().position(zombieReport.getLocation()).snippet(zombieReport.snippet()));
+            MapMarker marker = new MapMarker(zombieReport);
+            markerMap.put(marker.getMarkerOptions(), marker);
+            gmap.addMarker(marker.getMarkerOptions());
         }
 
         //specify custom marker format
-        gmap.setInfoWindowAdapter(new mapInfoWindowAdapter());
+        //gmap.setInfoWindowAdapter(new mapInfoWindowAdapter());
+
+        gmap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+            @Override
+            public void onInfoWindowClick(Marker marker) {
+                logger.debug("clicked on a marker");
+                Dialog dialog = new Dialog(HumanActivity.this);
+                dialog.setContentView(R.layout.custom_marker_info_contents);
+
+                TextView snippet = ((TextView) dialog.findViewById(R.id.snippet));
+                snippet.setText(marker.getSnippet());
+
+                Button editReportButton = (Button) dialog.findViewById(R.id.editReportButton);
+                editReportButton.setOnClickListener(new View.OnClickListener() {
+                    public void onClick(View v) {
+                        logger.debug("clicked edit button on a marker");
+                        Intent edit = new Intent(HumanActivity.this, HumanReport.class);
+                        //edit.putExtra("location", point);
+                        HumanActivity.this.startActivityForResult(edit, EDIT_REQUEST);
+                    }
+                });
+
+                dialog.show();
+            }
+        });
     }
 
     @Override
     public void onMapLongClick(LatLng point) {
-        /*Intent edit = new Intent(HumanActivity.this, HumanReport.class);
+        Intent edit = new Intent(HumanActivity.this, HumanReport.class);
         edit.putExtra("location", point);
-        HumanActivity.this.startActivityForResult(edit, EDIT_REQUEST); */
-        Marker newMarker = gmap.addMarker(new MarkerOptions()
+        HumanActivity.this.startActivityForResult(edit, EDIT_REQUEST);
+
+        /*Marker newMarker = gmap.addMarker(new MarkerOptions()
                 .position(point)
                 .snippet(point.toString()));
-        newMarker.setTitle(newMarker.getId());
+        newMarker.setTitle(newMarker.getId());*/
     }
 
     @Override
