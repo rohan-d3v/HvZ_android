@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/eecs395_fall2017_hvz.iml" filepath="$PROJECT_DIR$/eecs395_fall2017_hvz.iml" />
+      <module fileurl="file://C:\Users\aaron\StudioProjects\eecs395_fall2017_hvz\app\eecs395_fall2017_hvz-app.iml" filepath="C:\Users\aaron\StudioProjects\eecs395_fall2017_hvz\app\eecs395_fall2017_hvz-app.iml" />
     </modules>
   </component>
 </project>

@@ -86,21 +86,15 @@ public class HumanActivity extends BaseActivity implements OnMapReadyCallback, G
         // Center the camera on campus
         gmap.moveCamera(CameraUpdateFactory.newLatLng(cwruQuad));
 
-        // populate with reports
-        ZombieReportRequest zombieReportRequest = new ZombieReportRequest();
-        List<ZombieReportModel> zombieReports = zombieReportRequest.fetchAll();
-        for (ZombieReportModel zombieReport: zombieReports) {
-            MapMarker marker = new MapMarker(zombieReport);
-            markerMap.put(marker.getMarkerOptions(), marker);
-            gmap.addMarker(marker.getMarkerOptions());
-        }
+
 
         //specify custom marker format
         //gmap.setInfoWindowAdapter(new mapInfoWindowAdapter());
 
-        gmap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+        // https://developers.google.com/maps/documentation/android-api/marker#info_windows
+        gmap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override
-            public void onInfoWindowClick(Marker marker) {
+            public boolean onMarkerClick(Marker marker) {
                 logger.debug("clicked on a marker");
                 Dialog dialog = new Dialog(HumanActivity.this);
                 dialog.setContentView(R.layout.custom_marker_info_contents);
@@ -119,8 +113,18 @@ public class HumanActivity extends BaseActivity implements OnMapReadyCallback, G
                 });
 
                 dialog.show();
+                return true;
             }
         });
+
+        // populate with reports
+        ZombieReportRequest zombieReportRequest = new ZombieReportRequest();
+        List<ZombieReportModel> zombieReports = zombieReportRequest.fetchAll();
+        for (ZombieReportModel zombieReport: zombieReports) {
+            MapMarker marker = new MapMarker(zombieReport);
+            markerMap.put(marker.getMarkerOptions(), marker);
+            gmap.addMarker(marker.getMarkerOptions());
+        }
     }
 
     @Override
