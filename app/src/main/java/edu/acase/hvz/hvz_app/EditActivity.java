@@ -15,12 +15,11 @@ import android.widget.EditText;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Locale;
 
-import static android.text.format.DateUtils.MINUTE_IN_MILLIS;
+import edu.acase.hvz.hvz_app.api.models.HumanReportModel;
+
 import static android.text.format.DateUtils.SECOND_IN_MILLIS;
 
 class EditActivity extends BaseActivity {
@@ -35,39 +34,25 @@ class EditActivity extends BaseActivity {
         final EditText time = (EditText) findViewById(R.id.time);
         final EditText mag = (EditText) findViewById(R.id.mag);
         final EditText loc = (EditText) findViewById(R.id.lat);
-        final String t = Calendar.getInstance().getTime().toString();
         final long temp = Calendar.getInstance().getTimeInMillis();
+        final Date timespot = Calendar.getInstance().getTime();
 
         Button boton = (Button) findViewById(R.id.save);
         boton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View view) {
                 MarkerOptions marker = new MarkerOptions().position(latlng);
-                time.setText(t);
+                time.setText(timespot.toString());//autofill time
+                loc.setText(latlng.toString());//autofill position
 
-                StringBuilder info = new StringBuilder();
-                double number, magazine, lat, lng;
-                number = Double.parseDouble(title.getText().toString());
-                magazine = Double.parseDouble(mag.getText().toString());
-                lat = latlng.latitude;
-                lng = latlng.longitude;
-                time.setText(t);
-
-                info.append(number);
-                info.append(", ");
-
+                int number, magazine;
+                number = Integer.parseInt(title.getText().toString());//number of humans
+                magazine = Integer.parseInt(mag.getText().toString());//number of darts  in mag
+                //time since last update
                 CharSequence s = DateUtils.getRelativeTimeSpanString(temp, (long) (System.currentTimeMillis()), SECOND_IN_MILLIS);
-                info.append(s);
-                info.append(",");
-                info.append(t);
-                info.append(", ");
 
-                loc.setText(latlng.toString());
-                info.append(lat);
-                info.append(", ");
-                info.append(lng);
 
-                marker.title(s.toString());
+                marker.title("  ").snippet(setT(marker, temp));
 
                 Intent resultIntent = new Intent();
                 resultIntent.putExtra("marker", marker);
@@ -76,5 +61,8 @@ class EditActivity extends BaseActivity {
             }
 
         });
+    }
+    public String setT (MarkerOptions marker, long temp){
+        return DateUtils.getRelativeTimeSpanString(temp, (long) (System.currentTimeMillis()), SECOND_IN_MILLIS).toString();
     }
 }

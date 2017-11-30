@@ -4,7 +4,7 @@ import com.google.android.gms.maps.model.LatLng;
 import java.util.Date;
 
 
-public class HumanReportModel extends BaseReportModel {
+public class HumanReportModel extends BaseReportModel{
     private int numHumans, typicalMagSize;
 
     public final static class SERIALIZATION extends BaseReportModel.SERIALIZATION {
@@ -30,7 +30,7 @@ public class HumanReportModel extends BaseReportModel {
 
     @Override
     public String snippet() {
-        return "Num Zombies = " + numHumans + "\n" +
+        return "Num Humans = " + numHumans + "\n" +
                 "Time Sighted = " + timeSighted + "\n" +
                 "Typical Mag size = " + typicalMagSize + "\n";
     }
