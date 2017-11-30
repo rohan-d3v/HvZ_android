@@ -1,6 +1,11 @@
+# Week 10 (11/27-12/1)
+- get requests all work now
+- deserialization of api responses
+- setup entire model-serializer framework for json requests
+- custom view markers with clickable buttons
+
 # Week 9 (11/20-11/24)
 - seeds for zombie & human report, refactor of models
-
 
 # Week 8 (11/13-11/17)
 server changes
