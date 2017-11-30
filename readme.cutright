@@ -3,6 +3,7 @@
 - deserialization of api responses
 - setup entire model-serializer framework for json requests
 - custom view markers with clickable buttons
+- broke time itself (see git log timestamp for eb484095: "in the future")
 
 # Week 9 (11/20-11/24)
 - seeds for zombie & human report, refactor of models
