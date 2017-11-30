@@ -15,7 +15,7 @@ import edu.acase.hvz.hvz_app.api.models.ZombieReportModel;
 
 public final class ZombieReportRequest extends BaseReportRequest<ZombieReportModel> {
     private static final String ENDPOINT_STRING = "http://35.163.170.184/api/v1/zombie_reports";
-    private static final String LOG_TAG = "ZombieReportRequest";
+    private static final String LOG_TAG = "ZombieReportRequest"; ;
 
     public ZombieReportRequest() {
         super(LOG_TAG, ENDPOINT_STRING);
