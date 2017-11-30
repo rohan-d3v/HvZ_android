@@ -6,7 +6,9 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Build;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -73,8 +75,9 @@ public class HumanActivity extends BaseActivity implements OnMapReadyCallback, G
         gmap = googleMap;
         gmap.setIndoorEnabled(false);
         gmap.setTrafficEnabled(false);
-        gmap.getUiSettings().setMapToolbarEnabled(false);
-        //gmap.setMyLocationEnabled(true); //needs a permissions check
+        gmap.getUiSettings().setMapToolbarEnabled(false);;
+        //gmap.setMyLocationEnabled(true);
+
 
         // Set the campus bounds
         LatLng cwruQuad = new LatLng(41.50325, -81.60755);
