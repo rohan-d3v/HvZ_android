@@ -19,6 +19,12 @@ import java.util.Calendar;
 import java.util.Locale;
 
 public class HumanReport extends AppCompatActivity {
+    final MapMarker marker;
+
+    public HumanReport(MapMarker marker) {
+        this.marker = marker;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,8 +39,8 @@ public class HumanReport extends AppCompatActivity {
         final String t = timeF.format(Calendar.getInstance().getTime());
 
 
-        Button boton = (Button) findViewById(R.id.save);
-        boton.setOnClickListener(new View.OnClickListener() {
+        Button button = (Button) findViewById(R.id.save);
+        button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View view) {
                 MarkerOptions marker = new MarkerOptions().position(latlng);

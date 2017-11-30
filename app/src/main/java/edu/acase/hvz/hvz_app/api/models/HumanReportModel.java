@@ -18,15 +18,11 @@ public class HumanReportModel extends BaseReportModel {
         super(DATABASE_ID);
     }
 
-    public LatLng getLocation() { return location; }
     public int getNumHumans() { return numHumans; }
-    public Date getTimeSighted() { return timeSighted; }
     public int getTypicalMagSize() { return typicalMagSize; }
 
-    public void setLocation(LatLng location) { this.location = location; }
     public void setNumHumans(int numHumans) { this.numHumans = numHumans; }
     public void setTypicalMagSize(int typicalMagSize) { this.typicalMagSize = typicalMagSize; }
-    public void setTimeSighted(Date timeSighted) { this.timeSighted = timeSighted; }
 
     @Override
     public String snippet() {

@@ -17,13 +17,9 @@ public class ZombieReportModel extends BaseReportModel {
         super(DATABASE_ID);
     }
 
-    public LatLng getLocation() { return location; }
     public int getNumZombies() { return numZombies; }
-    public Date getTimeSighted() { return timeSighted; }
 
-    public void setLocation(LatLng location) { this.location = location; }
     public void setNumZombies(int numZombies) { this.numZombies = numZombies; }
-    public void setTimeSighted(Date timeSighted) { this.timeSighted = timeSighted; }
 
     @Override
     public String snippet() {
