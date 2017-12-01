@@ -17,8 +17,8 @@ public abstract class BaseReportSerializer<ReportModel extends BaseReportModel> 
     @Override
     public JsonElement serialize(ReportModel src, Type typeOfSrc, JsonSerializationContext context) {
         JsonObject report = new JsonObject();
-        if (src.getDATABASE_ID() >= 0)
-            report.addProperty(ReportModel.SERIALIZATION.DATABASE_ID, serialize(src.getDATABASE_ID()));
+        if (src.getDatabase_id() >= 0)
+            report.addProperty(ReportModel.SERIALIZATION.DATABASE_ID, serialize(src.getDatabase_id()));
         report.addProperty(ReportModel.SERIALIZATION.GAME_ID, serialize(src.getGAME_ID()));
         report.addProperty(ReportModel.SERIALIZATION.LOCATION_LAT, serialize(src.getLocation().latitude));
         report.addProperty(ReportModel.SERIALIZATION.LOCATION_LNG, serialize(src.getLocation().longitude));

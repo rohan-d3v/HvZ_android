@@ -32,20 +32,16 @@ public final class HumanReportRequest extends BaseReportRequest<HumanReportModel
     }
 
     @Override
-    public String post(HumanReportModel report) {
+    public int create(HumanReportModel report) {
         HumanReportSerializer serializer = new HumanReportSerializer();
         JsonElement reportJson = serializer.serialize(report, null, null);
         String response = postTo(ENDPOINT_STRING, reportJson);
-
-        logger.debug(false, "model: ", report.toString());
-        logger.debug(false,"json: ",reportJson.toString());
-
-        return response;
+        return deserializeCreationResponse(response);
     }
 
     @Override
-    public String delete(HumanReportModel report) {
-        return delete(ENDPOINT_STRING, report.getDATABASE_ID());
+    public boolean delete(HumanReportModel report) {
+        return delete(ENDPOINT_STRING, report.getDatabase_id());
     }
 
     public void editReport(int reportId) {

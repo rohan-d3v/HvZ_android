@@ -181,7 +181,7 @@ public class HumanActivity extends BaseActivity implements OnMapReadyCallback, G
                 dummyReport.setLocation(new LatLng(666, -666));
                 dummyReport.setTimeSighted(new Date());
                 dummyReport.setNumZombies(666);
-                request.post(dummyReport);
+                dummyReport.setDatabase_id(request.create(dummyReport));
             }
         });
 
@@ -189,12 +189,14 @@ public class HumanActivity extends BaseActivity implements OnMapReadyCallback, G
         deleteDummy.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 ZombieReportRequest request = new ZombieReportRequest();
-                if (dummyReport != null) {
-                    request.delete(dummyReport);
-                    dummyReport = null;
+                if (dummyReport != null && dummyReport.getDatabase_id() >= 0) {
+                    if (request.delete(dummyReport))
+                        dummyReport = null;
+                    else
+                        logger.error("could not delete report");
                 }
                 else
-                    logger.error("trying to delete nonexistent post");
+                    logger.error("trying to delete nonexistent report");
             }
         });
 

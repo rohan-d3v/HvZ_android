@@ -5,17 +5,17 @@ import com.google.android.gms.maps.model.LatLng;
 import java.util.Date;
 
 public abstract class BaseReportModel {
-    final int DATABASE_ID;
     final int GAME_ID;
+    int database_id;
     LatLng location;
     Date timeSighted;
 
-    public BaseReportModel(int DATABASE_ID, int GAME_ID) {
-        this.DATABASE_ID = DATABASE_ID;
+    public BaseReportModel(int database_id, int GAME_ID) {
+        this.database_id = database_id;
         this.GAME_ID = GAME_ID;
     }
     public BaseReportModel(int GAME_ID) {
-        this.DATABASE_ID = -1;
+        this.database_id = -1;
         this.GAME_ID = GAME_ID;
     }
 
@@ -30,11 +30,12 @@ public abstract class BaseReportModel {
                 TIME_SIGHTED = "time_sighted";
     }
 
-    public int getDATABASE_ID() { return DATABASE_ID; }
+    public int getDatabase_id() { return database_id; }
     public int getGAME_ID() { return GAME_ID; }
     public LatLng getLocation() { return location; }
     public Date getTimeSighted() { return timeSighted; }
 
     public void setLocation(LatLng location) { this.location = location; }
     public void setTimeSighted(Date timeSighted) { this.timeSighted = timeSighted; }
+    public void setDatabase_id(int database_id) { this.database_id = database_id; }
 }

@@ -2,12 +2,19 @@ package edu.acase.hvz.hvz_app.api.requests;
 
 import android.os.AsyncTask;
 
+import com.google.gson.JsonDeserializationContext;
+import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParseException;
+import com.google.gson.JsonParser;
+import com.google.gson.JsonSerializationContext;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.lang.reflect.Type;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.List;
@@ -30,8 +37,8 @@ public abstract class BaseReportRequest<ReportModel extends BaseReportModel> {
     //public methods
 
     public abstract List<ReportModel> getAll();
-    public abstract String post(ReportModel report);
-    public abstract String delete(ReportModel report);
+    public abstract int create(ReportModel report);
+    public abstract boolean delete(ReportModel report);
 
     //package methods
 
@@ -57,7 +64,7 @@ public abstract class BaseReportRequest<ReportModel extends BaseReportModel> {
         return response;
     }
 
-    protected String delete(String endpoint, int database_id) {
+    protected boolean delete(String endpoint, int database_id) {
         deleteTask task = new deleteTask();
         String response;
         try {
@@ -65,11 +72,42 @@ public abstract class BaseReportRequest<ReportModel extends BaseReportModel> {
         } catch (Exception e) {
             response = "ERROR: "+e.toString();
         }
-        return response;
+        if (!response.contains("Not Found")) return true;
+        else return false;
+    }
+
+    public int deserializeCreationResponse(String response) {
+        CreationResponseDeserializer deserializer = new CreationResponseDeserializer();
+        CreationResponse creationResponse = deserializer.deserialize(new JsonParser().parse(response), null, null);
+        if (creationResponse == null) return -1;
+        else return creationResponse.DATABASE_ID;
     }
 
 
     //private methods & classes
+
+    public final class CreationResponseDeserializer implements JsonDeserializer<CreationResponse> {
+        @Override
+        public CreationResponse deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
+            CreationResponse response = null;
+            JsonObject object = json.getAsJsonObject();
+            try {
+                response = new CreationResponse(object.get(CreationResponse.DATABASE_ID_SERIALIZATION).getAsInt());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return response;
+        }
+    }
+
+    private final class CreationResponse {
+        public static final String DATABASE_ID_SERIALIZATION = "database_id";
+        public final int DATABASE_ID;
+
+        public CreationResponse(int DATABASE_ID) {
+            this.DATABASE_ID = DATABASE_ID;
+        }
+    }
 
     private static final class getResponseTask extends AsyncTask<String, Void, String> {
         private Exception exception;

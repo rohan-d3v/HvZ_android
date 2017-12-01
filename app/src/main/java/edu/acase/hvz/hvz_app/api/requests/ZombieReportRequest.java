@@ -41,20 +41,16 @@ public final class ZombieReportRequest extends BaseReportRequest<ZombieReportMod
     }
 
     @Override
-    public String post(ZombieReportModel report) {
+    public int create(ZombieReportModel report) {
         ZombieReportSerializer serializer = new ZombieReportSerializer();
         JsonElement reportJson = serializer.serialize(report, null, null);
         String response = postTo(ENDPOINT_STRING, reportJson);
-
-        logger.debug("model: ", report.toString());
-        logger.debug("json: ",reportJson.toString());
-
-        return response;
+        return deserializeCreationResponse(response);
     }
 
     @Override
-    public String delete(ZombieReportModel report) {
-        return delete(ENDPOINT_STRING, report.getDATABASE_ID());
+    public boolean delete(ZombieReportModel report) {
+        return delete(ENDPOINT_STRING, report.getDatabase_id());
     }
 
     public void editReport(int reportId) {

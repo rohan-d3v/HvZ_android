@@ -34,7 +34,8 @@ public class ZombieReportModel extends BaseReportModel {
     @Override
     public String toString() {
         return "ZombieReportModel{" +
-                "DATABASE_ID=" + DATABASE_ID +
+                "database_id=" + database_id +
+                "GAME_ID=" + GAME_ID +
                 ", location=" + location +
                 ", numZombies=" + numZombies +
                 ", timeSighted=" + timeSighted +

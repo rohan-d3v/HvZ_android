@@ -38,7 +38,8 @@ public class HumanReportModel extends BaseReportModel{
     @Override
     public String toString() {
         return "HumanReportModel{" +
-                "DATABASE_ID=" + DATABASE_ID +
+                "database_id=" + database_id +
+                "GAME_ID=" + GAME_ID +
                 ", location=" + location +
                 ", numHumans=" + numHumans +
                 ", typicalMagSize=" + typicalMagSize +
