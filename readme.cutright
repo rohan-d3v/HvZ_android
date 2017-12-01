@@ -1,9 +1,16 @@
 # Week 10 (11/27-12/1)
+app changes
 - get requests all work now
 - deserialization of api responses
 - setup entire model-serializer framework for json requests
 - custom view markers with clickable buttons
 - broke time itself (see git log timestamp for eb484095: "in the future")
+- serialization of reports
+- post requests *should* work app-side
+server changes
+- deserialization of post responses
+-- some fields in db are BigDecimal, in json GET they are String, and in json POST they are String. Needed serialization/deserialization to handle conversions
+- details at https://github.com/rohanezio/eecs395HvZ
 
 # Week 9 (11/20-11/24)
 - seeds for zombie & human report, refactor of models
