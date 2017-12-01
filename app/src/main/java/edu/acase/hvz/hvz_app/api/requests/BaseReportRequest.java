@@ -9,6 +9,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonSerializationContext;
+import com.google.gson.JsonSerializer;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -68,7 +69,9 @@ public abstract class BaseReportRequest<ReportModel extends BaseReportModel> {
         deleteTask task = new deleteTask();
         String response;
         try {
-            response = task.execute(endpoint, String.valueOf(database_id)).get(task.CONNECT_TIMEOUT + task.READ_TIMEOUT, TimeUnit.MILLISECONDS);
+            JsonObject deleteJson = new JsonObject();
+            deleteJson.addProperty("id", database_id);
+            response = task.execute(endpoint, deleteJson.toString()).get(task.CONNECT_TIMEOUT + task.READ_TIMEOUT, TimeUnit.MILLISECONDS);
         } catch (Exception e) {
             response = "ERROR: "+e.toString();
         }
@@ -86,7 +89,7 @@ public abstract class BaseReportRequest<ReportModel extends BaseReportModel> {
 
     //private methods & classes
 
-    public final class CreationResponseDeserializer implements JsonDeserializer<CreationResponse> {
+    private final class CreationResponseDeserializer implements JsonDeserializer<CreationResponse> {
         @Override
         public CreationResponse deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
             CreationResponse response = null;
