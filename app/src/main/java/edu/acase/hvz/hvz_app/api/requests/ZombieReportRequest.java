@@ -1,5 +1,6 @@
 package edu.acase.hvz.hvz_app.api.requests;
 
+import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 
 import java.io.BufferedInputStream;
@@ -12,20 +13,23 @@ import java.util.List;
 
 import edu.acase.hvz.hvz_app.api.deserializers.ZombieReportReportDeserializer;
 import edu.acase.hvz.hvz_app.api.models.ZombieReportModel;
+import edu.acase.hvz.hvz_app.api.serializers.ZombieReportSerializer;
 
 public final class ZombieReportRequest extends BaseReportRequest<ZombieReportModel> {
     private static final String ENDPOINT_STRING = "http://35.163.170.184/api/v1/zombie_reports";
-    private static final String LOG_TAG = "ZombieReportRequest"; ;
+    private static final String LOG_TAG = "ZombieReportRequest";
 
     public ZombieReportRequest() {
-        super(LOG_TAG, ENDPOINT_STRING);
+        super(LOG_TAG);
     }
 
     @Override
-    public List<ZombieReportModel> fetchAll() {
-        String response = getResponse();
+    public List<ZombieReportModel> getAll() {
+        String response = getResponse(ENDPOINT_STRING);
         ZombieReportReportDeserializer deserializer = new ZombieReportReportDeserializer();
+
         List<ZombieReportModel> zombieReportModels = deserializer.deserializeAll(new JsonParser().parse(response), null, null);
+        //List<ZombieReportModel> zombieReportModels = deserializer.deserializeAll(new JsonParser().parse(response), ZombieReportModel.SERIALIZATION.ARRAY_KEY);
 
         logger.debug("zombie reports: [");
         for(ZombieReportModel zombieReport: zombieReportModels){
@@ -34,6 +38,23 @@ public final class ZombieReportRequest extends BaseReportRequest<ZombieReportMod
         logger.debug("]");
 
         return zombieReportModels;
+    }
+
+    @Override
+    public String post(ZombieReportModel report) {
+        ZombieReportSerializer serializer = new ZombieReportSerializer();
+        JsonElement reportJson = serializer.serialize(report, null, null);
+        String response = postTo(ENDPOINT_STRING, reportJson);
+
+        logger.debug("model: ", report.toString());
+        logger.debug("json: ",reportJson.toString());
+
+        return response;
+    }
+
+    @Override
+    public String delete(ZombieReportModel report) {
+        return delete(ENDPOINT_STRING, report.getDATABASE_ID());
     }
 
     public void editReport(int reportId) {

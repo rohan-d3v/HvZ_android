@@ -26,6 +26,7 @@ import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -89,7 +90,14 @@ public class HumanActivity extends BaseActivity implements OnMapReadyCallback, G
         // Center the camera on campus
         gmap.moveCamera(CameraUpdateFactory.newLatLng(cwruQuad));
 
-
+        // populate with reports
+        ZombieReportRequest zombieReportRequest = new ZombieReportRequest();
+        List<ZombieReportModel> zombieReports = zombieReportRequest.getAll();
+        for (ZombieReportModel zombieReport: zombieReports) {
+            MapMarker marker = new MapMarker(zombieReport);
+            markerMap.put(marker.getMarkerOptions(), marker);
+            gmap.addMarker(marker.getMarkerOptions());
+        }
 
         //specify custom marker format
         //gmap.setInfoWindowAdapter(new mapInfoWindowAdapter());
@@ -110,7 +118,7 @@ public class HumanActivity extends BaseActivity implements OnMapReadyCallback, G
                     public void onClick(View v) {
                         logger.debug("clicked edit button on a marker");
                         Intent edit = new Intent(HumanActivity.this, HumanReport.class);
-                        //edit.putExtra("location", point);
+                        //edit.putExtra("marker", marker);
                         HumanActivity.this.startActivityForResult(edit, EDIT_REQUEST);
                     }
                 });
@@ -119,15 +127,6 @@ public class HumanActivity extends BaseActivity implements OnMapReadyCallback, G
                 return true;
             }
         });
-
-        // populate with reports
-        ZombieReportRequest zombieReportRequest = new ZombieReportRequest();
-        List<ZombieReportModel> zombieReports = zombieReportRequest.fetchAll();
-        for (ZombieReportModel zombieReport: zombieReports) {
-            MapMarker marker = new MapMarker(zombieReport);
-            markerMap.put(marker.getMarkerOptions(), marker);
-            gmap.addMarker(marker.getMarkerOptions());
-        }
     }
 
     @Override
@@ -173,14 +172,36 @@ public class HumanActivity extends BaseActivity implements OnMapReadyCallback, G
                 finish(); //prevent back button
             }
         });
-        final Button getZombieReportsButton = (Button) findViewById(R.id.test_getZombieReports);
-        getZombieReportsButton.setOnClickListener(new View.OnClickListener() {
+
+        final Button postDummy = (Button) findViewById(R.id.test_postZombieReport);
+        postDummy.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 ZombieReportRequest request = new ZombieReportRequest();
-                request.fetchAll();
+                dummyReport = new ZombieReportModel(1);
+                dummyReport.setLocation(new LatLng(666, -666));
+                dummyReport.setTimeSighted(new Date());
+                dummyReport.setNumZombies(666);
+                request.post(dummyReport);
             }
         });
+
+        final Button deleteDummy = (Button) findViewById(R.id.test_delteZombieReport);
+        deleteDummy.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                ZombieReportRequest request = new ZombieReportRequest();
+                if (dummyReport != null) {
+                    request.delete(dummyReport);
+                    dummyReport = null;
+                }
+                else
+                    logger.error("trying to delete nonexistent post");
+            }
+        });
+
+
     }
+
+    private ZombieReportModel dummyReport;
 
     private AlertDialog.Builder getModalBuilder(Context context) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)

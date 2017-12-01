@@ -69,7 +69,7 @@ public class ZombieActivity extends BaseActivity implements OnMapReadyCallback, 
         gmap.moveCamera(CameraUpdateFactory.newLatLng(cwruQuad));
 
         HumanReportRequest humanReportRequest = new HumanReportRequest();
-        List<HumanReportModel> humanReports = humanReportRequest.fetchAll();
+        List<HumanReportModel> humanReports = humanReportRequest.getAll();
         for (HumanReportModel humanReport: humanReports) {
             gmap.addMarker(new MarkerOptions().position(humanReport.getLocation()).snippet(humanReport.snippet()));
         }
@@ -131,11 +131,11 @@ public class ZombieActivity extends BaseActivity implements OnMapReadyCallback, 
             }
         });
 
-        final Button getZombieReportsButton = (Button) findViewById(R.id.test_getHuman);
-        getZombieReportsButton.setOnClickListener(new View.OnClickListener() {
+        final Button getHumanReportsButton = (Button) findViewById(R.id.test_getHuman);
+        getHumanReportsButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                ZombieReportRequest request = new ZombieReportRequest();
-                request.fetchAll();
+                HumanReportRequest request = new HumanReportRequest();
+                request.getAll();
             }
         });
     }

@@ -10,7 +10,7 @@ public class Logger {
     }
 
     public void debug(String... messages) {
-        debug(LOG_TAG, true, messages);
+        debug(LOG_TAG, false, messages);
     }
     public void debug(boolean multiline, String... messages) {
         debug(LOG_TAG, multiline, messages);
@@ -33,7 +33,7 @@ public class Logger {
         StringBuilder result = new StringBuilder();
         for (int i=0; i < messages.length; i++) {
             result.append(messages[i]);
-            if (i < messages.length - 1 && multiline)
+            if (multiline && messages.length > 1 && i < messages.length - 1)
                 result.append('\n');
         }
         return result.toString();

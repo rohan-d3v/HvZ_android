@@ -10,12 +10,16 @@ public class HumanReportModel extends BaseReportModel{
     public final static class SERIALIZATION extends BaseReportModel.SERIALIZATION {
         public final static String
                 ARRAY_KEY = "human_reports",
+                SINGLE_KEY = "human_report",
                 NUM_HUMANS = "num_humans",
                 TYPICAL_MAG_SIZE = "typical_mag_size";
     }
 
-    public HumanReportModel(int DATABASE_ID) {
-        super(DATABASE_ID);
+    public HumanReportModel(int DATABASE_ID, int GAME_ID) {
+        super(DATABASE_ID, GAME_ID);
+    }
+    public HumanReportModel(int GAME_ID) {
+        super(GAME_ID);
     }
 
     public int getNumHumans() { return numHumans; }

@@ -2,8 +2,12 @@ package edu.acase.hvz.hvz_app.api.requests;
 
 import android.os.AsyncTask;
 
+import com.google.gson.JsonElement;
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.List;
@@ -11,38 +15,67 @@ import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 import edu.acase.hvz.hvz_app.Logger;
+import edu.acase.hvz.hvz_app.api.models.BaseReportModel;
 
-public abstract class BaseReportRequest<ReportModel> {
+public abstract class BaseReportRequest<ReportModel extends BaseReportModel> {
     protected final String LOG_TAG;
-    protected final String ENDPOINT_STRING;
-    protected final Logger logger;
+    protected static Logger logger = new Logger("ReportRequest");
 
-    BaseReportRequest(String LOG_TAG, String ENDPOINT_STRING) {
-        this.ENDPOINT_STRING = ENDPOINT_STRING;
+    protected BaseReportRequest(String LOG_TAG) {
         this.LOG_TAG = LOG_TAG;
         logger = new Logger(LOG_TAG);
     }
 
-    public abstract List<ReportModel> fetchAll();
 
-    protected String getResponse() {
-        logger.debug(false, "GET \"",ENDPOINT_STRING,"\"");
+    //public methods
+
+    public abstract List<ReportModel> getAll();
+    public abstract String post(ReportModel report);
+    public abstract String delete(ReportModel report);
+
+    //package methods
+
+    protected String getResponse(String endpoint) {
         getResponseTask task = new getResponseTask();
         String response;
         try {
-            response = task.execute(ENDPOINT_STRING).get(task.CONNECT_TIMEOUT + task.READ_TIMEOUT, TimeUnit.MILLISECONDS);
+            response = task.execute(endpoint).get(task.CONNECT_TIMEOUT + task.READ_TIMEOUT, TimeUnit.MILLISECONDS);
         } catch (Exception e) {
             response = "ERROR: "+e.toString();
         }
-        logger.debug(false, "response: \"", response, "\"");
         return response;
     }
 
-    protected class getResponseTask extends AsyncTask<String, Void, String> {
+    protected String postTo(String endpoint, JsonElement json) {
+        postTask task = new postTask();
+        String response;
+        try {
+            response = task.execute(endpoint, json.toString()).get(task.CONNECT_TIMEOUT + task.READ_TIMEOUT, TimeUnit.MILLISECONDS);
+        } catch (Exception e) {
+            response = "ERROR: "+e.toString();
+        }
+        return response;
+    }
+
+    protected String delete(String endpoint, int database_id) {
+        deleteTask task = new deleteTask();
+        String response;
+        try {
+            response = task.execute(endpoint, String.valueOf(database_id)).get(task.CONNECT_TIMEOUT + task.READ_TIMEOUT, TimeUnit.MILLISECONDS);
+        } catch (Exception e) {
+            response = "ERROR: "+e.toString();
+        }
+        return response;
+    }
+
+
+    //private methods & classes
+
+    private static final class getResponseTask extends AsyncTask<String, Void, String> {
         private Exception exception;
         private long startTime;
-        public final int CONNECT_TIMEOUT = 5000;
-        public final int READ_TIMEOUT = 5000;
+        private final int CONNECT_TIMEOUT = 5000;
+        private final int READ_TIMEOUT = 5000;
 
         @Override
         protected void onPreExecute() {
@@ -53,14 +86,20 @@ public abstract class BaseReportRequest<ReportModel> {
         protected String doInBackground(String... params) {
             try {
                 String endpoint = params[0];
+                logger.debug("GET \"",endpoint,"\"");
+                //setup connection
                 HttpURLConnection connection = (HttpURLConnection) new URL(endpoint).openConnection();
                 connection.setRequestMethod("GET");
+                connection.setRequestProperty("Accept", "application/json; charset=UTF-8");
+                connection.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
                 connection.setConnectTimeout(CONNECT_TIMEOUT);
                 connection.setReadTimeout(READ_TIMEOUT);
+                connection.setDoInput(true);
+                //parse response
                 int status = connection.getResponseCode();
                 switch (status) {
-                    case 200:
-                    case 201:
+                    case HttpURLConnection.HTTP_OK:
+                    case HttpURLConnection.HTTP_CREATED:
                         BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
                         StringBuilder sb = new StringBuilder();
                         String line;
@@ -84,7 +123,143 @@ public abstract class BaseReportRequest<ReportModel> {
         protected void onPostExecute(String response) {
             super.onPostExecute(response);
             long executionTime = System.currentTimeMillis() - startTime;
-            logger.debug(false, String.format(Locale.US, "[%d ms] response: \'%s\'", executionTime, response));
+            logger.debug(String.format(Locale.US, "[%d ms] response: \n%s", executionTime, response));
+            if (exception != null)
+                logger.error(exception.toString());
+        }
+
+        public Exception getException() { return exception; }
+    }
+
+    private static final class postTask extends AsyncTask<String, Void, String> {
+        private Exception exception;
+        private long startTime;
+        private final int CONNECT_TIMEOUT = 5000;
+        private final int READ_TIMEOUT = 5000;
+
+        @Override
+        protected void onPreExecute() {
+            startTime = System.currentTimeMillis();
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            try {
+                String endpoint = params[0];
+                String jsonString = params[1];
+                logger.debug("POST \"",endpoint,"\": ",jsonString);
+                //setup connection
+                HttpURLConnection connection = (HttpURLConnection) new URL(endpoint).openConnection();
+                connection.setRequestMethod("POST");
+                connection.setRequestProperty("Accept", "application/json; charset=UTF-8");
+                connection.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
+                connection.setConnectTimeout(CONNECT_TIMEOUT);
+                connection.setReadTimeout(READ_TIMEOUT);
+                connection.setDoOutput(true);
+                connection.setDoInput(true);
+                //send json
+                OutputStream outputStream = connection.getOutputStream();
+                outputStream.write(jsonString.getBytes("UTF-8"));
+                outputStream.flush();
+                outputStream.close();
+                //parse response
+                int status = connection.getResponseCode();
+                switch (status) {
+                    case HttpURLConnection.HTTP_OK:
+                    case HttpURLConnection.HTTP_CREATED:
+                        BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                        StringBuilder sb = new StringBuilder();
+                        String line;
+                        while ((line = br.readLine()) != null) {
+                            sb.append(line);
+                            sb.append('\n');
+                        }
+                        br.close();
+                        return sb.toString();
+                }
+                connection.disconnect();
+                return connection.getResponseMessage();
+            } catch (Exception e) {
+                this.exception = e;
+            } finally {
+                //connection.disconnect();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String response) {
+            super.onPostExecute(response);
+            long executionTime = System.currentTimeMillis() - startTime;
+            logger.debug(String.format(Locale.US, "[%d ms] response: \n%s", executionTime, response));
+            if (exception != null)
+                logger.error(exception.toString());
+        }
+
+        public Exception getException() { return exception; }
+    }
+
+    private static final class deleteTask extends AsyncTask<String, Void, String> {
+        private Exception exception;
+        private long startTime;
+        private final int CONNECT_TIMEOUT = 5000;
+        private final int READ_TIMEOUT = 5000;
+
+        @Override
+        protected void onPreExecute() {
+            startTime = System.currentTimeMillis();
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            try {
+                String endpoint = params[0];
+                String jsonString = params[1];
+                logger.debug("DELETE \"",endpoint,"\": ",jsonString);
+                //setup connection
+                HttpURLConnection connection = (HttpURLConnection) new URL(endpoint).openConnection();
+                connection.setRequestMethod("DELETE");
+                connection.setRequestProperty("Accept", "application/json; charset=UTF-8");
+                connection.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
+                connection.setConnectTimeout(CONNECT_TIMEOUT);
+                connection.setReadTimeout(READ_TIMEOUT);
+                connection.setDoOutput(true);
+                connection.setDoInput(true);
+                //send json
+                OutputStream outputStream = connection.getOutputStream();
+                outputStream.write(jsonString.getBytes("UTF-8"));
+                outputStream.flush();
+                outputStream.close();
+                //parse response
+                int status = connection.getResponseCode();
+                switch (status) {
+                    case HttpURLConnection.HTTP_OK:
+                    case HttpURLConnection.HTTP_CREATED:
+                        BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                        StringBuilder sb = new StringBuilder();
+                        String line;
+                        while ((line = br.readLine()) != null) {
+                            sb.append(line);
+                            sb.append('\n');
+                        }
+                        br.close();
+                        return sb.toString();
+                }
+                connection.disconnect();
+                return connection.getResponseMessage();
+            } catch (Exception e) {
+                this.exception = e;
+            } finally {
+                //connection.disconnect();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String response) {
+            super.onPostExecute(response);
+            long executionTime = System.currentTimeMillis() - startTime;
+            logger.debug(String.format(Locale.US, "[%d ms] response: \n%s", executionTime, response));
             if (exception != null)
                 logger.error(exception.toString());
         }

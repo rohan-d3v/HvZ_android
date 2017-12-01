@@ -2,19 +2,21 @@ package edu.acase.hvz.hvz_app.api.models;
 
 import com.google.android.gms.maps.model.LatLng;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 public abstract class BaseReportModel {
     final int DATABASE_ID;
+    final int GAME_ID;
     LatLng location;
     Date timeSighted;
-    protected static List<BaseReportModel> allReports = new ArrayList<>();
 
-    public BaseReportModel(int DATABASE_ID) {
+    public BaseReportModel(int DATABASE_ID, int GAME_ID) {
         this.DATABASE_ID = DATABASE_ID;
-        allReports.add(this);
+        this.GAME_ID = GAME_ID;
+    }
+    public BaseReportModel(int GAME_ID) {
+        this.DATABASE_ID = -1;
+        this.GAME_ID = GAME_ID;
     }
 
     public abstract String snippet();
@@ -22,12 +24,14 @@ public abstract class BaseReportModel {
     public static class SERIALIZATION {
         public final static String
                 DATABASE_ID = "id",
+                GAME_ID = "game_id",
                 LOCATION_LAT = "location_lat",
                 LOCATION_LNG = "location_long",
                 TIME_SIGHTED = "time_sighted";
     }
 
     public int getDATABASE_ID() { return DATABASE_ID; }
+    public int getGAME_ID() { return GAME_ID; }
     public LatLng getLocation() { return location; }
     public Date getTimeSighted() { return timeSighted; }
 
