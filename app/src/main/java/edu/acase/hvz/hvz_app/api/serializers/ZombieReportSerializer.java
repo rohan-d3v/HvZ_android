@@ -15,7 +15,7 @@ public class ZombieReportSerializer extends BaseReportSerializer<ZombieReportMod
         JsonObject report = super.serialize(src, typeOfSrc, context).getAsJsonObject();
 
         //fields specific to ZombieReportModel (super call handles the common ones in BaseReportModel)
-        report.addProperty(ZombieReportModel.SERIALIZATION.NUM_ZOMBIES, src.getNumZombies());
+        report.addProperty(ZombieReportModel.SERIALIZATION.NUM_ZOMBIES, serialize(src.getNumZombies()));
 
         root.add(ZombieReportModel.SERIALIZATION.SINGLE_KEY, report);
         return root;

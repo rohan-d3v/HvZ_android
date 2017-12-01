@@ -15,8 +15,8 @@ public class HumanReportSerializer extends BaseReportSerializer<HumanReportModel
         JsonObject report = super.serialize(src, typeOfSrc, context).getAsJsonObject();
 
         //fields specific to HumanReportModel (super call handles the common ones in BaseReportModel)
-        report.addProperty(HumanReportModel.SERIALIZATION.NUM_HUMANS, src.getNumHumans());
-        report.addProperty(HumanReportModel.SERIALIZATION.TYPICAL_MAG_SIZE, src.getTypicalMagSize());
+        report.addProperty(HumanReportModel.SERIALIZATION.NUM_HUMANS, serialize(src.getNumHumans()));
+        report.addProperty(HumanReportModel.SERIALIZATION.TYPICAL_MAG_SIZE, serialize(src.getTypicalMagSize()));
 
         root.add(HumanReportModel.SERIALIZATION.SINGLE_KEY, report);
         return root;

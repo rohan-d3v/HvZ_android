@@ -18,17 +18,36 @@ public abstract class BaseReportSerializer<ReportModel extends BaseReportModel> 
     public JsonElement serialize(ReportModel src, Type typeOfSrc, JsonSerializationContext context) {
         JsonObject report = new JsonObject();
         if (src.getDATABASE_ID() >= 0)
-            report.addProperty(ReportModel.SERIALIZATION.DATABASE_ID, src.getDATABASE_ID());
-        report.addProperty(ReportModel.SERIALIZATION.GAME_ID, src.getGAME_ID());
-        report.addProperty(ReportModel.SERIALIZATION.LOCATION_LAT, src.getLocation().latitude);
-        report.addProperty(ReportModel.SERIALIZATION.LOCATION_LNG, src.getLocation().longitude);
-        report.addProperty(ReportModel.SERIALIZATION.TIME_SIGHTED, serializeDate(src.getTimeSighted()));
+            report.addProperty(ReportModel.SERIALIZATION.DATABASE_ID, serialize(src.getDATABASE_ID()));
+        report.addProperty(ReportModel.SERIALIZATION.GAME_ID, serialize(src.getGAME_ID()));
+        report.addProperty(ReportModel.SERIALIZATION.LOCATION_LAT, serialize(src.getLocation().latitude));
+        report.addProperty(ReportModel.SERIALIZATION.LOCATION_LNG, serialize(src.getLocation().longitude));
+        report.addProperty(ReportModel.SERIALIZATION.TIME_SIGHTED, serialize(src.getTimeSighted()));
         return report;
     }
 
     /* Note that the timezone calls will fail if 'AndroidThreeTen.init(this)' is not called by the current activity
      * Which is why it's in the onCreate() of BaseActivity.  */
-    public static String serializeDate(Date date) {
+    public static String serialize(Date date) {
         return DateTimeUtils.toInstant(date).atZone(ZoneId.systemDefault()).toOffsetDateTime().toString();
+    }
+
+    //all these serializers are for the apipie validations on the server side
+    //see "http://35.163.170.184/api" update/create methods for more details
+
+    public static String serialize(double value) {
+        return String.valueOf(value);
+    }
+
+    public static String serialize(float value) {
+        return String.valueOf(value);
+    }
+
+    public static int serialize(int value) {
+        return value;
+    }
+
+    public static String serialize(char value) {
+        return String.valueOf(value);
     }
 }
