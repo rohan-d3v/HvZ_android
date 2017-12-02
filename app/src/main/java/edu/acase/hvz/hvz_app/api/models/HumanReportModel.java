@@ -24,13 +24,14 @@ public class HumanReportModel extends BaseReportModel{
 
     public int getNumHumans() { return numHumans; }
     public int getTypicalMagSize() { return typicalMagSize; }
+    public LatLng getLoc() {return getLocation();}
 
     public void setNumHumans(int numHumans) { this.numHumans = numHumans; }
     public void setTypicalMagSize(int typicalMagSize) { this.typicalMagSize = typicalMagSize; }
 
     @Override
     public String snippet() {
-        return "Num Zombies = " + numHumans + "\n" +
+        return "Num Humans = " + numHumans + "\n" +
                 "Time Sighted = " + timeSighted + "\n" +
                 "Typical Mag size = " + typicalMagSize + "\n";
     }

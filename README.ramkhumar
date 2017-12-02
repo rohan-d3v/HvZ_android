@@ -70,3 +70,4 @@ Commit 9: Week of November 25
 	* Can't figure out refresh without losing data yet
 - Turned Human and Zombie reports into generic classes. 
 - Added code to parse data from HumanReportModel class into the edit details form
+- Added lines to set number of humans

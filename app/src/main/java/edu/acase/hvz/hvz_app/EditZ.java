@@ -26,7 +26,7 @@ class EditZ extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_z);
 
-        final LatLng latlng = (LatLng) getIntent().getParcelableExtra("location");
+        final LatLng latlng = val.getLoc();
 
         final EditText title = (EditText) findViewById(R.id.title);
         final EditText time = (EditText) findViewById(R.id.time);
@@ -34,23 +34,22 @@ class EditZ extends BaseActivity {
         final EditText loc = (EditText) findViewById(R.id.lat);
         final long temp = Calendar.getInstance().getTimeInMillis();
         final Date timespot = Calendar.getInstance().getTime();
-
         Button boton = (Button) findViewById(R.id.save);
         boton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View view) {
                 MarkerOptions marker = new MarkerOptions().position(latlng);
                 title.setText(Integer.toString(val.getNumHumans()));
-                mag.setText(Integer.toString(val.getTypicalMagSize()));
+                //mag.setText(Integer.toString(val.getTypicalMagSize()));
                 time.setText(timespot.toString());//autofill time
-                loc.setText(val.getLocation().toString());//autofill position
+                loc.setText(latlng.toString());//autofill position
 
                 int number, magazine;
-                number = Integer.parseInt(title.getText().toString());//number of humans
-                magazine = Integer.parseInt(mag.getText().toString());//number of darts  in mag
+                number = Integer.parseInt(String.valueOf(title.getText()));//number of humans
+               // magazine = Integer.parseInt(mag.getText().toString());//number of darts  in mag
                 //time since last update
-                CharSequence s = DateUtils.getRelativeTimeSpanString(temp, (long) (System.currentTimeMillis()), SECOND_IN_MILLIS);
-
+                CharSequence s = DateUtils.getRelativeTimeSpanString(temp, (System.currentTimeMillis()), SECOND_IN_MILLIS);
+                val.setNumHumans(number);
 
                 marker.title("  ");
 
