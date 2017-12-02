@@ -10,4 +10,6 @@
     <string name="title_activity_edit">editActivity</string>
     <string name="title_activity_admin">adminActivity</string>
     <string name="title_activity_human_report">HumanReport</string>
+    <string name="title_activity_edit_z">EditZ</string>
+    <string name="title_activity_edit_h">EditH</string>
 </resources>

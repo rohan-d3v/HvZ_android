@@ -3,10 +3,7 @@ package edu.acase.hvz.hvz_app;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+
 import android.text.format.DateUtils;
 import android.view.View;
 import android.widget.Button;
@@ -17,22 +14,23 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.Calendar;
 import java.util.Date;
-
-import edu.acase.hvz.hvz_app.api.models.HumanReportModel;
+import java.util.HashMap;
+import java.util.Map;
 
 import static android.text.format.DateUtils.SECOND_IN_MILLIS;
 
-class EditActivity extends BaseActivity {
+class EditH extends BaseActivity {
+    private Map<MarkerOptions, MapMarker> markerMap = new HashMap<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_edit);
+        setContentView(R.layout.activity_edit_h);
 
-        final LatLng latlng = (LatLng) getIntent().getParcelableExtra("location");
+        final LatLng latlng =  getIntent().getParcelableExtra("location");
 
         final EditText title = (EditText) findViewById(R.id.title);
         final EditText time = (EditText) findViewById(R.id.time);
-        final EditText mag = (EditText) findViewById(R.id.mag);
         final EditText loc = (EditText) findViewById(R.id.lat);
         final long temp = Calendar.getInstance().getTimeInMillis();
         final Date timespot = Calendar.getInstance().getTime();
@@ -45,15 +43,13 @@ class EditActivity extends BaseActivity {
                 time.setText(timespot.toString());//autofill time
                 loc.setText(latlng.toString());//autofill position
 
-                int number, magazine;
-                number = Integer.parseInt(title.getText().toString());//number of humans
-                magazine = Integer.parseInt(mag.getText().toString());//number of darts  in mag
+                int number;
+                number = Integer.parseInt(title.getText().toString());//number of zombies
                 //time since last update
-                CharSequence s = DateUtils.getRelativeTimeSpanString(temp, (long) (System.currentTimeMillis()), SECOND_IN_MILLIS);
+                CharSequence s = DateUtils.getRelativeTimeSpanString(temp,  (System.currentTimeMillis()), SECOND_IN_MILLIS);
 
 
-                marker.title("  ").snippet(setT(marker, temp));
-
+                marker.title("  ");
                 Intent resultIntent = new Intent();
                 resultIntent.putExtra("marker", marker);
                 setResult(Activity.RESULT_OK, resultIntent);
@@ -62,7 +58,5 @@ class EditActivity extends BaseActivity {
 
         });
     }
-    public String setT (MarkerOptions marker, long temp){
-        return DateUtils.getRelativeTimeSpanString(temp, (long) (System.currentTimeMillis()), SECOND_IN_MILLIS).toString();
-    }
+
 }

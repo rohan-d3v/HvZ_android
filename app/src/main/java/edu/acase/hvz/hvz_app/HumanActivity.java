@@ -55,10 +55,9 @@ public class HumanActivity extends BaseActivity implements OnMapReadyCallback, G
             final Button editReportButton = (Button) view.findViewById(R.id.editReportButton);
             editReportButton.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
-                    logger.debug("presed edit button on a marker");
-                    Intent edit = new Intent(HumanActivity.this, new HumanReport(markerMap.get(marker)).getClass());
-                    //edit.putExtra("location", point);
-                    HumanActivity.this.startActivityForResult(edit, EDIT_REQUEST);
+                    logger.debug("pressed edit button on a marker");
+                    Intent i = new Intent(getApplicationContext(),EditH.class);
+                    startActivity(i);
                 }
             });
             return view;
@@ -117,9 +116,8 @@ public class HumanActivity extends BaseActivity implements OnMapReadyCallback, G
                 editReportButton.setOnClickListener(new View.OnClickListener() {
                     public void onClick(View v) {
                         logger.debug("clicked edit button on a marker");
-                        Intent edit = new Intent(HumanActivity.this, HumanReport.class);
-                        //edit.putExtra("marker", marker);
-                        HumanActivity.this.startActivityForResult(edit, EDIT_REQUEST);
+                        Intent i = new Intent(getApplicationContext(),EditH.class);
+                        startActivity(i);
                     }
                 });
 
@@ -131,7 +129,7 @@ public class HumanActivity extends BaseActivity implements OnMapReadyCallback, G
 
     @Override
     public void onMapLongClick(LatLng point) {
-        Intent edit = new Intent(HumanActivity.this, HumanReport.class);
+        Intent edit = new Intent(HumanActivity.this, EditH.class);
         edit.putExtra("location", point);
         HumanActivity.this.startActivityForResult(edit, EDIT_REQUEST);
 

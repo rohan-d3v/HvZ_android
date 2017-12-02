@@ -66,3 +66,7 @@ Commit 9: Week of November 25
 - Human sighting marker and form
 - Incubation screen/ form
 - Assigned vairable for all marker info to input into api
+- Added code to make it x seconds ago (only in edit activity)
+	* Can't figure out refresh without losing data yet
+- Turned Human and Zombie reports into generic classes. 
+- Added code to parse data from HumanReportModel class into the edit details form
