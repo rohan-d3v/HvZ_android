@@ -39,9 +39,8 @@ class EditH extends BaseActivity {
         boton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View view) {
-                MarkerOptions marker = new MarkerOptions().position(latlng);
+                //MarkerOptions marker = new MarkerOptions().position(latlng);
                 time.setText(timespot.toString());//autofill time
-                loc.setText(latlng.toString());//autofill position
 
                 int number;
                 number = Integer.parseInt(title.getText().toString());//number of zombies
@@ -49,9 +48,8 @@ class EditH extends BaseActivity {
                 CharSequence s = DateUtils.getRelativeTimeSpanString(temp,  (System.currentTimeMillis()), SECOND_IN_MILLIS);
 
 
-                marker.title("  ");
+                //marker.title("  ");
                 Intent resultIntent = new Intent();
-                resultIntent.putExtra("marker", marker);
                 setResult(Activity.RESULT_OK, resultIntent);
                 finish();
             }

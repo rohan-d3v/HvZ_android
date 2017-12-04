@@ -107,7 +107,7 @@ public class ZombieActivity extends BaseActivity implements OnMapReadyCallback, 
                 logger.debug("clicked on a marker");
                 Dialog dialog = new Dialog(ZombieActivity.this);
                 dialog.setContentView(R.layout.custom_marker_info_contents);
-
+                final LatLng place = marker.getPosition();
                 TextView snippet = ((TextView) dialog.findViewById(R.id.snippet));
                 snippet.setText(marker.getSnippet());
 
@@ -115,7 +115,8 @@ public class ZombieActivity extends BaseActivity implements OnMapReadyCallback, 
                 editReportButton.setOnClickListener(new View.OnClickListener() {
                     public void onClick(View v) {
                         logger.debug("clicked edit button on a marker");
-                        Intent i = new Intent(getApplicationContext(),EditZ.class);
+                        Intent i = new Intent(getBaseContext(),EditZ.class);
+                        i.putExtra("location", place);
                         startActivity(i);
                     }
                 });
