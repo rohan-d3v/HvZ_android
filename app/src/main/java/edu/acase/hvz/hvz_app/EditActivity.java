@@ -17,51 +17,90 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Objects;
 
+import edu.acase.hvz.hvz_app.api.models.BaseReportModel;
 import edu.acase.hvz.hvz_app.api.models.HumanReportModel;
+import edu.acase.hvz.hvz_app.api.models.ZombieReportModel;
 
 import static android.text.format.DateUtils.SECOND_IN_MILLIS;
 
 class EditActivity extends BaseActivity {
+    protected final Logger logger = new Logger("EditActivity");
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit);
 
-        final LatLng latlng = (LatLng) getIntent().getParcelableExtra("location");
+        logger.debug("created edit activity");
+
+        final MapMarker mapMarker = getIntent().getParcelableExtra("mapMarker");
+        final LatLng oldMarkerPosition = getIntent().getParcelableExtra("oldMarkerPosition");
+        final MarkerOptions markerOptions = mapMarker.getMarkerOptions();
+        final BaseReportModel report = mapMarker.getReport();
 
         final EditText title = (EditText) findViewById(R.id.title);
         final EditText time = (EditText) findViewById(R.id.time);
         final EditText mag = (EditText) findViewById(R.id.mag);
         final EditText loc = (EditText) findViewById(R.id.lat);
-        final long temp = Calendar.getInstance().getTimeInMillis();
-        final Date timespot = Calendar.getInstance().getTime();
+        final long currentTime = Calendar.getInstance().getTimeInMillis();
+        final Date currentDate = Calendar.getInstance().getTime();
 
-        Button boton = (Button) findViewById(R.id.save);
-        boton.setOnClickListener(new View.OnClickListener() {
+        //autofill form
+        time.setText(report.getTimeSighted().toString());
+        loc.setText(report.getLocation().toString());
+        if (report instanceof HumanReportModel) {
+            title.setText(String.valueOf(((HumanReportModel) report).getNumHumans()));
+            mag.setText(String.valueOf(((HumanReportModel) report).getTypicalMagSize()));
+        }
+        else if (report instanceof ZombieReportModel) {
+            title.setText(String.valueOf(((ZombieReportModel) report).getNumZombies()));
+        }
+
+        Button saveButton = (Button) findViewById(R.id.save);
+        saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View view) {
-                MarkerOptions marker = new MarkerOptions().position(latlng);
-                time.setText(timespot.toString());//autofill time
-                loc.setText(latlng.toString());//autofill position
+                logger.debug(true, "raw mapMarker: ", mapMarker.toString());
 
                 int number, magazine;
-                number = Integer.parseInt(title.getText().toString());//number of humans
-                magazine = Integer.parseInt(mag.getText().toString());//number of darts  in mag
+                number = tryParse(title.getText().toString());//number of humans
+                magazine = tryParse(mag.getText().toString());//number of darts  in mag
                 //time since last update
-                CharSequence s = DateUtils.getRelativeTimeSpanString(temp, (long) (System.currentTimeMillis()), SECOND_IN_MILLIS);
+                CharSequence relativeTimeSpanString = DateUtils.getRelativeTimeSpanString(report.getTimeSighted().getTime(), System.currentTimeMillis(), SECOND_IN_MILLIS);
 
+                if (report instanceof HumanReportModel) {
+                    HumanReportModel humanReport = (HumanReportModel) report;
+                    if (number >= 0) humanReport.setNumHumans(number);
+                    if (magazine >= 0) humanReport.setTypicalMagSize(magazine);
+                    mapMarker.setReport(humanReport);
 
-                marker.title("  ").snippet(setT(marker, temp));
+                } else if (report instanceof ZombieReportModel) {
+                    ZombieReportModel zombieReport = (ZombieReportModel) report;
+                    if (number >= 0) zombieReport.setNumZombies(number);
+                    mapMarker.setReport(zombieReport);
+                }
 
                 Intent resultIntent = new Intent();
-                resultIntent.putExtra("marker", marker);
+                resultIntent.putExtra("mapMarker", mapMarker);
+                resultIntent.putExtra("oldMarkerPosition", oldMarkerPosition);
                 setResult(Activity.RESULT_OK, resultIntent);
                 finish();
             }
 
         });
     }
+
+    private int tryParse(String string) {
+        try {
+            return Integer.parseInt(string.trim());
+        } catch (NumberFormatException exception) {
+            return -1;
+        }
+    }
+
+    //what is this for?
     public String setT (MarkerOptions marker, long temp){
         return DateUtils.getRelativeTimeSpanString(temp, (long) (System.currentTimeMillis()), SECOND_IN_MILLIS).toString();
     }

@@ -36,40 +36,10 @@ import edu.acase.hvz.hvz_app.api.requests.ZombieReportRequest;
 
 public class HumanActivity extends BaseActivity implements OnMapReadyCallback, GoogleMap.OnMapLongClickListener {
     private GoogleMap gmap;
-    private Map<MarkerOptions, MapMarker> markerMap = new HashMap<>();
+    private Map<Marker, MapMarker> markerMap = new HashMap<>();
     private static final int EDIT_REQUEST = 1;
     protected final String LOG_TAG = "human_report";
     protected final Logger logger = new Logger(LOG_TAG);
-
-    class mapInfoWindowAdapter implements GoogleMap.InfoWindowAdapter {
-        private final View view;
-
-        public mapInfoWindowAdapter() {
-            view = getLayoutInflater().inflate(R.layout.custom_marker_info_contents, null);
-        }
-
-        @Override
-        public View getInfoWindow(final Marker marker) {
-            TextView snippet = ((TextView) view.findViewById(R.id.snippet));
-            snippet.setText(marker.getSnippet());
-            final Button editReportButton = (Button) view.findViewById(R.id.editReportButton);
-            editReportButton.setOnClickListener(new View.OnClickListener() {
-                public void onClick(View v) {
-                    logger.debug("presed edit button on a marker");
-                    Intent edit = new Intent(HumanActivity.this, new HumanReport(markerMap.get(marker)).getClass());
-                    //edit.putExtra("location", point);
-                    HumanActivity.this.startActivityForResult(edit, EDIT_REQUEST);
-                }
-            });
-            return view;
-        }
-
-        @Override
-        public View getInfoContents(Marker marker) {
-            return null;
-        }
-    }
-
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
@@ -94,18 +64,17 @@ public class HumanActivity extends BaseActivity implements OnMapReadyCallback, G
         ZombieReportRequest zombieReportRequest = new ZombieReportRequest();
         List<ZombieReportModel> zombieReports = zombieReportRequest.getAll();
         for (ZombieReportModel zombieReport: zombieReports) {
-            MapMarker marker = new MapMarker(zombieReport);
-            markerMap.put(marker.getMarkerOptions(), marker);
-            gmap.addMarker(marker.getMarkerOptions());
+            MapMarker mapMarker = new MapMarker(zombieReport);
+            Marker marker = gmap.addMarker(mapMarker.getMarkerOptions());
+            markerMap.put(marker, mapMarker);
         }
 
         //specify custom marker format
-        //gmap.setInfoWindowAdapter(new mapInfoWindowAdapter());
 
         // https://developers.google.com/maps/documentation/android-api/marker#info_windows
         gmap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override
-            public boolean onMarkerClick(Marker marker) {
+            public boolean onMarkerClick(final Marker marker) {
                 logger.debug("clicked on a marker");
                 Dialog dialog = new Dialog(HumanActivity.this);
                 dialog.setContentView(R.layout.custom_marker_info_contents);
@@ -117,9 +86,21 @@ public class HumanActivity extends BaseActivity implements OnMapReadyCallback, G
                 editReportButton.setOnClickListener(new View.OnClickListener() {
                     public void onClick(View v) {
                         logger.debug("clicked edit button on a marker");
-                        Intent edit = new Intent(HumanActivity.this, HumanReport.class);
-                        //edit.putExtra("marker", marker);
+                        Intent edit = new Intent(HumanActivity.this, EditActivity.class);
+                        MapMarker mapMarker = markerMap.get(marker);
+                        edit.putExtra("mapMarker", mapMarker);
+                        //edit.putExtra("oldMarkerOptions", mapMarker.getMarkerOptions());
+                        edit.putExtra("oldMarkerPosition", mapMarker.getMarkerOptions().getPosition());
+                        logger.debug(true, "extras: ", edit.getExtras().toString());
                         HumanActivity.this.startActivityForResult(edit, EDIT_REQUEST);
+
+                        // TODO
+                        /* around here you need code to handle the response after the editactivity returns
+                         * in order to update the marker itself & this dialog...
+                         * I have some jank code to update the marker at the bottom but pls do that sort of thing here instead.
+                         * Cause the dialog is the display for that marker info
+                         * So we need to update what it's showing */
+
                     }
                 });
 
@@ -130,15 +111,10 @@ public class HumanActivity extends BaseActivity implements OnMapReadyCallback, G
     }
 
     @Override
-    public void onMapLongClick(LatLng point) {
+    public void onMapLongClick(LatLng location) {
         Intent edit = new Intent(HumanActivity.this, HumanReport.class);
-        edit.putExtra("location", point);
+        edit.putExtra("location", location);
         HumanActivity.this.startActivityForResult(edit, EDIT_REQUEST);
-
-        /*Marker newMarker = gmap.addMarker(new MarkerOptions()
-                .position(point)
-                .snippet(point.toString()));
-        newMarker.setTitle(newMarker.getId());*/
     }
 
     @Override
@@ -218,8 +194,33 @@ public class HumanActivity extends BaseActivity implements OnMapReadyCallback, G
         switch(requestCode) {
             case (EDIT_REQUEST) : {
                 if (resultCode == Activity.RESULT_OK) {
-                    MarkerOptions markerOptions = data.getParcelableExtra("marker");
-                    gmap.addMarker(markerOptions);
+                    MapMarker mapMarker = data.getParcelableExtra("mapMarker");
+                    LatLng oldMarkerPosition = data.getParcelableExtra("oldMarkerPosition");
+                    logger.debug("old pos: ", oldMarkerPosition.toString());
+                    logger.debug(true, "edited mapMarker: ",mapMarker.toString());
+                    //move marker, update
+
+
+                    // TODO
+                    /* this is real jank, pls don't use this in the final version
+                     * maybe set up another map for locations -> markers
+                     * to avoid this ridiculous o(N) lookup that shouldn't need to happen */
+
+                    boolean updated = false;
+                    for (Marker marker: markerMap.keySet()) {
+                        LatLng markerPosition = markerMap.get(marker).getMarkerOptions().getPosition();
+                        //logger.debug("pos: ",markerPosition.toString());
+                        if (markerPosition.equals(oldMarkerPosition)) {
+                            markerMap.remove(marker);
+                            marker.remove();
+                            Marker newMarker = gmap.addMarker(mapMarker.getMarkerOptions());
+                            markerMap.put(newMarker, mapMarker);
+                            updated = true;
+                            break;
+                        }
+                    }
+                    if (!updated)
+                        logger.error(true, "could not find/update the map marker!", mapMarker.toString());
                 }
                 break;
             }
