@@ -1,19 +1,12 @@
 package edu.acase.hvz.hvz_app;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.os.Build;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -24,7 +17,6 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -39,7 +31,6 @@ import edu.acase.hvz.hvz_app.api.requests.ZombieReportRequest;
 public class ZombieActivity extends BaseActivity implements OnMapReadyCallback, GoogleMap.OnMapLongClickListener {
     private GoogleMap gmap;
     private Map<Marker, MapMarker> markerMap = new HashMap<>();
-    private static final int EDIT_REQUEST = 1;
     protected final String LOG_TAG = "human_report";
     protected final Logger logger = new Logger(LOG_TAG);
 
@@ -94,7 +85,7 @@ public class ZombieActivity extends BaseActivity implements OnMapReadyCallback, 
                         //edit.putExtra("oldMarkerOptions", mapMarker.getMarkerOptions());
                         edit.putExtra("oldMarkerPosition", mapMarker.getMarkerOptions().getPosition());
                         logger.debug(true, "extras: ", edit.getExtras().toString());
-                        startActivityForResult(edit, EDIT_REQUEST);
+                        startActivityForResult(edit, 1);
 
                         // TODO
                         /* around here you need code to handle the response after the editactivity returns
@@ -111,12 +102,42 @@ public class ZombieActivity extends BaseActivity implements OnMapReadyCallback, 
             }
         });
     }
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+                    MapMarker mapMarker = data.getParcelableExtra("mapMarker");
+                    LatLng oldMarkerPosition = data.getParcelableExtra("oldMarkerPosition");
+                    logger.debug("old pos: ", oldMarkerPosition.toString());
+                    logger.debug(true, "edited mapMarker: ",mapMarker.toString());
+                    //move marker, update
+
+
+                    // TODO
+                    /* this is real jank, pls don't use this in the final version
+                     * maybe set up another map for locations -> markers
+                     * to avoid this ridiculous o(N) lookup that shouldn't need to happen */
+
+                    boolean updated = false;
+                    for (Marker marker: markerMap.keySet()) {
+                        LatLng markerPosition = markerMap.get(marker).getMarkerOptions().getPosition();
+                        //logger.debug("pos: ",markerPosition.toString());
+                        if (markerPosition.equals(oldMarkerPosition)) {
+                            markerMap.remove(marker);
+                            marker.remove();
+                            Marker newMarker = gmap.addMarker(mapMarker.getMarkerOptions());
+                            markerMap.put(newMarker, mapMarker);
+                            updated = true;
+                            break;
+                        }
+                    }
+                    if (!updated)
+                        logger.error(true, "could not find/update the map marker!", mapMarker.toString());
+    }
 
     @Override
     public void onMapLongClick(LatLng location) {
         Intent edit = new Intent(this, EditZ.class);
         edit.putExtra("location", location);
-        startActivityForResult(edit, EDIT_REQUEST);
+        startActivityForResult(edit, 1);
     }
 
     @Override
@@ -139,7 +160,8 @@ public class ZombieActivity extends BaseActivity implements OnMapReadyCallback, 
         });
         infoButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                CommonDialogs.getInfoButtonDialog(context, v);
+                Intent i = new Intent(getApplicationContext(),HumanActivity.class);
+                startActivity(i);
             }
         });
 
@@ -188,44 +210,5 @@ public class ZombieActivity extends BaseActivity implements OnMapReadyCallback, 
             return new AlertDialog.Builder(context, android.R.style.Theme_Material_Dialog_Alert);
         else
             return new AlertDialog.Builder(context);
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        switch(requestCode) {
-            case (EDIT_REQUEST) : {
-                if (resultCode == Activity.RESULT_OK) {
-                    MapMarker mapMarker = data.getParcelableExtra("mapMarker");
-                    LatLng oldMarkerPosition = data.getParcelableExtra("oldMarkerPosition");
-                    logger.debug("old pos: ", oldMarkerPosition.toString());
-                    logger.debug(true, "edited mapMarker: ",mapMarker.toString());
-                    //move marker, update
-
-
-                    // TODO
-                    /* this is real jank, pls don't use this in the final version
-                     * maybe set up another map for locations -> markers
-                     * to avoid this ridiculous o(N) lookup that shouldn't need to happen */
-
-                    boolean updated = false;
-                    for (Marker marker: markerMap.keySet()) {
-                        LatLng markerPosition = markerMap.get(marker).getMarkerOptions().getPosition();
-                        //logger.debug("pos: ",markerPosition.toString());
-                        if (markerPosition.equals(oldMarkerPosition)) {
-                            markerMap.remove(marker);
-                            marker.remove();
-                            Marker newMarker = gmap.addMarker(mapMarker.getMarkerOptions());
-                            markerMap.put(newMarker, mapMarker);
-                            updated = true;
-                            break;
-                        }
-                    }
-                    if (!updated)
-                        logger.error(true, "could not find/update the map marker!", mapMarker.toString());
-                }
-                break;
-            }
-        }
     }
 }

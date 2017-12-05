@@ -1,6 +1,5 @@
 package edu.acase.hvz.hvz_app;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
@@ -24,13 +23,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import edu.acase.hvz.hvz_app.api.models.BaseReportModel;
 import edu.acase.hvz.hvz_app.api.models.ZombieReportModel;
 import edu.acase.hvz.hvz_app.api.requests.ZombieReportRequest;
 
 public class HumanActivity extends BaseActivity implements OnMapReadyCallback, GoogleMap.OnMapLongClickListener {
     private GoogleMap gmap;
     private Map<Marker, MapMarker> markerMap = new HashMap<>();
-    private static final int EDIT_REQUEST = 1;
     protected final String LOG_TAG = "human_report";
     protected final Logger logger = new Logger(LOG_TAG);
 
@@ -85,29 +84,74 @@ public class HumanActivity extends BaseActivity implements OnMapReadyCallback, G
                         //edit.putExtra("oldMarkerOptions", mapMarker.getMarkerOptions());
                         edit.putExtra("oldMarkerPosition", mapMarker.getMarkerOptions().getPosition());
                         logger.debug(true, "extras: ", edit.getExtras().toString());
-                        HumanActivity.this.startActivityForResult(edit, EDIT_REQUEST);
+                        HumanActivity.this.startActivityForResult(edit, 1);
 
                         // TODO
                         /* around here you need code to handle the response after the editactivity returns
                          * in order to update the marker itself & this dialog...
                          * I have some jank code to update the marker at the bottom but pls do that sort of thing here instead.
                          * Cause the dialog is the display for that marker info
-                         * So we need to update what it's showing */
+                         * So we need to update what it's showing
+                         * To try:
+                         * Get Parcelable from EditH with the mre MapMarker
+                         * Pass that MapMarker into to the oncreate main class into a method
+                         * Check latlng of MapMarker to determine corrcet Marker
+                         * Check if the details are the same
+                         * If not, update.
+                         * Should this be done outside onCreate so it's permanent maybe?
+                         * Error from outside onCreate
+                         * Keep i onCreate but try and get it to stay!!!*/
 
                     }
                 });
-
+                MapMarker mapMarker = markerMap.get(marker);
+                BaseReportModel report = mapMarker.getReport();
+                if (report instanceof ZombieReportModel) {
+                    ZombieReportModel zombieReport = (ZombieReportModel) report;
+                    zombieReport.setNumZombies(6);
+                    mapMarker.setReport(zombieReport);
+                }
                 dialog.show();
                 return true;
             }
         });
     }
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+                    MapMarker mapMarker = data.getParcelableExtra("mapMarker");
+                    LatLng oldMarkerPosition = data.getParcelableExtra("oldMarkerPosition");
+                    logger.debug("old pos: ", oldMarkerPosition.toString());
+                    logger.debug(true, "edited mapMarker: ",mapMarker.toString());
+                    //move marker, update
 
+
+                    // TODO
+                    /* this is real jank, pls don't use this in the final version
+                     * maybe set up another map for locations -> markers
+                     * to avoid this ridiculous o(N) lookup that shouldn't need to happen */
+
+                    boolean updated = false;
+                    for (Marker marker: markerMap.keySet()) {
+                        LatLng markerPosition = markerMap.get(marker).getMarkerOptions().getPosition();
+                        //logger.debug("pos: ",markerPosition.toString());
+                        if (markerPosition.equals(oldMarkerPosition)) {
+                            markerMap.remove(marker);
+                            marker.remove();
+                            Marker newMarker = gmap.addMarker(mapMarker.getMarkerOptions());
+                            markerMap.put(newMarker, mapMarker);
+
+                            updated = true;
+                            break;
+                        }
+                    }
+                    if (!updated)
+                        logger.error(true, "could not find/update the map marker!", mapMarker.toString());
+    }
     @Override
     public void onMapLongClick(LatLng location) {
         Intent edit = new Intent(HumanActivity.this, EditH.class);
         edit.putExtra("location", location);
-        HumanActivity.this.startActivityForResult(edit, EDIT_REQUEST);
+        HumanActivity.this.startActivityForResult(edit, 1);
     }
 
     @Override
@@ -181,42 +225,4 @@ public class HumanActivity extends BaseActivity implements OnMapReadyCallback, G
             return new AlertDialog.Builder(context);
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        switch(requestCode) {
-            case (EDIT_REQUEST) : {
-                if (resultCode == Activity.RESULT_OK) {
-                    MapMarker mapMarker = data.getParcelableExtra("mapMarker");
-                    LatLng oldMarkerPosition = data.getParcelableExtra("oldMarkerPosition");
-                    logger.debug("old pos: ", oldMarkerPosition.toString());
-                    logger.debug(true, "edited mapMarker: ",mapMarker.toString());
-                    //move marker, update
-
-
-                    // TODO
-                    /* this is real jank, pls don't use this in the final version
-                     * maybe set up another map for locations -> markers
-                     * to avoid this ridiculous o(N) lookup that shouldn't need to happen */
-
-                    boolean updated = false;
-                    for (Marker marker: markerMap.keySet()) {
-                        LatLng markerPosition = markerMap.get(marker).getMarkerOptions().getPosition();
-                        //logger.debug("pos: ",markerPosition.toString());
-                        if (markerPosition.equals(oldMarkerPosition)) {
-                            markerMap.remove(marker);
-                            marker.remove();
-                            Marker newMarker = gmap.addMarker(mapMarker.getMarkerOptions());
-                            markerMap.put(newMarker, mapMarker);
-                            updated = true;
-                            break;
-                        }
-                    }
-                    if (!updated)
-                        logger.error(true, "could not find/update the map marker!", mapMarker.toString());
-                }
-                break;
-            }
-        }
-    }
 }
