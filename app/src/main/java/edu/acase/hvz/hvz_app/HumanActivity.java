@@ -4,16 +4,10 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.os.Build;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -24,7 +18,6 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -86,7 +79,7 @@ public class HumanActivity extends BaseActivity implements OnMapReadyCallback, G
                 editReportButton.setOnClickListener(new View.OnClickListener() {
                     public void onClick(View v) {
                         logger.debug("clicked edit button on a marker");
-                        Intent edit = new Intent(HumanActivity.this, EditActivity.class);
+                        Intent edit = new Intent(HumanActivity.this, EditH.class);
                         MapMarker mapMarker = markerMap.get(marker);
                         edit.putExtra("mapMarker", mapMarker);
                         //edit.putExtra("oldMarkerOptions", mapMarker.getMarkerOptions());
@@ -112,7 +105,7 @@ public class HumanActivity extends BaseActivity implements OnMapReadyCallback, G
 
     @Override
     public void onMapLongClick(LatLng location) {
-        Intent edit = new Intent(HumanActivity.this, HumanReport.class);
+        Intent edit = new Intent(HumanActivity.this, EditH.class);
         edit.putExtra("location", location);
         HumanActivity.this.startActivityForResult(edit, EDIT_REQUEST);
     }

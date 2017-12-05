@@ -47,8 +47,12 @@
             android:label="@string/title_activity_admin"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".HumanReport"
-            android:label="@string/title_activity_human_report"
+            android:name=".EditZ"
+            android:label="@string/title_activity_edit_z"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".EditH"
+            android:label="@string/title_activity_edit_h"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
