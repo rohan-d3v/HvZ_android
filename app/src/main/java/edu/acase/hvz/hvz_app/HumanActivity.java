@@ -41,6 +41,38 @@ public class HumanActivity extends BaseActivity implements OnMapReadyCallback, G
     protected final String LOG_TAG = "human_report";
     protected final Logger logger = new Logger(LOG_TAG);
 
+<<<<<<< HEAD
+=======
+    class mapInfoWindowAdapter implements GoogleMap.InfoWindowAdapter {
+        private final View view;
+
+        public mapInfoWindowAdapter() {
+            view = getLayoutInflater().inflate(R.layout.custom_marker_info_contents, null);
+        }
+
+        @Override
+        public View getInfoWindow(final Marker marker) {
+            TextView snippet = ((TextView) view.findViewById(R.id.snippet));
+            snippet.setText(marker.getSnippet());
+            final Button editReportButton = (Button) view.findViewById(R.id.editReportButton);
+            editReportButton.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    logger.debug("pressed edit button on a marker");
+                    Intent i = new Intent(getApplicationContext(),EditH.class);
+                    startActivity(i);
+                }
+            });
+            return view;
+        }
+
+        @Override
+        public View getInfoContents(Marker marker) {
+            return null;
+        }
+    }
+
+
+>>>>>>> origin/master
     @Override
     public void onMapReady(GoogleMap googleMap) {
         gmap = googleMap;
@@ -86,6 +118,7 @@ public class HumanActivity extends BaseActivity implements OnMapReadyCallback, G
                 editReportButton.setOnClickListener(new View.OnClickListener() {
                     public void onClick(View v) {
                         logger.debug("clicked edit button on a marker");
+<<<<<<< HEAD
                         Intent edit = new Intent(HumanActivity.this, EditActivity.class);
                         MapMarker mapMarker = markerMap.get(marker);
                         edit.putExtra("mapMarker", mapMarker);
@@ -101,6 +134,10 @@ public class HumanActivity extends BaseActivity implements OnMapReadyCallback, G
                          * Cause the dialog is the display for that marker info
                          * So we need to update what it's showing */
 
+=======
+                        Intent i = new Intent(getApplicationContext(),EditH.class);
+                        startActivity(i);
+>>>>>>> origin/master
                     }
                 });
 
@@ -111,9 +148,15 @@ public class HumanActivity extends BaseActivity implements OnMapReadyCallback, G
     }
 
     @Override
+<<<<<<< HEAD
     public void onMapLongClick(LatLng location) {
         Intent edit = new Intent(HumanActivity.this, HumanReport.class);
         edit.putExtra("location", location);
+=======
+    public void onMapLongClick(LatLng point) {
+        Intent edit = new Intent(HumanActivity.this, EditH.class);
+        edit.putExtra("location", point);
+>>>>>>> origin/master
         HumanActivity.this.startActivityForResult(edit, EDIT_REQUEST);
     }
 

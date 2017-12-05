@@ -5,9 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="edu.acase.hvz.hvz_app.EditActivity"
-    tools:showIn="@layout/activity_edit">
-
+    tools:context="edu.acase.hvz.hvz_app.EditZ"
+    tools:showIn="@layout/activity_edit_z">
     <EditText
         android:id="@+id/title"
         android:layout_width="match_parent"
@@ -69,4 +68,23 @@
         app:layout_constraintRight_toRightOf="parent"
         tools:text="Save" />
 
+    <TextView
+        android:id="@+id/temp"
+        android:layout_width="280dp"
+        android:layout_height="96dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="24dp"
+        android:text="ty"
+        android:textAlignment="center"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textSize="36sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/stunnedMsg"
+        app:layout_constraintVertical_bias="0.17"
+        tools:text="ty" />
 </android.support.constraint.ConstraintLayout>

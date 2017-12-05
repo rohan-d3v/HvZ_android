@@ -5,8 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="edu.acase.hvz.hvz_app.HumanReport"
-    tools:showIn="@layout/activity_humanreport">
+    tools:context="edu.acase.hvz.hvz_app.EditH"
+    tools:showIn="@layout/activity_edit_h">
     <EditText
         android:id="@+id/title"
         android:layout_width="match_parent"

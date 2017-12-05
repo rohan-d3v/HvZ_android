@@ -1,24 +1,37 @@
 package edu.acase.hvz.hvz_app;
 
+<<<<<<< HEAD
 import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.io.Serializable;
+=======
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
+
+import java.util.Date;
+>>>>>>> origin/master
 
 import edu.acase.hvz.hvz_app.api.models.BaseReportModel;
 
 public class MapMarker implements Parcelable {
     private MarkerOptions markerOptions;
     private BaseReportModel report;
-
+    Date timeS;
+    int numZ;
     public MapMarker(BaseReportModel report) {
         this.report = report;
         markerOptions = new MarkerOptions().position(report.getLocation()).snippet(report.snippet());
     }
 
     public MarkerOptions getMarkerOptions() { return markerOptions; }
+    public MarkerOptions setMarkerOptions(LatLng lng, Date timeS, int numZ){
+        markerOptions.position(lng);
+        this.timeS = timeS;
+        this.numZ = numZ;
+        return markerOptions; }
     public BaseReportModel getReport() { return report; }
 
     public void setReport(BaseReportModel report) {

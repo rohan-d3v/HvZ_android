@@ -19,8 +19,20 @@
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        tools:text="Stunned" />
+        tools:text="Got Caught" />
 
+    <Button
+        android:id="@+id/reportButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginRight="8dp"
+        android:text="Sighted Human"
+        android:textAllCaps="false"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        tools:text="Sighted Human" />
 
     <Button
         android:id="@+id/infoButton"
@@ -37,15 +49,15 @@
 
     <Button
         android:id="@+id/helpButton"
-        android:layout_width="137dp"
+        android:layout_width="48dp"
         android:layout_height="48dp"
         android:layout_marginRight="8dp"
         android:layout_marginTop="8dp"
-        android:text="Contact Us"
+        android:text="\?"
         android:textSize="18sp"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="Contact Us" />
+        tools:text="\?" />
 
     <fragment
         android:id="@+id/map"
@@ -59,16 +71,29 @@
         tools:context="edu.acase.hvz.hvz_app.ZombieActivity" />
 
     <Button
-        android:id="@+id/test_getHuman"
+        android:id="@+id/test_postZombieReport"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
-        android:layout_marginStart="212dp"
+        android:layout_marginLeft="8dp"
         android:layout_marginTop="8dp"
-        android:text="get Human reports"
+        android:text="post dummy human report"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintVertical_bias="0.125" />
+
+    <Button
+        android:id="@+id/test_delteZombieReport"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        android:text="delete dummy human report"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.232" />
 
 </android.support.constraint.ConstraintLayout>
