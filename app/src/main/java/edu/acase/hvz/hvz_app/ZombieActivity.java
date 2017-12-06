@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
@@ -17,7 +18,12 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.TileOverlay;
+import com.google.android.gms.maps.model.TileOverlayOptions;
+import com.google.maps.android.heatmaps.Gradient;
+import com.google.maps.android.heatmaps.HeatmapTileProvider;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -60,9 +66,9 @@ public class ZombieActivity extends BaseActivity implements OnMapReadyCallback, 
             MapMarker mapMarker = new MapMarker(zombieReport);
             Marker marker = gmap.addMarker(mapMarker.getMarkerOptions());
             markerMap.put(marker, mapMarker);
+
         }
-        ZombieReportRequest zombieReportRequest = new ZombieReportRequest();
-        List<ZombieReportModel> hReport = zombieReportRequest.getAll();
+        addHeatMap();
         //specify custom marker format
 
         // https://developers.google.com/maps/documentation/android-api/marker#info_windows
@@ -103,6 +109,18 @@ public class ZombieActivity extends BaseActivity implements OnMapReadyCallback, 
                 return true;
             }
         });
+    }
+    private void addHeatMap() {
+        ZombieReportRequest zombieReportRequest = new ZombieReportRequest();
+        List<ZombieReportModel> hReport = zombieReportRequest.getAll();
+        ArrayList<LatLng> pos  = new ArrayList<LatLng>();
+        for (int i = 0; i < hReport.size(); i++) {
+            pos.add(hReport.get(i).getLoc());
+        }
+
+       HeatmapTileProvider provider = new HeatmapTileProvider.Builder().radius(50).data(pos).build();
+        // Add a tile overlay to the map, using the heat map tile provider.
+        gmap.addTileOverlay(new TileOverlayOptions().tileProvider(provider));
     }
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -149,7 +167,7 @@ public class ZombieActivity extends BaseActivity implements OnMapReadyCallback, 
 
         MapFragment mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-
+        //addHeatMap();
         final Button helpButton = (Button) findViewById(R.id.helpButton),
                 infoButton = (Button) findViewById(R.id.infoButton),
                 caughtButton = (Button) findViewById(R.id.caughtButton);

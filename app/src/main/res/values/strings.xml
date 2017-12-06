@@ -12,4 +12,5 @@
     <string name="title_activity_human_report">HumanReport</string>
     <string name="title_activity_edit_z">editZ</string>
     <string name="title_activity_edit_h">EditH</string>
+    <string name="title_activity_heat_map">heatMap</string>
 </resources>

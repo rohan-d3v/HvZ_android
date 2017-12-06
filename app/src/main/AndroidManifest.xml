@@ -53,7 +53,7 @@
         <activity
             android:name=".EditH"
             android:label="@string/title_activity_edit_h"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>

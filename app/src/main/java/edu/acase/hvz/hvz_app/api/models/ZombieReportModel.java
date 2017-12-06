@@ -27,7 +27,7 @@ public class ZombieReportModel extends BaseReportModel {
     public int getNumZombies() { return numZombies; }
 
     public void setNumZombies(int numZombies) { this.numZombies = numZombies; }
-
+    public LatLng getLoc(){return location;}
     @Override
     public String snippet() {
         return "Num Zombies = " + numZombies + "\n" +

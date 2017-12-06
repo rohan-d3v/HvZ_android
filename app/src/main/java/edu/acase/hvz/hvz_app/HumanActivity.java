@@ -129,18 +129,9 @@ public class HumanActivity extends BaseActivity implements OnMapReadyCallback, G
                          * Should this be done outside onCreate so it's permanent maybe?
                          * Error from outside onCreate
                          * Keep i onCreate but try and get it to stay!!!*/
-
-                        Intent i = new Intent(getApplicationContext(),EditH.class);
-                        startActivity(i);
                     }
                 });
-                /*MapMarker mapMarker = markerMap.get(marker);
-                BaseReportModel report = mapMarker.getReport();
-                if (report instanceof ZombieReportModel) {
-                    ZombieReportModel zombieReport = (ZombieReportModel) report;
-                    zombieReport.setNumZombies(6);
-                    mapMarker.setReport(zombieReport);
-                }*/
+
                 dialog.show();
                 return true;
             }
@@ -221,9 +212,9 @@ public class HumanActivity extends BaseActivity implements OnMapReadyCallback, G
             public void onClick(View v) {
                 ZombieReportRequest request = new ZombieReportRequest();
                 dummyReport = new ZombieReportModel(1);
-                dummyReport.setLocation(new LatLng(666, -666));
+                dummyReport.setLocation(new LatLng(41.505440999999997586655808845534920692, -81.60888199999999415013007819652557373));
                 dummyReport.setTimeSighted(new Date());
-                dummyReport.setNumZombies(666);
+                dummyReport.setNumZombies(6);
                 dummyReport.setDatabase_id(request.create(dummyReport));
             }
         });
