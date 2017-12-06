@@ -61,7 +61,8 @@ public class ZombieActivity extends BaseActivity implements OnMapReadyCallback, 
             Marker marker = gmap.addMarker(mapMarker.getMarkerOptions());
             markerMap.put(marker, mapMarker);
         }
-
+        ZombieReportRequest zombieReportRequest = new ZombieReportRequest();
+        List<ZombieReportModel> hReport = zombieReportRequest.getAll();
         //specify custom marker format
 
         // https://developers.google.com/maps/documentation/android-api/marker#info_windows
@@ -69,7 +70,7 @@ public class ZombieActivity extends BaseActivity implements OnMapReadyCallback, 
             @Override
             public boolean onMarkerClick(final Marker marker) {
                 logger.debug("clicked on a marker");
-                Dialog dialog = new Dialog(ZombieActivity.this);
+                final Dialog dialog = new Dialog(ZombieActivity.this);
                 dialog.setContentView(R.layout.custom_marker_info_contents);
 
                 TextView snippet = ((TextView) dialog.findViewById(R.id.snippet));
@@ -85,6 +86,7 @@ public class ZombieActivity extends BaseActivity implements OnMapReadyCallback, 
                         //edit.putExtra("oldMarkerOptions", mapMarker.getMarkerOptions());
                         edit.putExtra("oldMarkerPosition", mapMarker.getMarkerOptions().getPosition());
                         logger.debug(true, "extras: ", edit.getExtras().toString());
+                        dialog.hide();
                         startActivityForResult(edit, 1);
 
                         // TODO

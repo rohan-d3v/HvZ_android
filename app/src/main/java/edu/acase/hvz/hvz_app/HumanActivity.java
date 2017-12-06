@@ -105,7 +105,7 @@ public class HumanActivity extends BaseActivity implements OnMapReadyCallback, G
                 editReportButton.setOnClickListener(new View.OnClickListener() {
                     public void onClick(View v) {
                         logger.debug("clicked edit button on a marker");
-                        Intent edit = new Intent(HumanActivity.this, EditActivity.class);
+                        Intent edit = new Intent(HumanActivity.this, EditH.class);
                         MapMarker mapMarker = markerMap.get(marker);
                         edit.putExtra("mapMarker", mapMarker);
                         //edit.putExtra("oldMarkerOptions", mapMarker.getMarkerOptions());
