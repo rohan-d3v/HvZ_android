@@ -27,7 +27,6 @@ public class HumanReportModel extends BaseReportModel{
 
     public int getNumHumans() { return numHumans; }
     public int getTypicalMagSize() { return typicalMagSize; }
-    public LatLng getLoc() {return getLocation();}
 
     public void setNumHumans(int numHumans) { this.numHumans = numHumans; }
     public void setTypicalMagSize(int typicalMagSize) { this.typicalMagSize = typicalMagSize; }
