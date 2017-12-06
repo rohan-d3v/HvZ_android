@@ -1,24 +1,10 @@
 package edu.acase.hvz.hvz_app;
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 1c3aee83f54a08d45dee0aa5ef7bc2e999c4fb4b
 import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.google.android.gms.maps.model.MarkerOptions;
 
-import java.io.Serializable;
-<<<<<<< HEAD
-=======
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
-
-import java.util.Date;
->>>>>>> origin/master
-=======
->>>>>>> 1c3aee83f54a08d45dee0aa5ef7bc2e999c4fb4b
 
 import edu.acase.hvz.hvz_app.api.models.BaseReportModel;
 

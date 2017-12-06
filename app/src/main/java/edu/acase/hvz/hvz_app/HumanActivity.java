@@ -33,9 +33,6 @@ public class HumanActivity extends BaseActivity implements OnMapReadyCallback, G
     protected final String LOG_TAG = "human_report";
     protected final Logger logger = new Logger(LOG_TAG);
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
     class mapInfoWindowAdapter implements GoogleMap.InfoWindowAdapter {
         private final View view;
 
@@ -64,10 +61,6 @@ public class HumanActivity extends BaseActivity implements OnMapReadyCallback, G
         }
     }
 
-
->>>>>>> origin/master
-=======
->>>>>>> 1c3aee83f54a08d45dee0aa5ef7bc2e999c4fb4b
     @Override
     public void onMapReady(GoogleMap googleMap) {
         gmap = googleMap;
@@ -95,7 +88,6 @@ public class HumanActivity extends BaseActivity implements OnMapReadyCallback, G
             Marker marker = gmap.addMarker(mapMarker.getMarkerOptions());
             markerMap.put(marker, mapMarker);
         }
-
         //specify custom marker format
 
         // https://developers.google.com/maps/documentation/android-api/marker#info_windows
@@ -113,12 +105,7 @@ public class HumanActivity extends BaseActivity implements OnMapReadyCallback, G
                 editReportButton.setOnClickListener(new View.OnClickListener() {
                     public void onClick(View v) {
                         logger.debug("clicked edit button on a marker");
-<<<<<<< HEAD
-<<<<<<< HEAD
                         Intent edit = new Intent(HumanActivity.this, EditActivity.class);
-=======
-                        Intent edit = new Intent(HumanActivity.this, EditH.class);
->>>>>>> 1c3aee83f54a08d45dee0aa5ef7bc2e999c4fb4b
                         MapMarker mapMarker = markerMap.get(marker);
                         edit.putExtra("mapMarker", mapMarker);
                         //edit.putExtra("oldMarkerOptions", mapMarker.getMarkerOptions());
@@ -143,13 +130,8 @@ public class HumanActivity extends BaseActivity implements OnMapReadyCallback, G
                          * Error from outside onCreate
                          * Keep i onCreate but try and get it to stay!!!*/
 
-<<<<<<< HEAD
-=======
                         Intent i = new Intent(getApplicationContext(),EditH.class);
                         startActivity(i);
->>>>>>> origin/master
-=======
->>>>>>> 1c3aee83f54a08d45dee0aa5ef7bc2e999c4fb4b
                     }
                 });
                 /*MapMarker mapMarker = markerMap.get(marker);
@@ -196,23 +178,10 @@ public class HumanActivity extends BaseActivity implements OnMapReadyCallback, G
                         logger.error(true, "could not find/update the map marker!", mapMarker.toString());
     }
     @Override
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 1c3aee83f54a08d45dee0aa5ef7bc2e999c4fb4b
     public void onMapLongClick(LatLng location) {
         Intent edit = new Intent(HumanActivity.this, EditH.class);
         edit.putExtra("location", location);
-<<<<<<< HEAD
-=======
-    public void onMapLongClick(LatLng point) {
-        Intent edit = new Intent(HumanActivity.this, EditH.class);
-        edit.putExtra("location", point);
->>>>>>> origin/master
-        HumanActivity.this.startActivityForResult(edit, EDIT_REQUEST);
-=======
         HumanActivity.this.startActivityForResult(edit, 1);
->>>>>>> 1c3aee83f54a08d45dee0aa5ef7bc2e999c4fb4b
     }
 
     @Override
