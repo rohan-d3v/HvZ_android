@@ -13,13 +13,13 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:layout_marginLeft="8dp"
-        android:text="Stunned"
+        android:text="Got Caught"
         android:textAllCaps="false"
         android:textSize="18sp"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        tools:text="Got Caught" />
+        tools:text="Stunned" />
 
     <Button
         android:id="@+id/reportButton"
@@ -90,10 +90,9 @@
         android:layout_marginBottom="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginTop="8dp"
-        android:text="delete dummy human report"
+        android:text="delte dummy human report"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.232" />
-
 </android.support.constraint.ConstraintLayout>

@@ -1,10 +1,12 @@
 package edu.acase.hvz.hvz_app.api.models;
 
+import android.os.Parcelable;
+
 import com.google.android.gms.maps.model.LatLng;
 
 import java.util.Date;
 
-public abstract class BaseReportModel {
+public abstract class BaseReportModel implements Parcelable {
     final int GAME_ID;
     int database_id;
     LatLng location;

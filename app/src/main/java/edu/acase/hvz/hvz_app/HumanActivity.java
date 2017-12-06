@@ -1,19 +1,12 @@
 package edu.acase.hvz.hvz_app;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.os.Build;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -24,51 +17,21 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import edu.acase.hvz.hvz_app.api.models.BaseReportModel;
 import edu.acase.hvz.hvz_app.api.models.ZombieReportModel;
 import edu.acase.hvz.hvz_app.api.requests.ZombieReportRequest;
 
 public class HumanActivity extends BaseActivity implements OnMapReadyCallback, GoogleMap.OnMapLongClickListener {
     private GoogleMap gmap;
-    private Map<MarkerOptions, MapMarker> markerMap = new HashMap<>();
-    private static final int EDIT_REQUEST = 1;
+    private Map<Marker, MapMarker> markerMap = new HashMap<>();
     protected final String LOG_TAG = "human_report";
     protected final Logger logger = new Logger(LOG_TAG);
-
-    class mapInfoWindowAdapter implements GoogleMap.InfoWindowAdapter {
-        private final View view;
-
-        public mapInfoWindowAdapter() {
-            view = getLayoutInflater().inflate(R.layout.custom_marker_info_contents, null);
-        }
-
-        @Override
-        public View getInfoWindow(final Marker marker) {
-            TextView snippet = ((TextView) view.findViewById(R.id.snippet));
-            snippet.setText(marker.getSnippet());
-            final Button editReportButton = (Button) view.findViewById(R.id.editReportButton);
-            editReportButton.setOnClickListener(new View.OnClickListener() {
-                public void onClick(View v) {
-                    logger.debug("pressed edit button on a marker");
-                    Intent i = new Intent(getApplicationContext(),EditH.class);
-                    startActivity(i);
-                }
-            });
-            return view;
-        }
-
-        @Override
-        public View getInfoContents(Marker marker) {
-            return null;
-        }
-    }
-
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
@@ -93,20 +56,19 @@ public class HumanActivity extends BaseActivity implements OnMapReadyCallback, G
         ZombieReportRequest zombieReportRequest = new ZombieReportRequest();
         List<ZombieReportModel> zombieReports = zombieReportRequest.getAll();
         for (ZombieReportModel zombieReport: zombieReports) {
-            MapMarker marker = new MapMarker(zombieReport);
-            markerMap.put(marker.getMarkerOptions(), marker);
-            gmap.addMarker(marker.getMarkerOptions());
+            MapMarker mapMarker = new MapMarker(zombieReport);
+            Marker marker = gmap.addMarker(mapMarker.getMarkerOptions());
+            markerMap.put(marker, mapMarker);
         }
 
         //specify custom marker format
-        //gmap.setInfoWindowAdapter(new mapInfoWindowAdapter());
 
         // https://developers.google.com/maps/documentation/android-api/marker#info_windows
         gmap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override
-            public boolean onMarkerClick(Marker marker) {
+            public boolean onMarkerClick(final Marker marker) {
                 logger.debug("clicked on a marker");
-                Dialog dialog = new Dialog(HumanActivity.this);
+                final Dialog dialog = new Dialog(HumanActivity.this);
                 dialog.setContentView(R.layout.custom_marker_info_contents);
 
                 TextView snippet = ((TextView) dialog.findViewById(R.id.snippet));
@@ -116,27 +78,81 @@ public class HumanActivity extends BaseActivity implements OnMapReadyCallback, G
                 editReportButton.setOnClickListener(new View.OnClickListener() {
                     public void onClick(View v) {
                         logger.debug("clicked edit button on a marker");
-                        Intent i = new Intent(getApplicationContext(),EditH.class);
-                        startActivity(i);
+                        Intent edit = new Intent(HumanActivity.this, EditH.class);
+                        MapMarker mapMarker = markerMap.get(marker);
+                        edit.putExtra("mapMarker", mapMarker);
+                        //edit.putExtra("oldMarkerOptions", mapMarker.getMarkerOptions());
+                        edit.putExtra("oldMarkerPosition", mapMarker.getMarkerOptions().getPosition());
+                        logger.debug(true, "extras: ", edit.getExtras().toString());
+                        dialog.hide();
+                        HumanActivity.this.startActivityForResult(edit, 1);
+
+                        // TODO
+                        /* around here you need code to handle the response after the editactivity returns
+                         * in order to update the marker itself & this dialog...
+                         * I have some jank code to update the marker at the bottom but pls do that sort of thing here instead.
+                         * Cause the dialog is the display for that marker info
+                         * So we need to update what it's showing
+                         * To try:
+                         * Get Parcelable from EditH with the mre MapMarker
+                         * Pass that MapMarker into to the oncreate main class into a method
+                         * Check latlng of MapMarker to determine corrcet Marker
+                         * Check if the details are the same
+                         * If not, update.
+                         * Should this be done outside onCreate so it's permanent maybe?
+                         * Error from outside onCreate
+                         * Keep i onCreate but try and get it to stay!!!*/
+
                     }
                 });
-
+                /*MapMarker mapMarker = markerMap.get(marker);
+                BaseReportModel report = mapMarker.getReport();
+                if (report instanceof ZombieReportModel) {
+                    ZombieReportModel zombieReport = (ZombieReportModel) report;
+                    zombieReport.setNumZombies(6);
+                    mapMarker.setReport(zombieReport);
+                }*/
                 dialog.show();
                 return true;
             }
         });
     }
-
     @Override
-    public void onMapLongClick(LatLng point) {
-        Intent edit = new Intent(HumanActivity.this, EditH.class);
-        edit.putExtra("location", point);
-        HumanActivity.this.startActivityForResult(edit, EDIT_REQUEST);
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+                    MapMarker mapMarker = data.getParcelableExtra("mapMarker");
+                    LatLng oldMarkerPosition = data.getParcelableExtra("oldMarkerPosition");
+                    logger.debug("old pos: ", oldMarkerPosition.toString());
+                    logger.debug(true, "edited mapMarker: ",mapMarker.toString());
+                    //move marker, update
 
-        /*Marker newMarker = gmap.addMarker(new MarkerOptions()
-                .position(point)
-                .snippet(point.toString()));
-        newMarker.setTitle(newMarker.getId());*/
+
+                    // TODO
+                    /* this is real jank, pls don't use this in the final version
+                     * maybe set up another map for locations -> markers
+                     * to avoid this ridiculous o(N) lookup that shouldn't need to happen */
+
+                    boolean updated = false;
+                    for (Marker marker: markerMap.keySet()) {
+                        LatLng markerPosition = markerMap.get(marker).getMarkerOptions().getPosition();
+                        //logger.debug("pos: ",markerPosition.toString());
+                        if (markerPosition.equals(oldMarkerPosition)) {
+                            markerMap.remove(marker);
+                            marker.remove();
+                            Marker newMarker = gmap.addMarker(mapMarker.getMarkerOptions());
+                            markerMap.put(newMarker, mapMarker);
+
+                            updated = true;
+                            break;
+                        }
+                    }
+                    if (!updated)
+                        logger.error(true, "could not find/update the map marker!", mapMarker.toString());
+    }
+    @Override
+    public void onMapLongClick(LatLng location) {
+        Intent edit = new Intent(HumanActivity.this, EditH.class);
+        edit.putExtra("location", location);
+        HumanActivity.this.startActivityForResult(edit, 1);
     }
 
     @Override
@@ -210,17 +226,4 @@ public class HumanActivity extends BaseActivity implements OnMapReadyCallback, G
             return new AlertDialog.Builder(context);
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        switch(requestCode) {
-            case (EDIT_REQUEST) : {
-                if (resultCode == Activity.RESULT_OK) {
-                    MarkerOptions markerOptions = data.getParcelableExtra("marker");
-                    gmap.addMarker(markerOptions);
-                }
-                break;
-            }
-        }
-    }
 }

@@ -1,5 +1,8 @@
 package edu.acase.hvz.hvz_app.api.models;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.android.gms.maps.model.LatLng;
 import java.util.Date;
 
@@ -35,10 +38,45 @@ public class ZombieReportModel extends BaseReportModel {
     public String toString() {
         return "ZombieReportModel{" +
                 "database_id=" + database_id +
-                "GAME_ID=" + GAME_ID +
+                ", GAME_ID=" + GAME_ID +
                 ", location=" + location +
                 ", numZombies=" + numZombies +
                 ", timeSighted=" + timeSighted +
                 '}';
     }
+
+
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(GAME_ID);
+        dest.writeInt(database_id);
+        dest.writeParcelable(location, flags);
+        dest.writeLong(timeSighted != null ? timeSighted.getTime() : -1L);
+        dest.writeInt(numZombies);
+    }
+
+    @SuppressWarnings("unused")
+    public static final Parcelable.Creator<ZombieReportModel> CREATOR = new Parcelable.Creator<ZombieReportModel>() {
+        @Override
+        public ZombieReportModel createFromParcel(Parcel in) {
+            ZombieReportModel report = new ZombieReportModel(in.readInt());
+            report.database_id = in.readInt();
+            report.location = in.readParcelable(LatLng.class.getClassLoader());
+            long tmpTimeSighted = in.readLong();
+            report.timeSighted = tmpTimeSighted != -1 ? new Date(tmpTimeSighted) : null;
+            report.numZombies = in.readInt();
+            return report;
+        }
+
+        @Override
+        public ZombieReportModel[] newArray(int size) {
+            return new ZombieReportModel[size];
+        }
+    };
 }

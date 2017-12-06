@@ -25,13 +25,13 @@ import edu.acase.hvz.hvz_app.api.models.ZombieReportModel;
 
 import static android.text.format.DateUtils.SECOND_IN_MILLIS;
 
-class EditZ extends BaseActivity {
+class EditActivity extends BaseActivity {
     protected final Logger logger = new Logger("EditActivity");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_edit_z);
+        setContentView(R.layout.activity_edit);
 
         logger.debug("created edit activity");
 
@@ -76,6 +76,10 @@ class EditZ extends BaseActivity {
                     if (magazine >= 0) humanReport.setTypicalMagSize(magazine);
                     mapMarker.setReport(humanReport);
 
+                } else if (report instanceof ZombieReportModel) {
+                    ZombieReportModel zombieReport = (ZombieReportModel) report;
+                    if (number >= 0) zombieReport.setNumZombies(number);
+                    mapMarker.setReport(zombieReport);
                 }
 
                 Intent resultIntent = new Intent();
