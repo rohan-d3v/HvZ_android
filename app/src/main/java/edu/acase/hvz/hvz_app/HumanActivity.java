@@ -48,7 +48,7 @@ public class HumanActivity extends BaseActivity implements OnMapReadyCallback, G
             editReportButton.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
                     logger.debug("pressed edit button on a marker");
-                    Intent i = new Intent(getApplicationContext(),EditH.class);
+                    Intent i = new Intent(getApplicationContext(),EditZ.class);
                     startActivity(i);
                 }
             });

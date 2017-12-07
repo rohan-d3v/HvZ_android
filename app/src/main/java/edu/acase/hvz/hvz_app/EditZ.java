@@ -25,7 +25,7 @@ class EditZ extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_edit_h);
+        setContentView(R.layout.activity_edit_z);
 
         logger.debug("created edit activity");
 
