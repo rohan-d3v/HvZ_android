@@ -13,4 +13,5 @@
     <string name="title_activity_edit_z">editZ</string>
     <string name="title_activity_edit_h">EditH</string>
     <string name="title_activity_heat_map">heatMap</string>
+    <string name="title_activity_create_z">createZ</string>
 </resources>

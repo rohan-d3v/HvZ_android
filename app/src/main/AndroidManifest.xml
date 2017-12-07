@@ -54,6 +54,10 @@
             android:name=".EditH"
             android:label="@string/title_activity_edit_h"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".createZ"
+            android:label="@string/title_activity_create_z"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

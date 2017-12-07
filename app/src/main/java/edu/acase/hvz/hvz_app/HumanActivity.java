@@ -170,7 +170,7 @@ public class HumanActivity extends BaseActivity implements OnMapReadyCallback, G
     }
     @Override
     public void onMapLongClick(LatLng location) {
-        Intent edit = new Intent(HumanActivity.this, EditH.class);
+        Intent edit = new Intent(HumanActivity.this, createZ.class);
         edit.putExtra("location", location);
         HumanActivity.this.startActivityForResult(edit, 1);
     }
@@ -223,14 +223,13 @@ public class HumanActivity extends BaseActivity implements OnMapReadyCallback, G
         deleteDummy.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 ZombieReportRequest request = new ZombieReportRequest();
-                if (dummyReport != null && dummyReport.getDatabase_id() >= 0) {
+                for (int i = 13; i < 64; i++) {
                     if (request.delete(dummyReport))
                         dummyReport = null;
                     else
                         logger.error("could not delete report");
                 }
-                else
-                    logger.error("trying to delete nonexistent report");
+
             }
         });
 
