@@ -1,6 +1,5 @@
 package edu.acase.hvz.hvz_app;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -10,11 +9,9 @@ import android.widget.EditText;
 import com.google.android.gms.maps.model.LatLng;
 
 
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
-import edu.acase.hvz.hvz_app.api.models.BaseReportModel;
 import edu.acase.hvz.hvz_app.api.models.ZombieReportModel;
 import edu.acase.hvz.hvz_app.api.requests.ZombieReportRequest;
 
