@@ -71,3 +71,17 @@ Commit 9: Week of November 25
 - Turned Human and Zombie reports into generic classes. 
 - Added code to parse data from HumanReportModel class into the edit details form
 - Added lines to set number of humans
+
+Commit 10: Final week
+- Zombie edit now updates to database
+- Zombie creation
+	- Updates to DB
+	- The same code will be gene
+- Made edit forms more efficient
+- Made all classes more efficient and generic to make for easier reading
+- Human creation forms 
+	-currently calls to db are being rejected, will be fixed soon
+- Refactoring of code to make more uniform and readable
+- Current location permissions
+	- Location permissions work great, android emulator location is somehow in arizona or something. Will be fine when implemented on an actual phone
+- Heatmap for zombies
