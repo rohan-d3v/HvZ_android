@@ -52,8 +52,8 @@ public class createH extends BaseActivity {
                 nReport.setTimeSighted(new Date());
                 nReport.setNumHumans(number);
                 nReport.setTypicalMagSize(magazine);
-                nReport.setDatabase_id(request.create(nReport));
-
+                nReport.setDatabase_id(3);
+                //request.create(nReport);
                 Intent resultIntent = new Intent(getApplicationContext(), ZombieActivity.class);
                 startActivity(resultIntent);
             }

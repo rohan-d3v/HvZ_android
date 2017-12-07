@@ -60,8 +60,8 @@ class EditH extends BaseActivity {
                 newR.setTimeSighted(new Date());
                 newR.setNumHumans(number);
                 newR.setTypicalMagSize(magazine);
-                newR.setDatabase_id(temp.create(newR));
-
+                newR.setDatabase_id(3);
+                //temp.create(newR);
                 temp.delete(dummyReport);
 
                 Intent resultIntent = new Intent(getApplicationContext(), ZombieActivity.class);

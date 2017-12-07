@@ -162,7 +162,9 @@ public class ZombieActivity extends BaseActivity implements OnMapReadyCallback, 
         });
         infoButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                CommonDialogs.getInfoButtonDialog(context, v);
+                Intent i = new Intent(getApplicationContext(),HumanActivity.class);
+                startActivity(i);
+                finish(); //prevent back button
             }
         });
 
