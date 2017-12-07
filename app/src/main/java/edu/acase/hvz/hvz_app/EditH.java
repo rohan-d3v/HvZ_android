@@ -3,11 +3,6 @@ package edu.acase.hvz.hvz_app;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.text.format.DateUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -15,12 +10,20 @@ import android.widget.EditText;
 import com.google.android.gms.maps.model.LatLng;
 
 
+import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
+
 import edu.acase.hvz.hvz_app.api.models.BaseReportModel;
 import edu.acase.hvz.hvz_app.api.models.ZombieReportModel;
+import edu.acase.hvz.hvz_app.api.requests.ZombieReportRequest;
 
 
 class EditH extends BaseActivity {
     protected final Logger logger = new Logger("EditActivity");
+    private ZombieReportModel dummyReport;
+    private ZombieReportModel newR;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,41 +34,38 @@ class EditH extends BaseActivity {
 
         final MapMarker mapMarker = getIntent().getParcelableExtra("mapMarker");
         final LatLng oldMarkerPosition = getIntent().getParcelableExtra("oldMarkerPosition");
-        final BaseReportModel report = mapMarker.getReport();
+        ZombieReportRequest request = new ZombieReportRequest();
+        //final BaseReportModel report = mapMarker.getReport();
+        List<ZombieReportModel> val = request.getAll();
+        for (int z = 0; z < val.size(); z++){
+            LatLng temp = val.get(z).getLocation();
+            if (temp.toString().equals(oldMarkerPosition.toString()))
+                dummyReport = val.get(z);
+        }
 
         final EditText title = (EditText) findViewById(R.id.title);
-        final EditText time = (EditText) findViewById(R.id.time);
-        final EditText loc = (EditText) findViewById(R.id.lat);
-
-        //autofill form
-        time.setText(report.getTimeSighted().toString());
-        loc.setText(report.getLocation().toString());
-        if (report instanceof ZombieReportModel) {
-            title.setText(String.valueOf(((ZombieReportModel) report).getNumZombies()));
-        }
+        title.setText(String.valueOf(dummyReport.getNumZombies()));
 
 
         Button saveButton = (Button) findViewById(R.id.save);
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View view) {
-                logger.debug(true, "raw mapMarker: ", mapMarker.toString());
+                //logger.debug(true, "raw mapMarker: ", mapMarker.toString());
 
                 int number;
                 number = tryParse(title.getText().toString());//number of zombies
+                ZombieReportRequest temp = new ZombieReportRequest();
+                newR = new ZombieReportModel(1);
+                newR.setLocation(oldMarkerPosition);
+                newR.setTimeSighted(new Date());
+                newR.setNumZombies(number);
+                newR.setDatabase_id(temp.create(newR));
 
+                temp.delete(dummyReport);
 
-                if (report instanceof ZombieReportModel) {
-                    ZombieReportModel zombieReport = (ZombieReportModel) report;
-                    if (number >= 0) zombieReport.setNumZombies(number);
-                    mapMarker.setReport(zombieReport);
-                }
-
-                Intent resultIntent = new Intent();
-                resultIntent.putExtra("mapMarker", mapMarker);
-                resultIntent.putExtra("oldMarkerPosition", oldMarkerPosition);
-                setResult(Activity.RESULT_OK, resultIntent);
-                finish();
+                Intent resultIntent = new Intent(getApplicationContext(), HumanActivity.class);
+                startActivity(resultIntent);
             }
 
         });
