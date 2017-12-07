@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
@@ -18,6 +19,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.TileOverlayOptions;
+import com.google.maps.android.heatmaps.Gradient;
 import com.google.maps.android.heatmaps.HeatmapTileProvider;
 
 import java.util.ArrayList;
@@ -137,8 +139,17 @@ public class ZombieActivity extends BaseActivity implements OnMapReadyCallback, 
         for (int i = 0; i < hReport.size(); i++) {
             pos.add(hReport.get(i).getLoc());
         }
+        int[] colors = {
+                Color.rgb(102, 225, 0), // green
+                Color.rgb(255, 0, 0)    // red
+        };
 
-        HeatmapTileProvider provider = new HeatmapTileProvider.Builder().radius(50).data(pos).build();
+        float[] startPoints = {
+                .05f, .2f
+        };
+
+        Gradient gradient = new Gradient(colors, startPoints);
+        HeatmapTileProvider provider = new HeatmapTileProvider.Builder().gradient(gradient).radius(50).data(pos).build();
         // Add a tile overlay to the map, using the heat map tile provider.
         gmap.addTileOverlay(new TileOverlayOptions().tileProvider(provider));
     }
