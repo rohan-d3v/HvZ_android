@@ -1,8 +1,17 @@
 # Week 11 (12/4-12/8)
+app changes
 - setup map markers so we can edit the reports directly from the gmap (lots of serialization & deserialization)
 - framework for object intent passing
-- refactor
+- refactor a lot
 - fix git (somehow rohan detached the head but kept pushing, see the green arrow in the repo branching)
+- support for PUT requests for updating models
+- change update code to be more efficient
+- add 'delete' functionality to marker modals
+server changes
+- updates to the api docs
+- support for PUT requests for updating models
+- minor changes to the way DELETE requests are handled
+- general error handling for controllers
 
 # Week 10 (11/27-12/1)
 app changes
