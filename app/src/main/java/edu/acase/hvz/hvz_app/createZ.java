@@ -15,15 +15,10 @@ import edu.acase.hvz.hvz_app.api.models.ZombieReportModel;
 import edu.acase.hvz.hvz_app.api.requests.ZombieReportRequest;
 
 public class createZ extends BaseActivity {
-    private ZombieReportModel dummyReport;
+    protected final Logger logger = new Logger("CreateZ");
+    private static final ZombieReportRequest zombieReportRequest = new ZombieReportRequest();
+    private ZombieReportModel report;
 
-    private int tryParse(String string) {
-        try {
-            return Integer.parseInt(string.trim());
-        } catch (NumberFormatException exception) {
-            return -1;
-        }
-    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,14 +32,16 @@ public class createZ extends BaseActivity {
         final Button Create = (Button) findViewById(R.id.save);
         Create.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                int number;
-                number = tryParse(num.getText().toString());
-                ZombieReportRequest request = new ZombieReportRequest();
-                dummyReport = new ZombieReportModel(1);
-                dummyReport.setLocation(marker);
-                dummyReport.setTimeSighted(new Date());
-                dummyReport.setNumZombies(number);
-                dummyReport.setDatabase_id(request.create(dummyReport));
+                report = new ZombieReportModel(1); //TODO: FIX ME
+
+                int number = tryParse(num.getText().toString());
+                if (number >= 0)
+                    report.setNumZombies(number);
+                else
+                    report.setNumZombies(1);
+                report.setLocation(marker);
+                report.setTimeSighted(new Date());
+                report.setDatabase_id(zombieReportRequest.create(report));
 
                 Intent resultIntent = new Intent(getApplicationContext(), HumanActivity.class);
                 startActivity(resultIntent);
@@ -53,4 +50,11 @@ public class createZ extends BaseActivity {
         });
     }
 
+    private int tryParse(String string) {
+        try {
+            return Integer.parseInt(string.trim());
+        } catch (NumberFormatException exception) {
+            return -1;
+        }
+    }
 }

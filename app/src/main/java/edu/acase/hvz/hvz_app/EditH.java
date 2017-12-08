@@ -16,7 +16,7 @@ import edu.acase.hvz.hvz_app.api.models.HumanReportModel;
 import edu.acase.hvz.hvz_app.api.requests.HumanReportRequest;
 
 class EditH extends BaseActivity {
-    protected final Logger logger = new Logger("EditActivity");
+    protected final Logger logger = new Logger("EditH");
     private static final HumanReportRequest humanReportRequest = new HumanReportRequest();
 
     @Override

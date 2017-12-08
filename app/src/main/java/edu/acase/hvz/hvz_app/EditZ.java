@@ -17,7 +17,7 @@ import edu.acase.hvz.hvz_app.api.requests.ZombieReportRequest;
 
 
 class EditZ extends BaseActivity {
-    protected final Logger logger = new Logger("EditActivity");
+    protected final Logger logger = new Logger("EditZ");
     private static final ZombieReportRequest zombieReportRequest = new ZombieReportRequest();
 
     @Override
