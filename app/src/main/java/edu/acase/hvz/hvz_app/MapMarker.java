@@ -14,7 +14,7 @@ public class MapMarker implements Parcelable {
 
     public MapMarker(BaseReportModel report) {
         this.report = report;
-        markerOptions = new MarkerOptions().position(report.getLocation()).snippet(report.snippet());
+        markerOptions = new MarkerOptions().position(report.getLocation());
     }
 
     public MarkerOptions getMarkerOptions() { return markerOptions; }
@@ -22,7 +22,7 @@ public class MapMarker implements Parcelable {
 
     public void setReport(BaseReportModel report) {
         this.report = report;
-        markerOptions = new MarkerOptions().position(report.getLocation()).snippet(report.snippet());
+        markerOptions = new MarkerOptions().position(report.getLocation());
     }
 
     //parcelling things

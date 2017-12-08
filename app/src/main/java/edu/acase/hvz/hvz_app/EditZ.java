@@ -18,50 +18,34 @@ import edu.acase.hvz.hvz_app.api.requests.ZombieReportRequest;
 
 class EditZ extends BaseActivity {
     protected final Logger logger = new Logger("EditActivity");
-    private ZombieReportModel dummyReport;
-    private ZombieReportModel newR;
-
+    private static final ZombieReportRequest zombieReportRequest = new ZombieReportRequest();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_z);
 
-        logger.debug("created edit activity");
+        logger.debug("Created edit activity");
 
-        final MapMarker mapMarker = getIntent().getParcelableExtra("mapMarker");
         final LatLng oldMarkerPosition = getIntent().getParcelableExtra("oldMarkerPosition");
-        ZombieReportRequest request = new ZombieReportRequest();
-        //final BaseReportModel report = mapMarker.getReport();
-        List<ZombieReportModel> val = request.getAll();
-        for (int z = 0; z < val.size(); z++){
-            LatLng temp = val.get(z).getLocation();
-            if (temp.toString().equals(oldMarkerPosition.toString()))
-                dummyReport = val.get(z);
-        }
+        final MapMarker mapMarker = getIntent().getParcelableExtra("mapMarker");
+        final ZombieReportModel report = (ZombieReportModel) mapMarker.getReport();
 
-        final EditText title = (EditText) findViewById(R.id.title);
-        title.setText(String.valueOf(dummyReport.getNumZombies()));
-
+        final EditText numZombies = (EditText) findViewById(R.id.title);
+        numZombies.setText(String.valueOf(report.getNumZombies()));
 
         Button saveButton = (Button) findViewById(R.id.save);
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View view) {
-                //logger.debug(true, "raw mapMarker: ", mapMarker.toString());
-
-                int number;
-                number = tryParse(title.getText().toString());//number of zombies
-                ZombieReportRequest temp = new ZombieReportRequest();
-                newR = new ZombieReportModel(1);
-                newR.setLocation(oldMarkerPosition);
-                newR.setTimeSighted(new Date());
-                newR.setNumZombies(number);
-                newR.setDatabase_id(temp.create(newR));
-
-                temp.delete(dummyReport);
-
+                int number = tryParse(numZombies.getText().toString());
+                if (number >= 0) {
+                    report.setNumZombies(number);
+                    zombieReportRequest.update(report);
+                }
                 Intent resultIntent = new Intent(getApplicationContext(), HumanActivity.class);
+                resultIntent.putExtra("mapMarker", mapMarker);
+                resultIntent.putExtra("oldMarkerPosition", oldMarkerPosition);
                 startActivity(resultIntent);
             }
 

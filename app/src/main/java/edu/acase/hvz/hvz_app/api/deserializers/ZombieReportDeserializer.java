@@ -14,7 +14,7 @@ import java.util.List;
 
 import edu.acase.hvz.hvz_app.api.models.ZombieReportModel;
 
-public class ZombieReportReportDeserializer extends BaseReportDeserializer<ZombieReportModel> {
+public class ZombieReportDeserializer extends BaseReportDeserializer<ZombieReportModel> {
 
     public List<ZombieReportModel> deserializeAll(JsonElement json, Type type, JsonDeserializationContext context) throws JsonParseException {
         List<ZombieReportModel> zombieReportModels = new ArrayList<>();

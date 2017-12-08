@@ -1,23 +1,18 @@
 package edu.acase.hvz.hvz_app.api.requests;
 
-import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.List;
 
-import edu.acase.hvz.hvz_app.api.deserializers.ZombieReportReportDeserializer;
+import edu.acase.hvz.hvz_app.api.deserializers.ZombieReportDeserializer;
 import edu.acase.hvz.hvz_app.api.models.ZombieReportModel;
 import edu.acase.hvz.hvz_app.api.serializers.ZombieReportSerializer;
 
 public final class ZombieReportRequest extends BaseReportRequest<ZombieReportModel> {
     private static final String ENDPOINT_STRING = "http://35.163.170.184/api/v1/zombie_reports";
     private static final String LOG_TAG = "ZombieReportRequest";
+    private static final ZombieReportSerializer serializer = new ZombieReportSerializer();
+    private static final ZombieReportDeserializer deserializer = new ZombieReportDeserializer();
 
     public ZombieReportRequest() {
         super(LOG_TAG);
@@ -26,25 +21,12 @@ public final class ZombieReportRequest extends BaseReportRequest<ZombieReportMod
     @Override
     public List<ZombieReportModel> getAll() {
         String response = getResponse(ENDPOINT_STRING);
-        ZombieReportReportDeserializer deserializer = new ZombieReportReportDeserializer();
-
-        List<ZombieReportModel> zombieReportModels = deserializer.deserializeAll(new JsonParser().parse(response), null, null);
-        //List<ZombieReportModel> zombieReportModels = deserializer.deserializeAll(new JsonParser().parse(response), ZombieReportModel.SERIALIZATION.ARRAY_KEY);
-
-        logger.debug("zombie reports: [");
-        for(ZombieReportModel zombieReport: zombieReportModels){
-            logger.debug(zombieReport.toString());
-        }
-        logger.debug("]");
-
-        return zombieReportModels;
+        return deserializer.deserializeAll(new JsonParser().parse(response), null, null);
     }
 
     @Override
     public int create(ZombieReportModel report) {
-        ZombieReportSerializer serializer = new ZombieReportSerializer();
-        JsonElement reportJson = serializer.serialize(report, null, null);
-        String response = postTo(ENDPOINT_STRING, reportJson);
+        String response = post(ENDPOINT_STRING, serializer.serialize(report, null, null));
         return deserializeCreationResponse(response);
     }
 
@@ -53,20 +35,9 @@ public final class ZombieReportRequest extends BaseReportRequest<ZombieReportMod
         return delete(ENDPOINT_STRING, report.getDatabase_id());
     }
 
-    public void editReport(int reportId) {
-        try {
-            HttpURLConnection urlConnection = (HttpURLConnection) new URL(ENDPOINT_STRING).openConnection();
-            urlConnection.setDoOutput(true);
-            urlConnection.setChunkedStreamingMode(0);
-
-            OutputStream out = new BufferedOutputStream(urlConnection.getOutputStream());
-            //writeStream(out);
-
-            InputStream in = new BufferedInputStream(urlConnection.getInputStream());
-            //readStream(in);
-            urlConnection.disconnect();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    @Override
+    public boolean update(ZombieReportModel report) {
+        String response = put(ENDPOINT_STRING, report.getDatabase_id(), serializer.serialize(report, null, null));
+        return deserializeSuccessResponse(response);
     }
 }

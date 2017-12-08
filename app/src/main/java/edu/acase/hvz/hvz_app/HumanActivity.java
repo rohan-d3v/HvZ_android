@@ -43,33 +43,7 @@ public class HumanActivity extends BaseActivity implements OnMapReadyCallback, G
     protected final Logger logger = new Logger(LOG_TAG);
     private FusedLocationProviderClient mFusedLocationClient;
     private LatLng loc;
-    class mapInfoWindowAdapter implements GoogleMap.InfoWindowAdapter {
-        private final View view;
-
-        public mapInfoWindowAdapter() {
-            view = getLayoutInflater().inflate(R.layout.custom_marker_info_contents, null);
-        }
-
-        @Override
-        public View getInfoWindow(final Marker marker) {
-            TextView snippet = ((TextView) view.findViewById(R.id.snippet));
-            snippet.setText(marker.getSnippet());
-            final Button editReportButton = (Button) view.findViewById(R.id.editReportButton);
-            editReportButton.setOnClickListener(new View.OnClickListener() {
-                public void onClick(View v) {
-                    logger.debug("pressed edit button on a marker");
-                    Intent i = new Intent(getApplicationContext(),EditZ.class);
-                    startActivity(i);
-                }
-            });
-            return view;
-        }
-
-        @Override
-        public View getInfoContents(Marker marker) {
-            return null;
-        }
-    }
+    private final ZombieReportRequest zombieReportRequest = new ZombieReportRequest();
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
@@ -91,7 +65,6 @@ public class HumanActivity extends BaseActivity implements OnMapReadyCallback, G
         gmap.moveCamera(CameraUpdateFactory.newLatLng(cwruQuad));
 
         // populate with reports
-        ZombieReportRequest zombieReportRequest = new ZombieReportRequest();
         List<ZombieReportModel> zombieReports = zombieReportRequest.getAll();
         for (ZombieReportModel zombieReport: zombieReports) {
             MapMarker mapMarker = new MapMarker(zombieReport);
@@ -108,19 +81,34 @@ public class HumanActivity extends BaseActivity implements OnMapReadyCallback, G
                 final Dialog dialog = new Dialog(HumanActivity.this);
                 dialog.setContentView(R.layout.custom_marker_info_contents);
 
-                TextView snippet = ((TextView) dialog.findViewById(R.id.snippet));
-                snippet.setText(marker.getSnippet());
+                final MapMarker mapMarker = markerMap.get(marker);
+                final TextView reportContents = ((TextView) dialog.findViewById(R.id.snippet));
+                reportContents.setText(mapMarker.getReport().snippet());
 
-                Button editReportButton = (Button) dialog.findViewById(R.id.editReportButton);
+                final Button editReportButton = (Button) dialog.findViewById(R.id.editReportButton);
                 editReportButton.setOnClickListener(new View.OnClickListener() {
                     public void onClick(View v) {
-                        logger.debug("clicked edit button on a marker");
+                        logger.debug("Clicked edit button on a marker");
                         Intent edit = new Intent(HumanActivity.this, EditZ.class);
-                        MapMarker mapMarker = markerMap.get(marker);
+                        edit.putExtra("mapMarker", mapMarker);
                         edit.putExtra("oldMarkerPosition", mapMarker.getMarkerOptions().getPosition());
-                        logger.debug(true, "extras: ", edit.getExtras().toString());
-                        dialog.hide();
+                        if (edit.getExtras() != null)
+                            logger.debug(true, "extras: ", edit.getExtras().toString());
+                        dialog.dismiss();
                         startActivity(edit);
+                    }
+                });
+                final Button deleteReportButton = (Button) dialog.findViewById(R.id.deleteReportButton);
+                deleteReportButton.setOnClickListener(new View.OnClickListener() {
+                    public void onClick(View v) {
+                        logger.debug("Clicked delete button on a marker");
+                        if (zombieReportRequest.delete((ZombieReportModel) mapMarker.getReport())) {
+                            markerMap.remove(marker);
+                            marker.remove();
+                            dialog.hide();
+                        }
+                        else
+                            logger.error(true, "Could not delete report", mapMarker.getReport().toString());
                     }
                 });
 
@@ -205,12 +193,4 @@ public class HumanActivity extends BaseActivity implements OnMapReadyCallback, G
             }
         });
     }
-
-    private AlertDialog.Builder getModalBuilder(Context context) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-            return new AlertDialog.Builder(context, android.R.style.Theme_Material_Dialog_Alert);
-        else
-            return new AlertDialog.Builder(context);
-    }
-
 }

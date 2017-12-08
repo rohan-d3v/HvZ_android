@@ -39,34 +39,7 @@ public class ZombieActivity extends BaseActivity implements OnMapReadyCallback, 
     private Map<Marker, MapMarker> markerMap = new HashMap<>();
     protected final String LOG_TAG = "zombie_report";
     protected final Logger logger = new Logger(LOG_TAG);
-
-    class mapInfoWindowAdapter implements GoogleMap.InfoWindowAdapter {
-        private final View view;
-
-        public mapInfoWindowAdapter() {
-            view = getLayoutInflater().inflate(R.layout.custom_marker_info_contents, null);
-        }
-
-        @Override
-        public View getInfoWindow(final Marker marker) {
-            TextView snippet = ((TextView) view.findViewById(R.id.snippet));
-            snippet.setText(marker.getSnippet());
-            final Button editReportButton = (Button) view.findViewById(R.id.editReportButton);
-            editReportButton.setOnClickListener(new View.OnClickListener() {
-                public void onClick(View v) {
-                    logger.debug("pressed edit button on a marker");
-                    Intent i = new Intent(getApplicationContext(),EditH.class);
-                    startActivity(i);
-                }
-            });
-            return view;
-        }
-
-        @Override
-        public View getInfoContents(Marker marker) {
-            return null;
-        }
-    }
+    private static final HumanReportRequest humanReportRequest = new HumanReportRequest();
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
@@ -75,7 +48,6 @@ public class ZombieActivity extends BaseActivity implements OnMapReadyCallback, 
         gmap.setTrafficEnabled(false);
         gmap.getUiSettings().setMapToolbarEnabled(false);;
         //gmap.setMyLocationEnabled(true);
-
 
         // Set the campus bounds
         LatLng cwruQuad = new LatLng(41.50325, -81.60755);
@@ -88,7 +60,6 @@ public class ZombieActivity extends BaseActivity implements OnMapReadyCallback, 
         gmap.moveCamera(CameraUpdateFactory.newLatLng(cwruQuad));
         addHeatMap();
         // populate with reports
-        HumanReportRequest humanReportRequest = new HumanReportRequest();
         List<HumanReportModel> humanReports = humanReportRequest.getAll();
         for (HumanReportModel humanReport: humanReports) {
             MapMarker mapMarker = new MapMarker(humanReport);
@@ -105,19 +76,34 @@ public class ZombieActivity extends BaseActivity implements OnMapReadyCallback, 
                 final Dialog dialog = new Dialog(ZombieActivity.this);
                 dialog.setContentView(R.layout.custom_marker_info_contents);
 
-                TextView snippet = ((TextView) dialog.findViewById(R.id.snippet));
-                snippet.setText(marker.getSnippet());
+                final MapMarker mapMarker = markerMap.get(marker);
+                final TextView reportContents = ((TextView) dialog.findViewById(R.id.snippet));
+                reportContents.setText(mapMarker.getReport().snippet());
 
-                Button editReportButton = (Button) dialog.findViewById(R.id.editReportButton);
+                final Button editReportButton = (Button) dialog.findViewById(R.id.editReportButton);
                 editReportButton.setOnClickListener(new View.OnClickListener() {
                     public void onClick(View v) {
                         logger.debug("clicked edit button on a marker");
                         Intent edit = new Intent(ZombieActivity.this, EditH.class);
-                        MapMarker mapMarker = markerMap.get(marker);
+                        edit.putExtra("mapMarker", mapMarker);
                         edit.putExtra("oldMarkerPosition", mapMarker.getMarkerOptions().getPosition());
-                        logger.debug(true, "extras: ", edit.getExtras().toString());
-                        dialog.hide();
+                        if (edit.getExtras() != null)
+                            logger.debug(true, "extras: ", edit.getExtras().toString());
+                        dialog.dismiss();
                         startActivity(edit);
+                    }
+                });
+                final Button deleteReportButton = (Button) dialog.findViewById(R.id.deleteReportButton);
+                deleteReportButton.setOnClickListener(new View.OnClickListener() {
+                    public void onClick(View v) {
+                        logger.debug("Clicked delete button on a marker");
+                        if (humanReportRequest.delete((HumanReportModel) mapMarker.getReport())) {
+                            markerMap.remove(marker);
+                            marker.remove();
+                            dialog.hide();
+                        }
+                        else
+                            logger.error(true, "Could not delete report", mapMarker.getReport().toString());
                     }
                 });
 
@@ -187,12 +173,4 @@ public class ZombieActivity extends BaseActivity implements OnMapReadyCallback, 
             }
         });
     }
-
-    private AlertDialog.Builder getModalBuilder(Context context) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-            return new AlertDialog.Builder(context, android.R.style.Theme_Material_Dialog_Alert);
-        else
-            return new AlertDialog.Builder(context);
-    }
-
 }

@@ -14,7 +14,7 @@ import java.util.List;
 
 import edu.acase.hvz.hvz_app.api.models.HumanReportModel;
 
-public class HumanReportReportDeserializer extends BaseReportDeserializer<HumanReportModel> {
+public class HumanReportDeserializer extends BaseReportDeserializer<HumanReportModel> {
 
     public List<HumanReportModel> deserializeAll(JsonElement json, Type type, JsonDeserializationContext context) throws JsonParseException {
         List<HumanReportModel> humanReportModels = new ArrayList<>();
