@@ -1,16 +1,12 @@
 package edu.acase.hvz.hvz_app;
 
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
-import android.location.LocationManager;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -27,12 +23,10 @@ import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.tasks.OnSuccessListener;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import edu.acase.hvz.hvz_app.api.models.BaseReportModel;
 import edu.acase.hvz.hvz_app.api.models.ZombieReportModel;
 import edu.acase.hvz.hvz_app.api.requests.ZombieReportRequest;
 
@@ -78,8 +72,13 @@ public class HumanActivity extends BaseActivity implements OnMapReadyCallback, G
             @Override
             public boolean onMarkerClick(final Marker marker) {
                 logger.debug("clicked on a marker");
-                final Dialog dialog = new Dialog(HumanActivity.this);
-                dialog.setContentView(R.layout.custom_marker_info_contents);
+                final Dialog dialog = new Dialog(HumanActivity.this, R.style.reportDialogTheme);
+                dialog.setContentView(R.layout.report_dialog);
+                try {
+                    dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+                } catch (Exception e) {
+                    logger.error(e.getMessage());
+                }
 
                 final MapMarker mapMarker = markerMap.get(marker);
                 final TextView reportContents = ((TextView) dialog.findViewById(R.id.snippet));
@@ -105,7 +104,7 @@ public class HumanActivity extends BaseActivity implements OnMapReadyCallback, G
                         if (zombieReportRequest.delete((ZombieReportModel) mapMarker.getReport())) {
                             markerMap.remove(marker);
                             marker.remove();
-                            dialog.hide();
+                            dialog.dismiss();
                         }
                         else
                             logger.error(true, "Could not delete report", mapMarker.getReport().toString());
