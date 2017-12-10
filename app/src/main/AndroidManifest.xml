@@ -37,10 +37,6 @@
             android:label="@string/title_activity_stunned"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".AdminActivity"
-            android:label="@string/title_activity_admin"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
             android:name=".reports.CreateZombieReportActivity"
             android:label="@string/title_activity_create_z"
             android:theme="@style/AppTheme.NoActionBar" />

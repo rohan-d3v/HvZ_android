@@ -82,7 +82,7 @@ public class ZombieActivity extends BaseActivity implements OnMapReadyCallback, 
             @Override
             public boolean onMarkerClick(final Marker marker) {
                 logger.debug("clicked on a marker");
-                final Dialog dialog = new Dialog(ZombieActivity.this);
+                final Dialog dialog = new Dialog(ZombieActivity.this, R.style.reportDialogTheme);
                 dialog.setContentView(R.layout.report_dialog);
 
                 final MapMarker mapMarker = markerMap.get(marker);
