@@ -1,14 +1,20 @@
 package edu.acase.hvz.hvz_app;
 
+import android.*;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.location.Location;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
@@ -17,6 +23,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.TileOverlayOptions;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.maps.android.heatmaps.Gradient;
 import com.google.maps.android.heatmaps.HeatmapTileProvider;
 
@@ -36,6 +43,8 @@ public class ZombieActivity extends BaseActivity implements OnMapReadyCallback, 
     protected final String LOG_TAG = "zombie_report";
     protected final Logger logger = new Logger(LOG_TAG);
     private static final HumanReportRequest humanReportRequest = new HumanReportRequest();
+    private FusedLocationProviderClient mFusedLocationClient;
+    private LatLng loc;
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
@@ -139,13 +148,35 @@ public class ZombieActivity extends BaseActivity implements OnMapReadyCallback, 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_zombie);
+        //Getting current location
+        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+        if (ActivityCompat.checkSelfPermission(ZombieActivity.this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(ZombieActivity.this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)
+        {
+            ActivityCompat.requestPermissions(ZombieActivity.this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+            return;
+        }else {
 
+            mFusedLocationClient.getLastLocation()
+                    .addOnSuccessListener(this, new OnSuccessListener<Location>() {
+                        @Override
+                        public void onSuccess(Location location) {
+                            // Got last known location. In some rare situations this can be null.
+                            if (location != null) {
+                                loc = new LatLng(location.getLatitude(),location.getLongitude());
+                            }
+                            else
+                                System.out.print("null");
+                        }
+                    });
+        }
         MapFragment mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
         final Button helpButton = (Button) findViewById(R.id.helpButton),
                 infoButton = (Button) findViewById(R.id.infoButton),
-                caughtButton = (Button) findViewById(R.id.caughtButton);
+                caughtButton = (Button) findViewById(R.id.caughtButton),
+                reportButton = (Button) findViewById(R.id.reportButton);
 
         final Context context = this;
         helpButton.setOnClickListener(new View.OnClickListener() {
@@ -166,6 +197,20 @@ public class ZombieActivity extends BaseActivity implements OnMapReadyCallback, 
                 Intent i = new Intent(getApplicationContext(),StunnedActivity.class);
                 startActivity(i);
                 finish(); //prevent back button
+            }
+        });
+
+        reportButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (loc == null)
+                    System.out.print("null");
+                else{
+                    Intent edit = new Intent(getBaseContext(), createH.class);
+                    edit.putExtra("location", loc);
+                    startActivity(edit);
+                }
+
             }
         });
     }

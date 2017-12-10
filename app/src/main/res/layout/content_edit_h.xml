@@ -8,28 +8,56 @@
     tools:context="edu.acase.hvz.hvz_app.EditH"
     tools:showIn="@layout/activity_edit_h">
 
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="170dp"
+        android:layout_height="43dp"
+        android:layout_marginBottom="433dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="208dp"
+        android:text="Number of Humans"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
     <EditText
         android:id="@+id/title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="450dp"
+        android:layout_width="202dp"
+        android:layout_height="44dp"
+        android:layout_marginBottom="438dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:hint="Number of humans"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="0.444"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"/>
+        app:layout_constraintRight_toRightOf="parent" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="170dp"
+        android:layout_height="43dp"
+        android:layout_marginBottom="378dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="208dp"
+        android:text="Magazine size"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
+
     <EditText
         android:id="@+id/mag"
-        android:layout_width="match_parent"
+        android:layout_width="202dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="400dp"
+        android:hint="Magazine size"
+        android:layout_marginBottom="388dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
-        android:hint="Magazine size"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="0.444"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent" />
     <Button
@@ -43,4 +71,5 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         tools:text="Save" />
+
 </android.support.constraint.ConstraintLayout>
