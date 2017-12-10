@@ -8,6 +8,19 @@
     tools:context="edu.acase.hvz.hvz_app.EditZ"
     tools:showIn="@layout/activity_edit_z">
 
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_marginBottom="385dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="228dp"
+        android:text="Number of Zombies"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
     <EditText
         android:id="@+id/title"
         android:layout_width="205dp"
@@ -33,12 +46,4 @@
         app:layout_constraintRight_toRightOf="parent"
         tools:text="Save" />
 
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="wrap_content"
-        android:layout_height="40dp"
-        android:text="Number of Zombies"
-        android:textSize="18sp"
-        tools:layout_editor_absoluteX="4dp"
-        tools:layout_editor_absoluteY="84dp" />
 </android.support.constraint.ConstraintLayout>
