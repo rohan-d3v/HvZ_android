@@ -1,4 +1,4 @@
-package edu.acase.hvz.hvz_app;
+package edu.acase.hvz.hvz_app.reports;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,11 +12,16 @@ import com.google.android.gms.maps.model.LatLng;
 import java.util.Date;
 import java.util.List;
 
+import edu.acase.hvz.hvz_app.BaseActivity;
+import edu.acase.hvz.hvz_app.Logger;
+import edu.acase.hvz.hvz_app.MapMarker;
+import edu.acase.hvz.hvz_app.R;
+import edu.acase.hvz.hvz_app.ZombieActivity;
 import edu.acase.hvz.hvz_app.api.models.HumanReportModel;
 import edu.acase.hvz.hvz_app.api.requests.HumanReportRequest;
 
-class EditH extends BaseActivity {
-    protected final Logger logger = new Logger("EditH");
+public class EditHumanReportActivity extends BaseActivity {
+    protected final Logger logger = new Logger("edit_human_report");
     private static final HumanReportRequest humanReportRequest = new HumanReportRequest();
 
     @Override

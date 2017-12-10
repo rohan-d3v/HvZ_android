@@ -29,33 +29,34 @@ import java.util.Map;
 
 import edu.acase.hvz.hvz_app.api.models.ZombieReportModel;
 import edu.acase.hvz.hvz_app.api.requests.ZombieReportRequest;
+import edu.acase.hvz.hvz_app.reports.CreateZombieReportActivity;
+import edu.acase.hvz.hvz_app.reports.EditZombieReportActivity;
 
 public class HumanActivity extends BaseActivity implements OnMapReadyCallback, GoogleMap.OnMapLongClickListener {
-    private GoogleMap gmap;
-    private Map<Marker, MapMarker> markerMap = new HashMap<>();
-    protected final String LOG_TAG = "human_report";
-    protected final Logger logger = new Logger(LOG_TAG);
-    private FusedLocationProviderClient mFusedLocationClient;
-    private LatLng loc;
+    private final String LOG_TAG = "human_report";
+    private final Logger logger = new Logger(LOG_TAG);
+    private final Map<Marker, MapMarker> markerMap = new HashMap<>();
     private final ZombieReportRequest zombieReportRequest = new ZombieReportRequest();
+    private LatLng currentLocation;
+    private GoogleMap gmap;
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
         gmap = googleMap;
+
+        // general config options
         gmap.setIndoorEnabled(false);
         gmap.setTrafficEnabled(false);
         gmap.getUiSettings().setMapToolbarEnabled(false);;
-        //gmap.setMyLocationEnabled(true);
-
+        gmap.setOnMapLongClickListener(this);
 
         // Set the campus bounds
-        LatLng cwruQuad = new LatLng(41.50325, -81.60755);
         LatLngBounds campusBounds = new LatLngBounds(new LatLng(41.502535, -81.608143), new LatLng(41.510880, -81.602874));
         gmap.setLatLngBoundsForCameraTarget(campusBounds);
         gmap.setMinZoomPreference(15);
-        gmap.setOnMapLongClickListener(this);
 
         // Center the camera on campus
+        LatLng cwruQuad = new LatLng(41.50325, -81.60755);
         gmap.moveCamera(CameraUpdateFactory.newLatLng(cwruQuad));
 
         // populate with reports
@@ -65,8 +66,8 @@ public class HumanActivity extends BaseActivity implements OnMapReadyCallback, G
             Marker marker = gmap.addMarker(mapMarker.getMarkerOptions());
             markerMap.put(marker, mapMarker);
         }
-        //specify custom marker format
 
+        // specify custom marker format
         // https://developers.google.com/maps/documentation/android-api/marker#info_windows
         gmap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override
@@ -74,21 +75,16 @@ public class HumanActivity extends BaseActivity implements OnMapReadyCallback, G
                 logger.debug("clicked on a marker");
                 final Dialog dialog = new Dialog(HumanActivity.this, R.style.reportDialogTheme);
                 dialog.setContentView(R.layout.report_dialog);
-                try {
-                    dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-                } catch (Exception e) {
-                    logger.error(e.getMessage());
-                }
 
                 final MapMarker mapMarker = markerMap.get(marker);
-                final TextView reportContents = ((TextView) dialog.findViewById(R.id.snippet));
+                final TextView reportContents = ((TextView) dialog.findViewById(R.id.reportText));
                 reportContents.setText(mapMarker.getReport().snippet());
 
                 final Button editReportButton = (Button) dialog.findViewById(R.id.editReportButton);
                 editReportButton.setOnClickListener(new View.OnClickListener() {
                     public void onClick(View v) {
                         logger.debug("Clicked edit button on a marker");
-                        Intent edit = new Intent(HumanActivity.this, EditZ.class);
+                        Intent edit = new Intent(HumanActivity.this, EditZombieReportActivity.class);
                         edit.putExtra("mapMarker", mapMarker);
                         edit.putExtra("oldMarkerPosition", mapMarker.getMarkerOptions().getPosition());
                         if (edit.getExtras() != null)
@@ -118,7 +114,7 @@ public class HumanActivity extends BaseActivity implements OnMapReadyCallback, G
     }
     @Override
     public void onMapLongClick(LatLng location) {
-        Intent edit = new Intent(getBaseContext(), createZ.class);
+        Intent edit = new Intent(getBaseContext(), CreateZombieReportActivity.class);
         edit.putExtra("location", location);
         startActivity(edit);
     }
@@ -129,7 +125,7 @@ public class HumanActivity extends BaseActivity implements OnMapReadyCallback, G
         setContentView(R.layout.activity_human);
 
         //Getting current location
-        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+        FusedLocationProviderClient mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         if (ActivityCompat.checkSelfPermission(HumanActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
                 && ActivityCompat.checkSelfPermission(HumanActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)
         {
@@ -143,7 +139,7 @@ public class HumanActivity extends BaseActivity implements OnMapReadyCallback, G
                         public void onSuccess(Location location) {
                             // Got last known location. In some rare situations this can be null.
                             if (location != null) {
-                                loc = new LatLng(location.getLatitude(),location.getLongitude());
+                                currentLocation = new LatLng(location.getLatitude(),location.getLongitude());
                             }
                             else
                                 System.out.print("null");
@@ -181,11 +177,11 @@ public class HumanActivity extends BaseActivity implements OnMapReadyCallback, G
         reportButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-            if (loc == null)
+            if (currentLocation == null)
                 System.out.print("null");
             else{
-                Intent edit = new Intent(getBaseContext(), createZ.class);
-                edit.putExtra("location", loc);
+                Intent edit = new Intent(getBaseContext(), CreateZombieReportActivity.class);
+                edit.putExtra("location", currentLocation);
                 startActivity(edit);
             }
 

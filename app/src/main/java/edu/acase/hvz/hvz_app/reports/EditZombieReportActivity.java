@@ -1,4 +1,4 @@
-package edu.acase.hvz.hvz_app;
+package edu.acase.hvz.hvz_app.reports;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,12 +12,16 @@ import com.google.android.gms.maps.model.LatLng;
 import java.util.Date;
 import java.util.List;
 
+import edu.acase.hvz.hvz_app.BaseActivity;
+import edu.acase.hvz.hvz_app.HumanActivity;
+import edu.acase.hvz.hvz_app.Logger;
+import edu.acase.hvz.hvz_app.MapMarker;
+import edu.acase.hvz.hvz_app.R;
 import edu.acase.hvz.hvz_app.api.models.ZombieReportModel;
 import edu.acase.hvz.hvz_app.api.requests.ZombieReportRequest;
 
-
-class EditZ extends BaseActivity {
-    protected final Logger logger = new Logger("EditZ");
+public class EditZombieReportActivity extends BaseActivity {
+    protected final Logger logger = new Logger("edit_zombie_report");
     private static final ZombieReportRequest zombieReportRequest = new ZombieReportRequest();
 
     @Override
