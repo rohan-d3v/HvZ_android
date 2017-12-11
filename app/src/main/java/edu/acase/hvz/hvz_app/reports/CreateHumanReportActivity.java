@@ -22,7 +22,7 @@ import edu.acase.hvz.hvz_app.api.requests.HumanReportRequest;
  * @see HumanReportModel a HumanReport */
 
 public class CreateHumanReportActivity extends BaseEditReportActivity {
-    protected final Logger logger = new Logger("create_human_report");
+    private static final Logger logger = new Logger("create_human_report");
     private static final HumanReportRequest humanReportRequest = new HumanReportRequest();
     private HumanReportModel report;
 
@@ -30,14 +30,17 @@ public class CreateHumanReportActivity extends BaseEditReportActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_human_report);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+
+        // incoming from the zombie activity
         final LatLng marker = getIntent().getParcelableExtra("location");
+
+        // fields on the view
         final EditText numHumans = (EditText) findViewById(R.id.groupSize);
         final EditText magSize = (EditText) findViewById(R.id.magazineSize);
 
-        final Button Create = (Button) findViewById(R.id.saveButton);
-        Create.setOnClickListener(new View.OnClickListener() {
+        // button on the view
+        final Button createButton = (Button) findViewById(R.id.saveButton);
+        createButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 report = new HumanReportModel(1); //TODO: FIX ME
 

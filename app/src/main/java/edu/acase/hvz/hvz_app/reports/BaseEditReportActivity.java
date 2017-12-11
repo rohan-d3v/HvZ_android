@@ -4,7 +4,7 @@ import edu.acase.hvz.hvz_app.BaseActivity;
 
 /** Base class for all report edit/create activities */
 
-abstract class BaseEditReportActivity extends BaseActivity {
+public abstract class BaseEditReportActivity extends BaseActivity {
 
     /** Try to parse the int from a string
      * @param string input string

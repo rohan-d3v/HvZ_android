@@ -22,7 +22,7 @@ public abstract class BaseReportModel implements Parcelable {
         this.GAME_ID = GAME_ID;
     }
 
-    public abstract String snippet();
+    public abstract String getReportContents();
 
     public static class SERIALIZATION {
         public static final String

@@ -22,7 +22,7 @@ import edu.acase.hvz.hvz_app.api.requests.ZombieReportRequest;
  * @see ZombieReportModel a ZombieReport */
 
 public class CreateZombieReportActivity extends BaseEditReportActivity {
-    protected final Logger logger = new Logger("create_zombie_report");
+    private static final Logger logger = new Logger("create_zombie_report");
     private static final ZombieReportRequest zombieReportRequest = new ZombieReportRequest();
     private ZombieReportModel report;
 
@@ -30,13 +30,16 @@ public class CreateZombieReportActivity extends BaseEditReportActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_zombie_report);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+
+        // incoming from the human activity
         final LatLng marker = getIntent().getParcelableExtra("location");
+
+        // fields on the view
         final EditText numZombies = (EditText) findViewById(R.id.groupSize);
 
-        final Button save = (Button) findViewById(R.id.saveButton);
-        save.setOnClickListener(new View.OnClickListener() {
+        // button on the view
+        final Button createButton = (Button) findViewById(R.id.saveButton);
+        createButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 report = new ZombieReportModel(1); //TODO: FIX ME
 

@@ -9,30 +9,25 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 public class IncubatingActivity extends AppCompatActivity {
-
     TextView text1;
-
     private static final String FORMAT = "%02d:%02d:%02d";
-
-    int seconds , minutes;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_incubating);
-
 
         text1=(TextView)findViewById(R.id.textView1);
 
         new CountDownTimer(2000, 1000) { // 8 seconds for testing. Can be changed later
-
+            @Override
             public void onTick(long millisUntilFinished) {
 
-                text1.setText(""+String.format(FORMAT,
+                text1.setText(String.format(Locale.getDefault(), FORMAT,
                         TimeUnit.MILLISECONDS.toHours(millisUntilFinished),
                         TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished) - TimeUnit.HOURS.toMinutes(
                                 TimeUnit.MILLISECONDS.toHours(millisUntilFinished)),
@@ -40,11 +35,12 @@ public class IncubatingActivity extends AppCompatActivity {
                                 TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished))));
             }
 
+            @Override
             public void onFinish() {
-                Intent i = new Intent(getApplicationContext(),ZombieActivity.class);
+                Intent i = new Intent(getApplicationContext(), ZombieActivity.class);
                 startActivity(i);
+                finish(); //prevent back button
             }
         }.start();
-
     }
 }

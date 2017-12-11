@@ -9,6 +9,8 @@ import android.widget.EditText;
 import com.google.android.gms.maps.model.LatLng;
 
 
+import java.util.Date;
+
 import edu.acase.hvz.hvz_app.BaseActivity;
 import edu.acase.hvz.hvz_app.Logger;
 import edu.acase.hvz.hvz_app.MapMarker;
@@ -21,7 +23,7 @@ import edu.acase.hvz.hvz_app.api.requests.HumanReportRequest;
  * @see HumanReportModel a HumanReport */
 
 public class EditHumanReportActivity extends BaseEditReportActivity {
-    protected final Logger logger = new Logger("edit_human_report");
+    private static final Logger logger = new Logger("edit_human_report");
     private static final HumanReportRequest humanReportRequest = new HumanReportRequest();
 
     @Override
@@ -31,15 +33,18 @@ public class EditHumanReportActivity extends BaseEditReportActivity {
 
         logger.debug("created edit activity");
 
+        // incoming from zombie activity
         final LatLng oldMarkerPosition = getIntent().getParcelableExtra("oldMarkerPosition");
         final MapMarker mapMarker = getIntent().getParcelableExtra("mapMarker");
         final HumanReportModel report = mapMarker.getReport();
 
+        // fields on the view
         final EditText numHumans = (EditText) findViewById(R.id.groupSize);
         numHumans.setText(String.valueOf(report.getNumHumans()));
         final EditText magSize = (EditText) findViewById(R.id.magazineSize);
         magSize.setText(String.valueOf(report.getTypicalMagSize()));
 
+        // save button on the view
         Button saveButton = (Button) findViewById(R.id.saveButton);
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -51,6 +56,8 @@ public class EditHumanReportActivity extends BaseEditReportActivity {
                         report.setNumHumans(number);
                     if (magazine >= 0)
                         report.setTypicalMagSize(magazine);
+
+                    report.setTimeSighted(new Date());
                     humanReportRequest.update(report);
                 }
 

@@ -32,7 +32,7 @@ public class HumanReportModel extends BaseReportModel {
     public void setTypicalMagSize(int typicalMagSize) { this.typicalMagSize = typicalMagSize; }
 
     @Override
-    public String snippet() {
+    public String getReportContents() {
         return "Num Humans = " + numHumans + "\n" +
                 "Time Sighted = " + getTimeSinceSighted() + "\n" +
                 "Typical Mag size = " + typicalMagSize + "\n";

@@ -28,7 +28,7 @@ public class ZombieReportModel extends BaseReportModel {
     public void setNumZombies(int numZombies) { this.numZombies = numZombies; }
     public LatLng getLoc(){return location;}
     @Override
-    public String snippet() {
+    public String getReportContents() {
         return "Num Zombies = " + numZombies + "\n" +
                 "Time Sighted = " + getTimeSinceSighted() + "\n";
     }
@@ -45,6 +45,7 @@ public class ZombieReportModel extends BaseReportModel {
     }
 
 
+    //parceling functions
 
     @Override
     public int describeContents() {
