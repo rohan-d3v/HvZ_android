@@ -1,5 +1,7 @@
 # final stretch
 app changes
+- refactors for most of the codebase
+- overhaul to edit/creation forms
 - overhaul to report dialogs
 -- added "move" button as well - TODO functionality by rohan
 server changes
