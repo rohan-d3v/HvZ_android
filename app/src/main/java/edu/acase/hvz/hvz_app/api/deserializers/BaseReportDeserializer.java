@@ -5,6 +5,7 @@ import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParseException;
 
 import org.threeten.bp.DateTimeUtils;
 import org.threeten.bp.OffsetDateTime;
@@ -14,13 +15,22 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import edu.acase.hvz.hvz_app.Logger;
 import edu.acase.hvz.hvz_app.api.models.BaseReportModel;
 
 public abstract class BaseReportDeserializer<ReportModel extends BaseReportModel> implements JsonDeserializer<ReportModel>  {
-    @Override
-    abstract public ReportModel deserialize(JsonElement json, Type type, JsonDeserializationContext context);
+    protected final String LOG_TAG;
+    protected final Logger logger;
 
-    public List<ReportModel> deserializeAll(JsonElement json, String ARRAY_KEY) {
+    protected BaseReportDeserializer(String LOG_TAG) {
+        this.LOG_TAG = LOG_TAG;
+        logger = new Logger(LOG_TAG);
+    }
+
+    @Override
+    abstract public ReportModel deserialize(JsonElement json, Type type, JsonDeserializationContext context) throws JsonParseException;
+
+    public List<ReportModel> deserializeAll(JsonElement json, String ARRAY_KEY) throws JsonParseException {
         List<ReportModel> reports = new ArrayList<>();
         JsonObject root = json.getAsJsonObject();
 
@@ -34,7 +44,7 @@ public abstract class BaseReportDeserializer<ReportModel extends BaseReportModel
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error(e.getMessage());
         }
         return reports;
     }

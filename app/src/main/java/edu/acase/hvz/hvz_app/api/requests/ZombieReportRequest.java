@@ -5,6 +5,7 @@ import com.google.gson.JsonParser;
 import java.util.List;
 
 import edu.acase.hvz.hvz_app.api.deserializers.ZombieReportDeserializer;
+import edu.acase.hvz.hvz_app.api.models.BaseReportModel;
 import edu.acase.hvz.hvz_app.api.models.ZombieReportModel;
 import edu.acase.hvz.hvz_app.api.serializers.ZombieReportSerializer;
 
@@ -15,29 +16,12 @@ public final class ZombieReportRequest extends BaseReportRequest<ZombieReportMod
     private static final ZombieReportDeserializer deserializer = new ZombieReportDeserializer();
 
     public ZombieReportRequest() {
-        super(LOG_TAG);
+        super(LOG_TAG, ENDPOINT_STRING, serializer, deserializer);
     }
 
     @Override
     public List<ZombieReportModel> getAll() {
         String response = getResponse(ENDPOINT_STRING);
-        return deserializer.deserializeAll(new JsonParser().parse(response), null, null);
-    }
-
-    @Override
-    public int create(ZombieReportModel report) {
-        String response = post(ENDPOINT_STRING, serializer.serialize(report, null, null));
-        return deserializeCreationResponse(response);
-    }
-
-    @Override
-    public boolean delete(ZombieReportModel report) {
-        return delete(ENDPOINT_STRING, report.getDatabase_id());
-    }
-
-    @Override
-    public boolean update(ZombieReportModel report) {
-        String response = put(ENDPOINT_STRING, report.getDatabase_id(), serializer.serialize(report, null, null));
-        return deserializeSuccessResponse(response);
+        return deserializer.deserializeAll(new JsonParser().parse(response), ZombieReportModel.SERIALIZATION.ARRAY_KEY);
     }
 }

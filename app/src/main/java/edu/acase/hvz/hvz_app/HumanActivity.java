@@ -33,7 +33,7 @@ import edu.acase.hvz.hvz_app.reports.CreateZombieReportActivity;
 import edu.acase.hvz.hvz_app.reports.EditZombieReportActivity;
 
 public class HumanActivity extends BaseActivity implements OnMapReadyCallback, GoogleMap.OnMapLongClickListener {
-    private final String LOG_TAG = "human_report";
+    private final String LOG_TAG = "human_activity";
     private final Logger logger = new Logger(LOG_TAG);
     private final Map<Marker, MapMarker> markerMap = new HashMap<>();
     private final ZombieReportRequest zombieReportRequest = new ZombieReportRequest();
@@ -97,7 +97,7 @@ public class HumanActivity extends BaseActivity implements OnMapReadyCallback, G
                 deleteReportButton.setOnClickListener(new View.OnClickListener() {
                     public void onClick(View v) {
                         logger.debug("Clicked delete button on a marker");
-                        if (zombieReportRequest.delete((ZombieReportModel) mapMarker.getReport())) {
+                        if (zombieReportRequest.delete(mapMarker.getReport())) {
                             markerMap.remove(marker);
                             marker.remove();
                             dialog.dismiss();

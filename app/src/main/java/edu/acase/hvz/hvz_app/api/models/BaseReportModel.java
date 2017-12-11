@@ -5,6 +5,7 @@ import android.os.Parcelable;
 import com.google.android.gms.maps.model.LatLng;
 
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 public abstract class BaseReportModel implements Parcelable {
     final int GAME_ID;
@@ -24,7 +25,7 @@ public abstract class BaseReportModel implements Parcelable {
     public abstract String snippet();
 
     public static class SERIALIZATION {
-        public final static String
+        public static final String
                 DATABASE_ID = "id",
                 GAME_ID = "game_id",
                 LOCATION_LAT = "location_lat",
@@ -40,4 +41,10 @@ public abstract class BaseReportModel implements Parcelable {
     public void setLocation(LatLng location) { this.location = location; }
     public void setTimeSighted(Date timeSighted) { this.timeSighted = timeSighted; }
     public void setDatabase_id(int database_id) { this.database_id = database_id; }
+
+    protected String getTimeSinceSighted() {
+        long msDelta = new Date().getTime() - timeSighted.getTime();
+        long minsSince = TimeUnit.MINUTES.convert(msDelta, TimeUnit.MILLISECONDS);
+        return minsSince + " mins ago";
+    }
 }

@@ -1,38 +1,18 @@
 package edu.acase.hvz.hvz_app.api.deserializers;
 
 import com.google.android.gms.maps.model.LatLng;
-import com.google.gson.JsonArray;
 import com.google.gson.JsonDeserializationContext;
-import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 
 import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.List;
 
 import edu.acase.hvz.hvz_app.api.models.HumanReportModel;
 
 public class HumanReportDeserializer extends BaseReportDeserializer<HumanReportModel> {
-
-    public List<HumanReportModel> deserializeAll(JsonElement json, Type type, JsonDeserializationContext context) throws JsonParseException {
-        List<HumanReportModel> humanReportModels = new ArrayList<>();
-        JsonObject root = json.getAsJsonObject();
-
-        try {
-            if (root.has(HumanReportModel.SERIALIZATION.ARRAY_KEY)) {
-                JsonArray jsonArray = root.getAsJsonArray(HumanReportModel.SERIALIZATION.ARRAY_KEY);
-                for (JsonElement jsonElement : jsonArray) {
-                    HumanReportModel report = deserialize(jsonElement, null, null);
-                    if (report != null)
-                        humanReportModels.add(report);
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return humanReportModels;
+    public HumanReportDeserializer() {
+        super("human_report_deserializer");
     }
 
     @Override

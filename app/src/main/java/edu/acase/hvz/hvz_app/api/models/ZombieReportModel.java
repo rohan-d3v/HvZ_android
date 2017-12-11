@@ -6,7 +6,6 @@ import android.os.Parcelable;
 import com.google.android.gms.maps.model.LatLng;
 import java.util.Date;
 
-
 public class ZombieReportModel extends BaseReportModel {
     private int numZombies;
 
@@ -31,7 +30,7 @@ public class ZombieReportModel extends BaseReportModel {
     @Override
     public String snippet() {
         return "Num Zombies = " + numZombies + "\n" +
-                "Time Sighted = " + timeSighted + "\n";
+                "Time Sighted = " + getTimeSinceSighted() + "\n";
     }
 
     @Override

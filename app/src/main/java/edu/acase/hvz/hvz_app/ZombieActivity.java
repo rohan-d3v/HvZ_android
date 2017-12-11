@@ -159,7 +159,8 @@ public class ZombieActivity extends BaseActivity implements OnMapReadyCallback, 
         {
             ActivityCompat.requestPermissions(ZombieActivity.this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, 1);
             return;
-        }else {
+        }
+        else {
 
             mFusedLocationClient.getLastLocation()
                     .addOnSuccessListener(this, new OnSuccessListener<Location>() {

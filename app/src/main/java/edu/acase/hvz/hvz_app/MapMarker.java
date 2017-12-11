@@ -18,7 +18,7 @@ public class MapMarker implements Parcelable {
     }
 
     public MarkerOptions getMarkerOptions() { return markerOptions; }
-    public BaseReportModel getReport() { return report; }
+    public <T extends BaseReportModel> T getReport() { return (T) report; }
 
     public void setReport(BaseReportModel report) {
         this.report = report;

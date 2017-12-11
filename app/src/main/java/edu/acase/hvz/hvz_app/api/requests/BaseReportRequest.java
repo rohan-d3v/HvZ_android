@@ -2,18 +2,14 @@ package edu.acase.hvz.hvz_app.api.requests;
 
 import android.os.AsyncTask;
 
-import com.google.gson.JsonDeserializationContext;
-import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.google.gson.JsonParseException;
 import com.google.gson.JsonParser;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
-import java.lang.reflect.Type;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.List;
@@ -21,22 +17,42 @@ import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 import edu.acase.hvz.hvz_app.Logger;
+import edu.acase.hvz.hvz_app.api.deserializers.BaseReportDeserializer;
 import edu.acase.hvz.hvz_app.api.models.BaseReportModel;
+import edu.acase.hvz.hvz_app.api.serializers.BaseReportSerializer;
 
 public abstract class BaseReportRequest<ReportModel extends BaseReportModel> {
     protected final String LOG_TAG;
     protected static Logger logger = new Logger("ReportRequest");
+    protected final String ENDPOINT_STRING;
+    protected BaseReportSerializer serializer;
+    protected BaseReportDeserializer deserializer;
 
-    protected BaseReportRequest(String LOG_TAG) {
+    protected BaseReportRequest(String LOG_TAG, String ENDPOINT_STRING, BaseReportSerializer serializer, BaseReportDeserializer deserializer) {
         this.LOG_TAG = LOG_TAG;
+        this.ENDPOINT_STRING = ENDPOINT_STRING;
         logger = new Logger(LOG_TAG);
+        this.serializer = serializer;
+        this.deserializer = deserializer;
     }
 
     //public methods
     public abstract List<ReportModel> getAll();
-    public abstract int create(ReportModel report);
-    public abstract boolean delete(ReportModel report);
-    public abstract boolean update(ReportModel report);
+
+    public int create(ReportModel report) {
+        String response = post(ENDPOINT_STRING, serializer.serialize(report, null, null));
+        return deserializeCreationResponse(response);
+    }
+
+    public boolean update(ReportModel report) {
+        String response = put(ENDPOINT_STRING, report.getDatabase_id(), serializer.serialize(report, null, null));
+        return deserializeSuccessResponse(response);
+    }
+
+    public boolean delete(BaseReportModel report) {
+        return delete(ENDPOINT_STRING, report.getDatabase_id());
+    }
+
 
     //package methods
     protected String getResponse(String endpoint) {
@@ -87,15 +103,21 @@ public abstract class BaseReportRequest<ReportModel extends BaseReportModel> {
     }
 
     public int deserializeCreationResponse(String response) {
-        if (response == null) return -1;
-        JsonObject responseObject = new JsonParser().parse(response).getAsJsonObject();
-        return responseObject.get("database_id").getAsInt();
+        if (response == null)
+            return -1;
+        JsonElement element = new JsonParser().parse(response);
+        if (element == null || element.isJsonNull())
+            return -1;
+        return element.getAsJsonObject().get("database_id").getAsInt();
     }
 
     public boolean deserializeSuccessResponse(String response) {
-        if (response == null) return false;
-        JsonObject responseObject = new JsonParser().parse(response).getAsJsonObject();
-        return responseObject.get("success").getAsBoolean();
+        if (response == null)
+            return false;
+        JsonElement element = new JsonParser().parse(response);
+        if (element == null || element.isJsonNull())
+            return false;
+        return element.getAsJsonObject().get("success").getAsBoolean();
     }
 
 
