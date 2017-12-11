@@ -14,6 +14,11 @@ public class HumanActivity extends PlayerActivity<ZombieReportModel> {
     }
 
     @Override
+    int getContentView() {
+        return R.layout.activity_human;
+    }
+
+    @Override
     Class<?> getEditReportIntentClass() {
         return EditZombieReportActivity.class;
     }

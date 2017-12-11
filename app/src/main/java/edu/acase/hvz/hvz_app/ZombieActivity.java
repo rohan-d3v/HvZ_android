@@ -31,6 +31,11 @@ public class ZombieActivity extends PlayerActivity<HumanReportModel> {
     }
 
     @Override
+    int getContentView() {
+        return R.layout.activity_zombie;
+    }
+
+    @Override
     Class<?> getCaughtButtonIntentClass() {
         return StunnedActivity.class;
     }

@@ -41,6 +41,7 @@ public abstract class PlayerActivity<ReportModel extends BaseReportModel> extend
     abstract Class<?> getCaughtButtonIntentClass();
     abstract Class<?> getCreateReportIntentClass();
     abstract Class<?> getEditReportIntentClass();
+    abstract int getContentView();
 
     void populateMapWithReports() {
         List<ReportModel> reportList = reportRequest.getAll();
@@ -127,7 +128,7 @@ public abstract class PlayerActivity<ReportModel extends BaseReportModel> extend
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_human);
+        setContentView(getContentView());
         final Context context = this;
         final Activity activity = this;
 
