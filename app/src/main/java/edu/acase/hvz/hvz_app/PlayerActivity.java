@@ -37,6 +37,8 @@ public abstract class PlayerActivity<ReportModel extends BaseReportModel> extend
     protected final Map<Marker, MapMarker> markerMap = new HashMap<>();
     protected GoogleMap gmap;
     protected LatLng currentLocation;
+    protected final LatLng cwruQuad = new LatLng(41.50325, -81.60755);
+    protected final LatLngBounds campusBounds = new LatLngBounds(new LatLng(41.502535, -81.608143), new LatLng(41.510880, -81.602874));
 
     abstract Class<?> getCaughtButtonIntentClass();
     abstract Class<?> getCreateReportIntentClass();
@@ -69,12 +71,10 @@ public abstract class PlayerActivity<ReportModel extends BaseReportModel> extend
         gmap.setOnMapLongClickListener(this);
 
         // Set the campus bounds
-        LatLngBounds campusBounds = new LatLngBounds(new LatLng(41.502535, -81.608143), new LatLng(41.510880, -81.602874));
         gmap.setLatLngBoundsForCameraTarget(campusBounds);
         gmap.setMinZoomPreference(15);
 
         // Center the camera on campus
-        LatLng cwruQuad = new LatLng(41.50325, -81.60755);
         gmap.moveCamera(CameraUpdateFactory.newLatLng(cwruQuad));
 
         populateMapWithReports();
@@ -150,8 +150,10 @@ public abstract class PlayerActivity<ReportModel extends BaseReportModel> extend
                             if (location != null) {
                                 currentLocation = new LatLng(location.getLatitude(), location.getLongitude());
                             }
-                            else
-                                logger.error("Could not get current location");
+                            else {
+                                logger.error("Could not get current location. Setting default...");
+                                currentLocation = cwruQuad;
+                            }
                         }
                     });
         }
@@ -190,13 +192,14 @@ public abstract class PlayerActivity<ReportModel extends BaseReportModel> extend
 
         reportButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                if (currentLocation == null)
-                    System.out.print("null");
-                else{
+                if (currentLocation != null) {
                     Intent edit = new Intent(context, getCreateReportIntentClass());
                     edit.putExtra("location", currentLocation);
+                    logger.debug("Create marker at position: ", currentLocation.toString());
                     startActivity(edit);
                 }
+                else
+                    logger.error("ReportButton: Current location is null");
             }
         });
     }
