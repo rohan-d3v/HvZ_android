@@ -119,6 +119,17 @@ public abstract class PlayerActivity<ReportModel extends BaseReportModel> extend
                     }
                 });
 
+                final Button moveReportButton = (Button) dialog.findViewById(R.id.moveReportButton);
+                moveReportButton.setOnClickListener(new View.OnClickListener() {
+                    public void onClick(View view) {
+
+                            Intent edit = new Intent(getBaseContext(), moveMarker.class);
+                            edit.putExtra("mapMarker", mapMarker);
+                            startActivity(edit);
+
+                    }
+                });
+
                 dialog.show();
                 return true;
             }

@@ -54,8 +54,6 @@ public class EditZombieReportActivity extends BaseEditReportActivity {
                     zombieReportRequest.update(report);
                 }
                 Intent resultIntent = new Intent(getApplicationContext(), HumanActivity.class);
-                resultIntent.putExtra("mapMarker", mapMarker);
-                resultIntent.putExtra("oldMarkerPosition", oldMarkerPosition);
                 startActivity(resultIntent);
             }
 
