@@ -10,7 +10,7 @@ import edu.acase.hvz.hvz_app.api.serializers.ZombieReportSerializer;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
-public class ZombieReportSerializationTest extends BaseReportTest {
+public class ZombieReportSerializationTest extends BaseReportSerialization {
     final ZombieReportSerializer serializer = new ZombieReportSerializer();
     final ZombieReportDeserializer deserializer = new ZombieReportDeserializer();
 

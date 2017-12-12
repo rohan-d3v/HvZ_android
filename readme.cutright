@@ -4,6 +4,8 @@ app changes
 - overhaul to edit/creation forms
 - overhaul to report dialogs
 -- added "move" button as well - TODO functionality by rohan
+- added tests for serialization/deserialization of reports
+
 server changes
 - fully fleshed out documentation
 - lots of refactors on the controller side

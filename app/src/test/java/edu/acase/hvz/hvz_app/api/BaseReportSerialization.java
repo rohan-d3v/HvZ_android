@@ -7,7 +7,7 @@ import java.util.Date;
 
 import static junit.framework.Assert.fail;
 
-abstract class BaseReportTest {
+abstract class BaseReportSerialization {
     private static final DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
 
     protected static Date stringToDate(String dateString) {

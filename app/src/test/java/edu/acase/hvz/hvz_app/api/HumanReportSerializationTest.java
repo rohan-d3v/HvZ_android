@@ -6,15 +6,12 @@ import com.google.gson.JsonElement;
 import org.junit.Test;
 
 import edu.acase.hvz.hvz_app.api.deserializers.HumanReportDeserializer;
-import edu.acase.hvz.hvz_app.api.deserializers.ZombieReportDeserializer;
 import edu.acase.hvz.hvz_app.api.models.HumanReportModel;
-import edu.acase.hvz.hvz_app.api.models.ZombieReportModel;
 import edu.acase.hvz.hvz_app.api.serializers.HumanReportSerializer;
-import edu.acase.hvz.hvz_app.api.serializers.ZombieReportSerializer;
 
 import static org.junit.Assert.assertEquals;
 
-public class HumanReportSerializationTest extends BaseReportTest {
+public class HumanReportSerializationTest extends BaseReportSerialization {
     final HumanReportSerializer serializer = new HumanReportSerializer();
     final HumanReportDeserializer deserializer = new HumanReportDeserializer();
 
