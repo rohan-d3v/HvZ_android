@@ -18,7 +18,7 @@ public class StunnedActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_stunned);
 
-        text1=(TextView)findViewById(R.id.textView1);
+        text1 = (TextView) findViewById(R.id.textView1);
 
         new CountDownTimer(3000, 1000) { // 8 seconds for testing. Can be changed later
             @Override

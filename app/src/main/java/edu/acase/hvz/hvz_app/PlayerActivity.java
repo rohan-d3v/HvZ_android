@@ -6,10 +6,8 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
-import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -22,7 +20,6 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.tasks.OnSuccessListener;
 
 import java.util.HashMap;
 import java.util.List;
@@ -80,57 +77,46 @@ public abstract class PlayerActivity<ReportModel extends BaseReportModel> extend
         populateMapWithReports();
 
         // https://developers.google.com/maps/documentation/android-api/marker#info_windows
-        gmap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
-            @Override
-            public boolean onMarkerClick(final Marker marker) {
-                final Dialog dialog = new Dialog(context, R.style.reportDialogTheme);
-                dialog.setContentView(R.layout.report_dialog);
+        gmap.setOnMarkerClickListener(marker -> {
+            final Dialog dialog = new Dialog(context, R.style.reportDialogTheme);
+            dialog.setContentView(R.layout.report_dialog);
 
-                final MapMarker mapMarker = markerMap.get(marker);
-                final TextView reportContents = ((TextView) dialog.findViewById(R.id.reportText));
-                reportContents.setText(mapMarker.getReport().getReportContents());
+            final MapMarker mapMarker = markerMap.get(marker);
+            final TextView reportContents = ((TextView) dialog.findViewById(R.id.reportText));
+            reportContents.setText(mapMarker.getReport().getReportContents());
 
-                final Button editReportButton = (Button) dialog.findViewById(R.id.editReportButton);
-                editReportButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent edit = new Intent(context, getEditReportIntentClass());
-                        edit.putExtra("mapMarker", mapMarker);
-                        edit.putExtra("oldMarkerPosition", mapMarker.getMarkerOptions().getPosition());
-                        if (edit.getExtras() != null)
-                            logger.debug(true, "extras: ", edit.getExtras().toString());
-                        dialog.dismiss();
-                        startActivity(edit);
-                    }
-                });
+            final Button editReportButton = (Button) dialog.findViewById(R.id.editReportButton);
+            editReportButton.setOnClickListener(view -> {
+                Intent edit = new Intent(context, getEditReportIntentClass());
+                edit.putExtra("mapMarker", mapMarker);
+                edit.putExtra("oldMarkerPosition", mapMarker.getMarkerOptions().getPosition());
+                if (edit.getExtras() != null)
+                    logger.debug(true, "extras: ", edit.getExtras().toString());
+                dialog.dismiss();
+                startActivity(edit);
+            });
 
-                final Button deleteReportButton = (Button) dialog.findViewById(R.id.deleteReportButton);
-                deleteReportButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        logger.debug("Clicked delete button on a marker");
-                        if (reportRequest.delete(mapMarker.getReport())) {
-                            markerMap.remove(marker);
-                            marker.remove();
-                            dialog.dismiss();
-                        }
-                        else
-                            logger.error(true, "Could not delete report", mapMarker.getReport().toString());
-                    }
-                });
+            final Button deleteReportButton = (Button) dialog.findViewById(R.id.deleteReportButton);
+            deleteReportButton.setOnClickListener(view -> {
+                logger.debug("Clicked delete button on a marker");
+                if (reportRequest.delete(mapMarker.getReport())) {
+                    markerMap.remove(marker);
+                    marker.remove();
+                    dialog.dismiss();
+                }
+                else
+                    logger.error(true, "Could not delete report", mapMarker.getReport().toString());
+            });
 
-                final Button moveReportButton = (Button) dialog.findViewById(R.id.moveReportButton);
-                moveReportButton.setOnClickListener(new View.OnClickListener() {
-                    public void onClick(View view) {
-                            Intent edit = new Intent(getBaseContext(), MoveMarker.class);
-                            edit.putExtra("mapMarker", mapMarker);
-                            startActivity(edit);
-                    }
-                });
+            final Button moveReportButton = (Button) dialog.findViewById(R.id.moveReportButton);
+            moveReportButton.setOnClickListener(view -> {
+                Intent edit = new Intent(getBaseContext(), MoveMarker.class);
+                edit.putExtra("mapMarker", mapMarker);
+                startActivity(edit);
+            });
 
-                dialog.show();
-                return true;
-            }
+            dialog.show();
+            return true;
         });
     }
 
@@ -151,17 +137,14 @@ public abstract class PlayerActivity<ReportModel extends BaseReportModel> extend
         }
         else {
             mFusedLocationClient.getLastLocation()
-                    .addOnSuccessListener(activity, new OnSuccessListener<Location>() {
-                        @Override
-                        public void onSuccess(Location location) {
-                            // Got last known location. In some rare situations this can be null.
-                            if (location != null) {
-                                currentLocation = new LatLng(location.getLatitude(), location.getLongitude());
-                            }
-                            else {
-                                logger.error("Could not get current location. Setting default...");
-                                currentLocation = cwruQuad;
-                            }
+                    .addOnSuccessListener(activity, location -> {
+                        // Got last known location. In some rare situations this can be null.
+                        if (location != null) {
+                            currentLocation = new LatLng(location.getLatitude(), location.getLongitude());
+                        }
+                        else {
+                            logger.error("Could not get current location. Setting default...");
+                            currentLocation = cwruQuad;
                         }
                     });
         }
@@ -175,40 +158,25 @@ public abstract class PlayerActivity<ReportModel extends BaseReportModel> extend
                 caughtButton = (Button) findViewById(R.id.caughtButton),
                 reportButton = (Button) findViewById(R.id.reportButton);
 
-        helpButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                CommonDialogs.getHelpButtonDialog(context, v);
-            }
+        helpButton.setOnClickListener(view -> CommonDialogs.getHelpButtonDialog(context, view));
+
+        infoButton.setOnClickListener(view -> CommonDialogs.getInfoButtonDialog(context, view));
+
+        caughtButton.setOnClickListener(view -> {
+            Intent i = new Intent(context, getCaughtButtonIntentClass());
+            startActivity(i);
+            finish(); //prevent back button
         });
 
-        infoButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                CommonDialogs.getInfoButtonDialog(context, v);
+        reportButton.setOnClickListener(view -> {
+            if (currentLocation != null) {
+                Intent edit = new Intent(context, getCreateReportIntentClass());
+                edit.putExtra("location", currentLocation);
+                logger.debug("Create marker at position: ", currentLocation.toString());
+                startActivity(edit);
             }
-        });
-
-        caughtButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(context, getCaughtButtonIntentClass());
-                startActivity(i);
-                finish(); //prevent back button
-            }
-        });
-
-        reportButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View view) {
-                if (currentLocation != null) {
-                    Intent edit = new Intent(context, getCreateReportIntentClass());
-                    edit.putExtra("location", currentLocation);
-                    logger.debug("Create marker at position: ", currentLocation.toString());
-                    startActivity(edit);
-                }
-                else
-                    logger.error("ReportButton: Current location is null");
-            }
+            else
+                logger.error("ReportButton: Current location is null");
         });
     }
 

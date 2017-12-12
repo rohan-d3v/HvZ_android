@@ -83,12 +83,10 @@ public class ZombieActivity extends PlayerActivity<HumanReportModel> {
         super.onCreate(savedInstanceState);
 
         final Button infoButton = (Button) findViewById(R.id.infoButton);
-        infoButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                Intent i = new Intent(getBaseContext(), HumanActivity.class);
-                startActivity(i);
-                finish(); //prevent back button
-            }
+        infoButton.setOnClickListener(view -> {
+            Intent i = new Intent(getBaseContext(), HumanActivity.class);
+            startActivity(i);
+            finish(); //prevent back button
         });
     }
 }
