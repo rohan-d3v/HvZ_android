@@ -53,11 +53,11 @@
             android:label="editZombieReportActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".viewCode"
+            android:name=".ViewCode"
             android:label="@string/title_activity_view_code"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".moveMarker"
+            android:name=".MoveMarker"
             android:label="@string/title_activity_move_marker"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>

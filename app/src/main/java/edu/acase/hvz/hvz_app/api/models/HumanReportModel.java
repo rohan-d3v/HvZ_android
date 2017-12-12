@@ -38,6 +38,9 @@ public class HumanReportModel extends BaseReportModel {
                 "Typical Mag size = " + typicalMagSize + "\n";
     }
 
+
+    //base overrides
+
     @Override
     public String toString() {
         return "HumanReportModel{" +
@@ -50,6 +53,27 @@ public class HumanReportModel extends BaseReportModel {
                 '}';
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+
+        HumanReportModel that = (HumanReportModel) o;
+
+        if (numHumans != that.numHumans) return false;
+        return typicalMagSize == that.typicalMagSize;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = super.hashCode();
+        result = 31 * result + numHumans;
+        result = 31 * result + typicalMagSize;
+        return result;
+    }
+
+    //parcelling methods
 
     @Override
     public int describeContents() {
@@ -66,7 +90,6 @@ public class HumanReportModel extends BaseReportModel {
         dest.writeInt(typicalMagSize);
     }
 
-    @SuppressWarnings("unused")
     public static final Parcelable.Creator<HumanReportModel> CREATOR = new Parcelable.Creator<HumanReportModel>() {
         @Override
         public HumanReportModel createFromParcel(Parcel in) {

@@ -21,6 +21,9 @@ public class ZombieReportDeserializer extends BaseReportDeserializer<ZombieRepor
         JsonObject object = json.getAsJsonObject();
 
         try {
+            if (object.getAsJsonObject(ZombieReportModel.SERIALIZATION.SINGLE_KEY) != null) {
+                object = object.getAsJsonObject(ZombieReportModel.SERIALIZATION.SINGLE_KEY);
+            }
             report = new ZombieReportModel(
                     object.get(ZombieReportModel.SERIALIZATION.DATABASE_ID).getAsInt(),
                     object.get(ZombieReportModel.SERIALIZATION.GAME_ID).getAsInt());

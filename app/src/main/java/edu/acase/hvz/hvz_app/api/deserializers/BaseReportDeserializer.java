@@ -30,6 +30,10 @@ public abstract class BaseReportDeserializer<ReportModel extends BaseReportModel
     @Override
     abstract public ReportModel deserialize(JsonElement json, Type type, JsonDeserializationContext context) throws JsonParseException;
 
+    public ReportModel deserialize(JsonElement json) throws JsonParseException {
+        return deserialize(json, null, null);
+    }
+
     public List<ReportModel> deserializeAll(JsonElement json, String ARRAY_KEY) throws JsonParseException {
         List<ReportModel> reports = new ArrayList<>();
         JsonObject root = json.getAsJsonObject();

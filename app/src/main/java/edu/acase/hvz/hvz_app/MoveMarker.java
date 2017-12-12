@@ -27,7 +27,7 @@ import edu.acase.hvz.hvz_app.api.requests.ZombieReportRequest;
 
 import static edu.acase.hvz.hvz_app.HumanActivity.logger;
 
-public class moveMarker extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnMapClickListener {
+public class MoveMarker extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnMapClickListener {
     private static final Logger logger = new Logger("edit_marker_location");
 
     protected GoogleMap gmap;

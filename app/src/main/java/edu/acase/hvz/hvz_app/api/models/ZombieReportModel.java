@@ -33,6 +33,8 @@ public class ZombieReportModel extends BaseReportModel {
                 "Time Sighted = " + getTimeSinceSighted() + "\n";
     }
 
+    //base overrides
+
     @Override
     public String toString() {
         return "ZombieReportModel{" +
@@ -44,8 +46,25 @@ public class ZombieReportModel extends BaseReportModel {
                 '}';
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
 
-    //parceling functions
+        ZombieReportModel that = (ZombieReportModel) o;
+
+        return numZombies == that.numZombies;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = super.hashCode();
+        result = 31 * result + numZombies;
+        return result;
+    }
+
+    //parcelling methods
 
     @Override
     public int describeContents() {
@@ -61,7 +80,6 @@ public class ZombieReportModel extends BaseReportModel {
         dest.writeInt(numZombies);
     }
 
-    @SuppressWarnings("unused")
     public static final Parcelable.Creator<ZombieReportModel> CREATOR = new Parcelable.Creator<ZombieReportModel>() {
         @Override
         public ZombieReportModel createFromParcel(Parcel in) {

@@ -122,11 +122,9 @@ public abstract class PlayerActivity<ReportModel extends BaseReportModel> extend
                 final Button moveReportButton = (Button) dialog.findViewById(R.id.moveReportButton);
                 moveReportButton.setOnClickListener(new View.OnClickListener() {
                     public void onClick(View view) {
-
-                            Intent edit = new Intent(getBaseContext(), moveMarker.class);
+                            Intent edit = new Intent(getBaseContext(), MoveMarker.class);
                             edit.putExtra("mapMarker", mapMarker);
                             startActivity(edit);
-
                     }
                 });
 
@@ -152,7 +150,6 @@ public abstract class PlayerActivity<ReportModel extends BaseReportModel> extend
             return;
         }
         else {
-
             mFusedLocationClient.getLastLocation()
                     .addOnSuccessListener(activity, new OnSuccessListener<Location>() {
                         @Override

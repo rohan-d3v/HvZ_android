@@ -47,4 +47,29 @@ public abstract class BaseReportModel implements Parcelable {
         long minsSince = TimeUnit.MINUTES.convert(msDelta, TimeUnit.MILLISECONDS);
         return minsSince + " mins ago";
     }
+
+    // base overrides
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        BaseReportModel that = (BaseReportModel) o;
+
+        if (GAME_ID != that.GAME_ID) return false;
+        if (database_id != that.database_id) return false;
+        if (location != null ? !location.equals(that.location) : that.location != null)
+            return false;
+        return timeSighted != null ? timeSighted.equals(that.timeSighted) : that.timeSighted == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = GAME_ID;
+        result = 31 * result + database_id;
+        result = 31 * result + (location != null ? location.hashCode() : 0);
+        result = 31 * result + (timeSighted != null ? timeSighted.hashCode() : 0);
+        return result;
+    }
 }

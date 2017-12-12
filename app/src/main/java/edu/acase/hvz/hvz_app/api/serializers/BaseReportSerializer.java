@@ -26,6 +26,10 @@ public abstract class BaseReportSerializer<ReportModel extends BaseReportModel> 
         return report;
     }
 
+    public JsonElement serialize(ReportModel report) {
+        return serialize(report, null, null);
+    }
+
     /* Note that the timezone calls will fail if 'AndroidThreeTen.init(this)' is not called by the current activity
      * Which is why it's in the onCreate() of BaseActivity.  */
     public static String serialize(Date date) {

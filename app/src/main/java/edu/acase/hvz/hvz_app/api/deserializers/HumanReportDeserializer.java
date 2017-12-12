@@ -21,6 +21,9 @@ public class HumanReportDeserializer extends BaseReportDeserializer<HumanReportM
         JsonObject object = json.getAsJsonObject();
 
         try {
+            if (object.getAsJsonObject(HumanReportModel.SERIALIZATION.SINGLE_KEY) != null) {
+                object = object.getAsJsonObject(HumanReportModel.SERIALIZATION.SINGLE_KEY);
+            }
             report = new HumanReportModel(
                     object.get(HumanReportModel.SERIALIZATION.DATABASE_ID).getAsInt(),
                     object.get(HumanReportModel.SERIALIZATION.GAME_ID).getAsInt());
