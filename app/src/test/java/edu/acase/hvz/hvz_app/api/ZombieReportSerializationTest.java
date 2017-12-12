@@ -8,33 +8,30 @@ import edu.acase.hvz.hvz_app.api.models.ZombieReportModel;
 import edu.acase.hvz.hvz_app.api.serializers.ZombieReportSerializer;
 
 import org.junit.Test;
+
+import java.util.Date;
+
 import static org.junit.Assert.*;
 
-public class ZombieReportSerializationTest extends BaseReportSerialization {
+public class ZombieReportSerializationTest {
     final ZombieReportSerializer serializer = new ZombieReportSerializer();
     final ZombieReportDeserializer deserializer = new ZombieReportDeserializer();
 
-    public static class Mock {
-        static final int database_id = 10, game_id = 3, numZombies = 22;
-        static final LatLng location = new LatLng(1.1, 0.9);
-        static final String dateString = "08/27/2016";
-
-        public static ZombieReportModel getReportModel() {
-            ZombieReportModel report = new ZombieReportModel(database_id, game_id);
-            report.setLocation(location);
-            report.setNumZombies(numZombies);
-            report.setTimeSighted(stringToDate(dateString));
-            return report;
-        }
-    }
-
     @Test
     public void checkConsistency() {
-        ZombieReportModel report = Mock.getReportModel();
+        ZombieReportModel report = getMockReportModel();
         for (int i=0; i < 10; i++) {
             JsonElement json = serializer.serialize(report);
             ZombieReportModel result = deserializer.deserialize(json);
             assertEquals(report, result);
         }
+    }
+
+    public static ZombieReportModel getMockReportModel() {
+        ZombieReportModel report = new ZombieReportModel(11, 5);
+        report.setLocation(new LatLng(0.838, 0.772));
+        report.setNumZombies(16);
+        report.setTimeSighted(new Date());
+        return report;
     }
 }
