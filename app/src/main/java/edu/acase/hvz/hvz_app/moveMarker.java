@@ -27,7 +27,7 @@ import edu.acase.hvz.hvz_app.api.requests.ZombieReportRequest;
 
 import static edu.acase.hvz.hvz_app.HumanActivity.logger;
 
-public class moveMarker extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnMapClickListener {
+public class moveMarker extends BaseActivity implements OnMapReadyCallback, GoogleMap.OnMapClickListener {
     private static final Logger logger = new Logger("edit_marker_location");
 
     protected GoogleMap gmap;
@@ -35,12 +35,12 @@ public class moveMarker extends AppCompatActivity implements OnMapReadyCallback,
     private static final ZombieReportRequest zombieReportRequest = new ZombieReportRequest();
     private MarkerOptions marker;
     private MapMarker mapMarker;
+        @Override
+        public void onMapClick(LatLng clickLocation) {
+            Intent i = new Intent (getApplicationContext(), HumanActivity.class);
+            startActivity(i);
+        }
 
-    @Override
-    public void onMapClick(LatLng clickLocation) {
-        marker.position(clickLocation);
-        updateLoc(marker);
-    }
     @Override
     public void onMapReady(GoogleMap googleMap) {
         gmap = googleMap;
@@ -59,6 +59,7 @@ public class moveMarker extends AppCompatActivity implements OnMapReadyCallback,
         // Center the camera on campus
         LatLng cwruQuad = new LatLng(41.50325, -81.60755);
         gmap.moveCamera(CameraUpdateFactory.newLatLng(cwruQuad));
+
     }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
