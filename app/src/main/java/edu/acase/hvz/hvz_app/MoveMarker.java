@@ -27,7 +27,11 @@ import edu.acase.hvz.hvz_app.api.requests.ZombieReportRequest;
 
 import static edu.acase.hvz.hvz_app.HumanActivity.logger;
 
-public class moveMarker extends BaseActivity implements OnMapReadyCallback, GoogleMap.OnMapClickListener {
+/** This is the activity that players are shown whenever they want to move a marker
+ * that is already on the map. It shows a blank map for the player to choose a new
+ * location for the marker to be placed. */
+
+public class MoveMarker extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnMapLongClickListener {
     private static final Logger logger = new Logger("edit_marker_location");
 
     protected GoogleMap gmap;
@@ -36,7 +40,7 @@ public class moveMarker extends BaseActivity implements OnMapReadyCallback, Goog
     private MarkerOptions marker;
     private MapMarker mapMarker;
         @Override
-        public void onMapClick(LatLng clickLocation) {
+        public void onMapLongClick(LatLng clickLocation) {
             Intent i = new Intent (getApplicationContext(), HumanActivity.class);
             startActivity(i);
         }

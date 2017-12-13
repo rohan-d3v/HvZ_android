@@ -4,12 +4,17 @@ app changes
 - overhaul to edit/creation forms
 - overhaul to report dialogs
 -- added "move" button as well - TODO functionality by rohan
+- added tests for serialization/deserialization of reports
+- added tests for parcelling/unparcelling of reports
+- added instrumentation tests for create, update, delete
+- documentation!
 server changes
 - fully fleshed out documentation
 - lots of refactors on the controller side
 - general cleanup of server & git tree
-- added api route by_faction/:faction/:card_code
-- details at https://github.com/rohanezio/eecs395HvZ
+- added api route registrations/by_card_code/:card_code
+** details at https://github.com/rohanezio/eecs395HvZ
+** full api spec at http://35.163.170.184/api/
 
 # Week 11 (12/4-12/8)
 app changes

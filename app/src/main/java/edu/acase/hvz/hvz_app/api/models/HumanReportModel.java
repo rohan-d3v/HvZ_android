@@ -6,10 +6,17 @@ import android.os.Parcelable;
 import com.google.android.gms.maps.model.LatLng;
 import java.util.Date;
 
+/** The model representing human reports. This is essentially a java clone of the human report
+ * object stored in the server
+ * @see BaseReportModel the abstract base model */
 
 public class HumanReportModel extends BaseReportModel {
     private int numHumans, typicalMagSize;
 
+    /** The serialization details for this report. These are the "magic strings"
+     * in the json returned from the server, and are used to serialize and deserialize
+     * reports when communicating with the server.
+     * @see BaseReportModel.SERIALIZATION */
     public final static class SERIALIZATION extends BaseReportModel.SERIALIZATION {
         public final static String
                 ARRAY_KEY = "human_reports",
@@ -31,12 +38,18 @@ public class HumanReportModel extends BaseReportModel {
     public void setNumHumans(int numHumans) { this.numHumans = numHumans; }
     public void setTypicalMagSize(int typicalMagSize) { this.typicalMagSize = typicalMagSize; }
 
+    /** Get the contents of this report
+     * @return the contents to display in marker popup dialogs
+     */
     @Override
     public String getReportContents() {
         return "Num Humans = " + numHumans + "\n" +
                 "Time Sighted = " + getTimeSinceSighted() + "\n" +
                 "Typical Mag size = " + typicalMagSize + "\n";
     }
+
+
+    //base overrides
 
     @Override
     public String toString() {
@@ -50,6 +63,27 @@ public class HumanReportModel extends BaseReportModel {
                 '}';
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+
+        HumanReportModel that = (HumanReportModel) o;
+
+        if (numHumans != that.numHumans) return false;
+        return typicalMagSize == that.typicalMagSize;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = super.hashCode();
+        result = 31 * result + numHumans;
+        result = 31 * result + typicalMagSize;
+        return result;
+    }
+
+    //parcelling methods
 
     @Override
     public int describeContents() {
@@ -66,7 +100,6 @@ public class HumanReportModel extends BaseReportModel {
         dest.writeInt(typicalMagSize);
     }
 
-    @SuppressWarnings("unused")
     public static final Parcelable.Creator<HumanReportModel> CREATOR = new Parcelable.Creator<HumanReportModel>() {
         @Override
         public HumanReportModel createFromParcel(Parcel in) {

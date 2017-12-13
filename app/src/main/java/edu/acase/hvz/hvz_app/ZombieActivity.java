@@ -3,7 +3,6 @@ package edu.acase.hvz.hvz_app;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 
 import com.google.android.gms.maps.GoogleMap;
@@ -22,7 +21,10 @@ import edu.acase.hvz.hvz_app.api.requests.ZombieReportRequest;
 import edu.acase.hvz.hvz_app.reports.CreateHumanReportActivity;
 import edu.acase.hvz.hvz_app.reports.EditHumanReportActivity;
 
-public class ZombieActivity extends PlayerActivity<HumanReportModel> {
+/** The activity for zombie players.
+ * @see BasePlayerActivity the abstract base for more information */
+
+public class ZombieActivity extends BasePlayerActivity<HumanReportModel> {
     private static final Logger logger = new Logger("zombie_activity");
     private static final HumanReportRequest humanReportRequest = new HumanReportRequest();
 
@@ -56,6 +58,8 @@ public class ZombieActivity extends PlayerActivity<HumanReportModel> {
         addHeatMap();
     }
 
+    /** Adds the heatmap so that zombies can see concentrations of other zombie players.
+     * This allows them to more easily form hoards. */
     private void addHeatMap() {
         ZombieReportRequest zombieReportRequest = new ZombieReportRequest();
         List<ZombieReportModel> hReport = zombieReportRequest.getAll();
@@ -83,12 +87,10 @@ public class ZombieActivity extends PlayerActivity<HumanReportModel> {
         super.onCreate(savedInstanceState);
 
         final Button infoButton = (Button) findViewById(R.id.infoButton);
-        infoButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                Intent i = new Intent(getBaseContext(), HumanActivity.class);
-                startActivity(i);
-                finish(); //prevent back button
-            }
+        infoButton.setOnClickListener(view -> {
+            Intent i = new Intent(getBaseContext(), HumanActivity.class);
+            startActivity(i);
+            finish(); //prevent back button
         });
     }
 }

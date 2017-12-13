@@ -10,7 +10,12 @@ import android.widget.TextView;
 
 import java.util.Random;
 
-public class viewCode extends BaseActivity {
+
+/** This activity shows the human player their code so that they can reveal it to
+ * zombies whenever they are tagged. Zombies can enter or scan this code, which will
+ * cause the human to turn into a zombie (they will first incubate). */
+
+public class ViewCode extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

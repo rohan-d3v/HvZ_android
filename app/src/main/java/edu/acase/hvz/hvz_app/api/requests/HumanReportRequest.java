@@ -9,6 +9,9 @@ import edu.acase.hvz.hvz_app.api.models.BaseReportModel;
 import edu.acase.hvz.hvz_app.api.models.HumanReportModel;
 import edu.acase.hvz.hvz_app.api.serializers.HumanReportSerializer;
 
+/** Make server requests for human reports
+ * @see BaseReportRequest the base report request */
+
 public final class HumanReportRequest extends BaseReportRequest<HumanReportModel> {
     private static final String ENDPOINT_STRING = "http://35.163.170.184/api/v1/human_reports";
     private static final String LOG_TAG = "HumanReportRequest";

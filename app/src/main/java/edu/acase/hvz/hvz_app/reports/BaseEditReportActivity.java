@@ -10,7 +10,7 @@ public abstract class BaseEditReportActivity extends BaseActivity {
      * @param string input string
      * @return the integer representation, or -1 if it fails
      */
-    int tryParse(String string) {
+    public static int tryParse(String string) {
         try {
             return Integer.parseInt(string.trim());
         } catch (NumberFormatException exception) {

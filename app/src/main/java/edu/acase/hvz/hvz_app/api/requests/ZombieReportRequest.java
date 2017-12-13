@@ -9,6 +9,9 @@ import edu.acase.hvz.hvz_app.api.models.BaseReportModel;
 import edu.acase.hvz.hvz_app.api.models.ZombieReportModel;
 import edu.acase.hvz.hvz_app.api.serializers.ZombieReportSerializer;
 
+/** Make server requests for zombie reports
+ * @see BaseReportRequest the base report request */
+
 public final class ZombieReportRequest extends BaseReportRequest<ZombieReportModel> {
     private static final String ENDPOINT_STRING = "http://35.163.170.184/api/v1/zombie_reports";
     private static final String LOG_TAG = "ZombieReportRequest";

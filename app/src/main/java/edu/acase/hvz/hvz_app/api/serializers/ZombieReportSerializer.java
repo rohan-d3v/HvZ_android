@@ -8,7 +8,16 @@ import java.lang.reflect.Type;
 
 import edu.acase.hvz.hvz_app.api.models.ZombieReportModel;
 
+/** Serializer used to turn ZombieReportModels from the java side into server-formatted json objects
+ * @see BaseReportSerializer the base report serializer */
+
 public class ZombieReportSerializer extends BaseReportSerializer<ZombieReportModel> {
+    /** Serialize the java report object into a json element
+     * @param src the java report object
+     * @param typeOfSrc the type
+     * @param context the context
+     * @return the json element
+     */
     @Override
     public JsonElement serialize(ZombieReportModel src, Type typeOfSrc, JsonSerializationContext context) {
         JsonObject root = new JsonObject();

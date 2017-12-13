@@ -6,9 +6,17 @@ import android.os.Parcelable;
 import com.google.android.gms.maps.model.LatLng;
 import java.util.Date;
 
+/** The model representing zombie reports. This is essentially a java clone of the human report
+ * object stored in the server
+ * @see BaseReportModel the abstract base model */
+
 public class ZombieReportModel extends BaseReportModel {
     private int numZombies;
 
+    /** The serialization details for this report. These are the "magic strings"
+     * in the json returned from the server, and are used to serialize and deserialize
+     * reports when communicating with the server.
+     * @see BaseReportModel.SERIALIZATION*/
     public final static class SERIALIZATION extends BaseReportModel.SERIALIZATION {
         public final static String
                 ARRAY_KEY = "zombie_reports",
@@ -27,11 +35,17 @@ public class ZombieReportModel extends BaseReportModel {
 
     public void setNumZombies(int numZombies) { this.numZombies = numZombies; }
     public LatLng getLoc(){return location;}
+
+    /** Get the contents of this report
+     * @return the contents to display in marker popup dialogs
+     */
     @Override
     public String getReportContents() {
         return "Num Zombies = " + numZombies + "\n" +
                 "Time Sighted = " + getTimeSinceSighted() + "\n";
     }
+
+    //base overrides
 
     @Override
     public String toString() {
@@ -44,8 +58,25 @@ public class ZombieReportModel extends BaseReportModel {
                 '}';
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
 
-    //parceling functions
+        ZombieReportModel that = (ZombieReportModel) o;
+
+        return numZombies == that.numZombies;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = super.hashCode();
+        result = 31 * result + numZombies;
+        return result;
+    }
+
+    //parcelling methods
 
     @Override
     public int describeContents() {
@@ -61,7 +92,6 @@ public class ZombieReportModel extends BaseReportModel {
         dest.writeInt(numZombies);
     }
 
-    @SuppressWarnings("unused")
     public static final Parcelable.Creator<ZombieReportModel> CREATOR = new Parcelable.Creator<ZombieReportModel>() {
         @Override
         public ZombieReportModel createFromParcel(Parcel in) {
