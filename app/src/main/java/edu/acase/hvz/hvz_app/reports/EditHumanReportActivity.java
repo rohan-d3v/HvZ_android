@@ -34,8 +34,11 @@ public class EditHumanReportActivity extends BaseEditReportActivity {
         logger.debug("created edit activity");
 
         // incoming from zombie activity
-        final LatLng oldMarkerPosition = getIntent().getParcelableExtra("oldMarkerPosition");
         final MapMarker mapMarker = getIntent().getParcelableExtra("mapMarker");
+        if (mapMarker == null) {
+            logger.error("mapMarker is null");
+            return;
+        }
         final HumanReportModel report = mapMarker.getReport();
 
         // fields on the view
@@ -46,26 +49,22 @@ public class EditHumanReportActivity extends BaseEditReportActivity {
 
         // save button on the view
         Button saveButton = (Button) findViewById(R.id.saveButton);
-        saveButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(final View view) {
-                int number = tryParse(numHumans.getText().toString());
-                int magazine = tryParse(magSize.getText().toString());
-                if (number >= 0 || magazine >= 0) {
-                    if (number >= 0)
-                        report.setNumHumans(number);
-                    if (magazine >= 0)
-                        report.setTypicalMagSize(magazine);
+        saveButton.setOnClickListener(view -> {
+            int number = tryParse(numHumans.getText().toString());
+            int magazine = tryParse(magSize.getText().toString());
+            if (number >= 0 || magazine >= 0) {
+                if (number >= 0)
+                    report.setNumHumans(number);
+                if (magazine >= 0)
+                    report.setTypicalMagSize(magazine);
 
-                    report.setTimeSighted(new Date());
-                    humanReportRequest.update(report);
-                }
-
-                Intent resultIntent = new Intent(getApplicationContext(), ZombieActivity.class);
-                resultIntent.putExtra("mapMarker", mapMarker);
-                resultIntent.putExtra("oldMarkerPosition", oldMarkerPosition);
-                startActivity(resultIntent);
+                report.setTimeSighted(new Date());
+                humanReportRequest.update(report);
             }
+
+            Intent resultIntent = new Intent(getApplicationContext(), ZombieActivity.class);
+            resultIntent.putExtra("mapMarker", mapMarker); //for android testing
+            startActivity(resultIntent);
         });
     }
 }

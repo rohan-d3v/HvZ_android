@@ -5,7 +5,8 @@ app changes
 - overhaul to report dialogs
 -- added "move" button as well - TODO functionality by rohan
 - added tests for serialization/deserialization of reports
-
+- added tests for parcelling/unparcelling of reports
+- semi-working instrumentation tests
 server changes
 - fully fleshed out documentation
 - lots of refactors on the controller side

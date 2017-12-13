@@ -34,9 +34,13 @@ public class EditZombieReportActivity extends BaseEditReportActivity {
         logger.debug("Created edit activity");
 
         // incoming from zombie activity
-        final LatLng oldMarkerPosition = getIntent().getParcelableExtra("oldMarkerPosition");
         final MapMarker mapMarker = getIntent().getParcelableExtra("mapMarker");
+        if (mapMarker == null) {
+            logger.error("MapMarker is null");
+            return;
+        }
         final ZombieReportModel report = mapMarker.getReport();
+        logger.error(true, "set report: ", report.toString());
 
         // fields on the view
         final EditText numZombies = (EditText) findViewById(R.id.groupSize);
@@ -44,19 +48,16 @@ public class EditZombieReportActivity extends BaseEditReportActivity {
 
         // save button on the view
         Button saveButton = (Button) findViewById(R.id.saveButton);
-        saveButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(final View view) {
-                int number = tryParse(numZombies.getText().toString());
-                if (number >= 0) {
-                    report.setNumZombies(number);
-                    report.setTimeSighted(new Date());
-                    zombieReportRequest.update(report);
-                }
-                Intent resultIntent = new Intent(getApplicationContext(), HumanActivity.class);
-                startActivity(resultIntent);
+        saveButton.setOnClickListener(view -> {
+            int number = tryParse(numZombies.getText().toString());
+            if (number >= 0) {
+                report.setNumZombies(number);
+                report.setTimeSighted(new Date());
+                zombieReportRequest.update(report);
             }
-
+            Intent resultIntent = new Intent(getApplicationContext(), HumanActivity.class);
+            resultIntent.putExtra("mapMarker", mapMarker); //for android testing
+            startActivity(resultIntent);
         });
     }
 }

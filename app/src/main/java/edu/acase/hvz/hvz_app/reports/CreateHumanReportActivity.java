@@ -33,6 +33,10 @@ public class CreateHumanReportActivity extends BaseEditReportActivity {
 
         // incoming from the zombie activity
         final LatLng marker = getIntent().getParcelableExtra("location");
+        if (marker == null) {
+            logger.error("location is null");
+            return;
+        }
 
         // fields on the view
         final EditText numHumans = (EditText) findViewById(R.id.groupSize);
@@ -40,29 +44,26 @@ public class CreateHumanReportActivity extends BaseEditReportActivity {
 
         // button on the view
         final Button createButton = (Button) findViewById(R.id.saveButton);
-        createButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                report = new HumanReportModel(1); //TODO: FIX ME
+        createButton.setOnClickListener(view -> {
+            report = new HumanReportModel(1); //TODO: FIX ME
 
-                int groupSize = tryParse(numHumans.getText().toString());
-                int magazine = tryParse(magSize.getText().toString());
-                if (groupSize >= 0)
-                    report.setNumHumans(groupSize);
-                else
-                    report.setNumHumans(1);
-                if (magazine >= 0)
-                    report.setTypicalMagSize(magazine);
-                else
-                    report.setTypicalMagSize(1);
+            int groupSize = tryParse(numHumans.getText().toString());
+            int magazine = tryParse(magSize.getText().toString());
+            if (groupSize >= 0)
+                report.setNumHumans(groupSize);
+            else
+                report.setNumHumans(1);
+            if (magazine >= 0)
+                report.setTypicalMagSize(magazine);
+            else
+                report.setTypicalMagSize(1);
 
-                report.setLocation(marker);
-                report.setTimeSighted(new Date());
-                report.setDatabase_id(humanReportRequest.create(report));
+            report.setLocation(marker);
+            report.setTimeSighted(new Date());
+            report.setDatabase_id(humanReportRequest.create(report));
 
-                Intent resultIntent = new Intent(getApplicationContext(), ZombieActivity.class);
-                startActivity(resultIntent);
-            }
-
+            Intent resultIntent = new Intent(getApplicationContext(), ZombieActivity.class);
+            startActivity(resultIntent);
         });
     }
 }

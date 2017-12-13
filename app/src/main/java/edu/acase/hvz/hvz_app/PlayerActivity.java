@@ -89,7 +89,7 @@ public abstract class PlayerActivity<ReportModel extends BaseReportModel> extend
             editReportButton.setOnClickListener(view -> {
                 Intent edit = new Intent(context, getEditReportIntentClass());
                 edit.putExtra("mapMarker", mapMarker);
-                edit.putExtra("oldMarkerPosition", mapMarker.getMarkerOptions().getPosition());
+                //edit.putExtra("oldMarkerPosition", mapMarker.getMarkerOptions().getPosition());      <- for move methods
                 if (edit.getExtras() != null)
                     logger.debug(true, "extras: ", edit.getExtras().toString());
                 dialog.dismiss();
@@ -172,7 +172,6 @@ public abstract class PlayerActivity<ReportModel extends BaseReportModel> extend
             if (currentLocation != null) {
                 Intent edit = new Intent(context, getCreateReportIntentClass());
                 edit.putExtra("location", currentLocation);
-                logger.debug("Create marker at position: ", currentLocation.toString());
                 startActivity(edit);
             }
             else
