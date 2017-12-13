@@ -63,7 +63,7 @@ public class EditHumanReportActivity extends BaseEditReportActivity {
             }
 
             Intent resultIntent = new Intent(getApplicationContext(), ZombieActivity.class);
-            resultIntent.putExtra("mapMarker", mapMarker); //for android testing
+            //resultIntent.putExtra("mapMarker", mapMarker); //for android testing
             startActivity(resultIntent);
         });
     }

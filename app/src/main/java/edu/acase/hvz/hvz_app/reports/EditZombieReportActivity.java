@@ -40,7 +40,6 @@ public class EditZombieReportActivity extends BaseEditReportActivity {
             return;
         }
         final ZombieReportModel report = mapMarker.getReport();
-        logger.error(true, "set report: ", report.toString());
 
         // fields on the view
         final EditText numZombies = (EditText) findViewById(R.id.groupSize);
@@ -56,7 +55,7 @@ public class EditZombieReportActivity extends BaseEditReportActivity {
                 zombieReportRequest.update(report);
             }
             Intent resultIntent = new Intent(getApplicationContext(), HumanActivity.class);
-            resultIntent.putExtra("mapMarker", mapMarker); //for android testing
+            //resultIntent.putExtra("mapMarker", mapMarker); //for android testing
             startActivity(resultIntent);
         });
     }
