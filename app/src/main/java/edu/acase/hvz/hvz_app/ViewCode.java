@@ -7,6 +7,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
+/** This activity shows the human player their code so that they can reveal it to
+ * zombies whenever they are tagged. Zombies can enter or scan this code, which will
+ * cause the human to turn into a zombie (they will first incubate). */
+
 public class ViewCode extends AppCompatActivity {
 
     @Override

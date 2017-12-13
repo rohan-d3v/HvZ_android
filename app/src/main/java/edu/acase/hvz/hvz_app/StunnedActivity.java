@@ -9,6 +9,10 @@ import android.widget.TextView;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
+/** Stunned is the state that zombies are in once they have been tagged by a human player.
+ * This activity sets up the timer to show the time remaining while they are out of play,
+ * waiting to become mobile again. */
+
 public class StunnedActivity extends BaseActivity {
     TextView text1;
     private static final String FORMAT = "%02d:%02d:%02d";

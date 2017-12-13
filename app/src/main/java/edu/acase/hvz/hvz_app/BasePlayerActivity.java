@@ -28,6 +28,8 @@ import java.util.Map;
 import edu.acase.hvz.hvz_app.api.models.BaseReportModel;
 import edu.acase.hvz.hvz_app.api.requests.BaseReportRequest;
 
+/** Base class for all player views. Sets up the google map and the markers, along with all functionality. */
+
 public abstract class BasePlayerActivity<ReportModel extends BaseReportModel> extends BaseActivity implements OnMapReadyCallback, GoogleMap.OnMapLongClickListener {
     protected final Logger logger;
     protected final BaseReportRequest reportRequest;
@@ -37,11 +39,16 @@ public abstract class BasePlayerActivity<ReportModel extends BaseReportModel> ex
     protected final LatLng cwruQuad = new LatLng(41.50325, -81.60755);
     protected final LatLngBounds campusBounds = new LatLngBounds(new LatLng(41.502535, -81.608143), new LatLng(41.510880, -81.602874));
 
+    /** defines which intent to switch to when the player is caught */
     abstract Class<?> getCaughtButtonIntentClass();
+    /** defines which intent to switch to when the player wants to create a report */
     abstract Class<?> getCreateReportIntentClass();
+    /** defines which intent to switch to when the player wants to edit a report */
     abstract Class<?> getEditReportIntentClass();
+    /** defines which view to use for this activity - should be an R.layout.activity_x */
     abstract int getContentView();
 
+    /** populate the gmap, adds all the markers */
     void populateMapWithReports() {
         List<ReportModel> reportList = reportRequest.getAll();
         for (ReportModel report: reportList) {
@@ -51,11 +58,19 @@ public abstract class BasePlayerActivity<ReportModel extends BaseReportModel> ex
         }
     }
 
+    /** Constructor to set the logger and the report request type
+     * @param logger logger. this param is so subclasses can define the log tag
+     * @param reportRequest the report request to use in this player activity (handles server http calls). Either a ZombieReportRequest or HumanReportRequest
+     */
     public BasePlayerActivity(Logger logger, BaseReportRequest reportRequest) {
         this.reportRequest = reportRequest;
         this.logger = logger;
     }
 
+    /** This function sets up the googlemap: it sets the bounds, zoom, and populates it with report markers.
+     * It also sets up the modals that appear when the user clicks on a marker.
+     * @param googleMap the google map
+     */
     @Override
     public void onMapReady(GoogleMap googleMap) {
         gmap = googleMap;
@@ -120,6 +135,9 @@ public abstract class BasePlayerActivity<ReportModel extends BaseReportModel> ex
         });
     }
 
+    /** This function sets up the view: it chooses which view to display, then adds all the button callbacks.
+     * @param savedInstanceState the instance passed in when this view is created
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -179,6 +197,9 @@ public abstract class BasePlayerActivity<ReportModel extends BaseReportModel> ex
         });
     }
 
+    /** Creates a new report when the user long clicks on the google map
+     * @param clickLocation the location where the user clicked
+     */
     @Override
     public void onMapLongClick(LatLng clickLocation) {
         Intent edit = new Intent(getBaseContext(), getCreateReportIntentClass());

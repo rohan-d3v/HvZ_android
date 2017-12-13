@@ -13,7 +13,17 @@ import java.util.Date;
 
 import edu.acase.hvz.hvz_app.api.models.BaseReportModel;
 
+/** The base serializer used to serialize the java report models into json for server calls
+ * @param <ReportModel> the type of report model to serialize
+ */
+
 public abstract class BaseReportSerializer<ReportModel extends BaseReportModel> implements JsonSerializer<ReportModel> {
+    /** Serialize the java report object into a json element
+     * @param src the java report object
+     * @param typeOfSrc the type
+     * @param context the context
+     * @return the json element
+     */
     @Override
     public JsonElement serialize(ReportModel src, Type typeOfSrc, JsonSerializationContext context) {
         JsonObject report = new JsonObject();
@@ -26,13 +36,21 @@ public abstract class BaseReportSerializer<ReportModel extends BaseReportModel> 
         return report;
     }
 
+    /** Serialize the java report object into a json element
+     * @param report the java report object
+     * @return the json element
+     */
     public JsonElement serialize(ReportModel report) {
         return serialize(report, null, null);
     }
 
-    /* Note that the timezone calls will fail if 'AndroidThreeTen.init(this)' is not called by the current activity
-     * Which is why it's in the onCreate() of BaseActivity.  */
+    /** Serialize the java date object into the server's format (iso 8601)
+     * @param date the java date object
+     * @return the server-formatted date string
+     */
     public static String serialize(Date date) {
+        /* Note that the timezone calls will fail if 'AndroidThreeTen.init(this)' is not called by the current activity
+        * Which is why it's in the onCreate() of BaseActivity.  */
         return DateTimeUtils.toInstant(date).atZone(ZoneId.systemDefault()).toOffsetDateTime().toString();
     }
 

@@ -27,6 +27,10 @@ import edu.acase.hvz.hvz_app.api.requests.ZombieReportRequest;
 
 import static edu.acase.hvz.hvz_app.HumanActivity.logger;
 
+/** This is the activity that players are shown whenever they want to move a marker
+ * that is already on the map. It shows a blank map for the player to choose a new
+ * location for the marker to be placed. */
+
 public class MoveMarker extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnMapClickListener {
     private static final Logger logger = new Logger("edit_marker_location");
 

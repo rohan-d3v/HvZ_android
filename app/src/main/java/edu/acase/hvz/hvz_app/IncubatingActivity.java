@@ -9,6 +9,10 @@ import android.widget.TextView;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
+/** Incubating is the state that humans are in once they have been tagged by a zombie player.
+ * This activity sets up the timer to show the time remaining while they are out of play,
+ * waiting to become a zombie. */
+
 public class IncubatingActivity extends AppCompatActivity {
     TextView text1;
     private static final String FORMAT = "%02d:%02d:%02d";

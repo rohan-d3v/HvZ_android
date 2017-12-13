@@ -21,6 +21,9 @@ import edu.acase.hvz.hvz_app.api.requests.ZombieReportRequest;
 import edu.acase.hvz.hvz_app.reports.CreateHumanReportActivity;
 import edu.acase.hvz.hvz_app.reports.EditHumanReportActivity;
 
+/** The activity for zombie players.
+ * @see BasePlayerActivity the abstract base for more information */
+
 public class ZombieActivity extends BasePlayerActivity<HumanReportModel> {
     private static final Logger logger = new Logger("zombie_activity");
     private static final HumanReportRequest humanReportRequest = new HumanReportRequest();
@@ -55,6 +58,8 @@ public class ZombieActivity extends BasePlayerActivity<HumanReportModel> {
         addHeatMap();
     }
 
+    /** Adds the heatmap so that zombies can see concentrations of other zombie players.
+     * This allows them to more easily form hoards. */
     private void addHeatMap() {
         ZombieReportRequest zombieReportRequest = new ZombieReportRequest();
         List<ZombieReportModel> hReport = zombieReportRequest.getAll();

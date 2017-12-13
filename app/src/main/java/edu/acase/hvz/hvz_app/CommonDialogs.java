@@ -6,16 +6,16 @@ import android.content.DialogInterface;
 import android.os.Build;
 import android.view.View;
 
+/** The common dialogs between the player activities. This is for the help and info dialogs. */
+
 public class CommonDialogs {
     public static void getHelpButtonDialog(Context context, View view) {
         AlertDialog.Builder builder = getAlertBuilder(context);
         builder.setTitle("Help")
                 .setIcon(android.R.drawable.ic_menu_help)
                 .setMessage("Usage info goes here")
-                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        //dismiss dialog
-                    }
+                .setPositiveButton(android.R.string.yes, (dialog, which) -> {
+                    //dismiss dialog
                 })
                 .show();
     }
@@ -25,10 +25,8 @@ public class CommonDialogs {
         builder.setTitle("Info")
                 .setIcon(android.R.drawable.ic_dialog_info)
                 .setMessage("Game info goes here")
-                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        //dismiss dialog
-                    }
+                .setPositiveButton(android.R.string.yes, (dialog, which) -> {
+                    //dismiss dialog
                 })
                 .show();
     }

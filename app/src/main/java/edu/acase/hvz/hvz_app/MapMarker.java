@@ -8,6 +8,9 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import edu.acase.hvz.hvz_app.api.models.BaseReportModel;
 
+/** A map marker is the object used to connect markers to reports. Since the markers themselves can't be
+ * extended/overridden, a custom container class was needed for this functionality. */
+
 public class MapMarker implements Parcelable {
     private MarkerOptions markerOptions;
     private BaseReportModel report;
@@ -16,9 +19,20 @@ public class MapMarker implements Parcelable {
         setReport(report);
     }
 
+    /** Get the MarkerOptions from this MapMarker (direct reference)
+     * @return the marker options
+     */
     public MarkerOptions getMarkerOptions() { return markerOptions; }
+
+    /** Get the report from this MapMarker (direct reference)
+     * @param <T> which report type to get
+     * @return the report
+     */
     public <T extends BaseReportModel> T getReport() { return (T) report; }
 
+    /** Set the report in this MapMarker
+     * @param report the report to put in the MapMarker
+     */
     public void setReport(BaseReportModel report) {
         this.report = report;
         markerOptions = new MarkerOptions()
@@ -26,7 +40,8 @@ public class MapMarker implements Parcelable {
                 .snippet(report.getReportContents());
     }
 
-    //parcelling things
+    //parcelling things - needed to pass data between activities
+
     public MapMarker(Parcel in) {
         markerOptions = (MarkerOptions) in.readValue(MarkerOptions.class.getClassLoader());
         report = (BaseReportModel) in.readValue(BaseReportModel.class.getClassLoader());
