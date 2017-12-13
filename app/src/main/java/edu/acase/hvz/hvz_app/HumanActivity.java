@@ -5,7 +5,7 @@ import edu.acase.hvz.hvz_app.api.requests.ZombieReportRequest;
 import edu.acase.hvz.hvz_app.reports.CreateZombieReportActivity;
 import edu.acase.hvz.hvz_app.reports.EditZombieReportActivity;
 
-public class HumanActivity extends PlayerActivity<ZombieReportModel> {
+public class HumanActivity extends BasePlayerActivity<ZombieReportModel> {
     static final Logger logger = new Logger("human_activity");
     static final ZombieReportRequest zombieReportRequest = new ZombieReportRequest();
 

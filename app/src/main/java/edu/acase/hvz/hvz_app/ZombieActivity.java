@@ -3,7 +3,6 @@ package edu.acase.hvz.hvz_app;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 
 import com.google.android.gms.maps.GoogleMap;
@@ -22,7 +21,7 @@ import edu.acase.hvz.hvz_app.api.requests.ZombieReportRequest;
 import edu.acase.hvz.hvz_app.reports.CreateHumanReportActivity;
 import edu.acase.hvz.hvz_app.reports.EditHumanReportActivity;
 
-public class ZombieActivity extends PlayerActivity<HumanReportModel> {
+public class ZombieActivity extends BasePlayerActivity<HumanReportModel> {
     private static final Logger logger = new Logger("zombie_activity");
     private static final HumanReportRequest humanReportRequest = new HumanReportRequest();
 

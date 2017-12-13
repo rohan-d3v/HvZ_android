@@ -28,7 +28,7 @@ import java.util.Map;
 import edu.acase.hvz.hvz_app.api.models.BaseReportModel;
 import edu.acase.hvz.hvz_app.api.requests.BaseReportRequest;
 
-public abstract class PlayerActivity<ReportModel extends BaseReportModel> extends BaseActivity implements OnMapReadyCallback, GoogleMap.OnMapLongClickListener {
+public abstract class BasePlayerActivity<ReportModel extends BaseReportModel> extends BaseActivity implements OnMapReadyCallback, GoogleMap.OnMapLongClickListener {
     protected final Logger logger;
     protected final BaseReportRequest reportRequest;
     protected final Map<Marker, MapMarker> markerMap = new HashMap<>();
@@ -51,7 +51,7 @@ public abstract class PlayerActivity<ReportModel extends BaseReportModel> extend
         }
     }
 
-    public PlayerActivity(Logger logger, BaseReportRequest reportRequest) {
+    public BasePlayerActivity(Logger logger, BaseReportRequest reportRequest) {
         this.reportRequest = reportRequest;
         this.logger = logger;
     }
