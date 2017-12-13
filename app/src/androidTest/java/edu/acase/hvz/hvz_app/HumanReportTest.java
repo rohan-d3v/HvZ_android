@@ -9,6 +9,7 @@ import android.support.test.uiautomator.UiSelector;
 import android.test.suitebuilder.annotation.LargeTest;
 
 import com.google.android.gms.maps.model.Marker;
+
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -17,7 +18,9 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.concurrent.Semaphore;
 
+import edu.acase.hvz.hvz_app.api.models.HumanReportModel;
 import edu.acase.hvz.hvz_app.api.models.ZombieReportModel;
+import edu.acase.hvz.hvz_app.api.requests.HumanReportRequest;
 import edu.acase.hvz.hvz_app.api.requests.ZombieReportRequest;
 
 import static android.support.test.InstrumentationRegistry.getInstrumentation;
@@ -33,37 +36,39 @@ import static junit.framework.Assert.assertTrue;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
-public class ZombieReportTest {
+public class HumanReportTest {
     @Rule
-    public ActivityTestRule<HumanActivity> mActivityTestRule = new ActivityTestRule<>(HumanActivity.class);
-    HumanActivity thisActivity;
+    public ActivityTestRule<ZombieActivity> mActivityTestRule = new ActivityTestRule<>(ZombieActivity.class);
+    ZombieActivity thisActivity;
     final int executionDelayMs = 500;
 
-    final Logger logger = new Logger("zombie_report_test");
+    final Logger logger = new Logger("human_report_test");
 
-    final ZombieReportRequest request = new ZombieReportRequest();
-    ZombieReportModel report;
+    final HumanReportRequest request = new HumanReportRequest();
+    HumanReportModel report;
     final int groupSize = 11;
+    final int typicalMagSize = 15;
 
     @Test
-    public void testZombieReport() throws Exception {
+    public void testHumanReport() throws Exception {
         Thread.sleep(executionDelayMs); //set-up time for app
         thisActivity = mActivityTestRule.getActivity();
 
-        assertTrue(createZombieReport());
-        assertTrue(editZombieReport());
+        assertTrue(createHumanReport());
+        assertTrue(editHumanReport());
 
         Thread.sleep(executionDelayMs); //wait for gmap to repopulate
-        assertTrue(deleteZombieReport());
+        assertTrue(deleteHumanReport());
     }
 
-    public boolean createZombieReport() throws Exception {
+    public boolean createHumanReport() throws Exception {
         //create a report
-        report = new ZombieReportModel(1);
+        report = new HumanReportModel(1);
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.HOUR_OF_DAY, -1);
         report.setTimeSighted(calendar.getTime());
-        report.setNumZombies(groupSize);
+        report.setNumHumans(groupSize);
+        report.setTypicalMagSize(typicalMagSize);
         report.setLocation(thisActivity.cwruQuad);
         logger.debug("generated report: \n" + report.toString());
 
@@ -103,7 +108,7 @@ public class ZombieReportTest {
         return true;
     }
 
-    public boolean editZombieReport() throws Exception {
+    public boolean editHumanReport() throws Exception {
         //click on the report marker
         UiDevice device = UiDevice.getInstance(getInstrumentation());
         UiObject marker = device.findObject(new UiSelector().descriptionContains(report.getReportContents()));
@@ -121,6 +126,10 @@ public class ZombieReportTest {
         UiObject groupSizeObject = device.findObject(new UiSelector().focusable(true).text(String.valueOf(groupSize)));
         assertTrue(groupSizeObject.exists());
 
+        //verify the mag size is correct
+        UiObject magSizeObject = device.findObject(new UiSelector().focusable(true).text(String.valueOf(typicalMagSize)));
+        assertTrue(magSizeObject.exists());
+
         //set a new group size
         int newGroupSize = 888;
         ViewInteraction groupSizeInteraction = onView(withId(R.id.groupSize));
@@ -134,8 +143,22 @@ public class ZombieReportTest {
         groupSizeObject = device.findObject(new UiSelector().focusable(true).text(String.valueOf(newGroupSize)));
         assertTrue(groupSizeObject.exists());
 
+        //set a new magazine size
+        int newMagSize = 32;
+        ViewInteraction magSizeInteraction = onView(withId(R.id.magazineSize));
+        magSizeInteraction.check(matches(isDisplayed()));
+        magSizeInteraction.perform(
+                click(),
+                replaceText(""+newMagSize),
+                closeSoftKeyboard());
+
+        //verify the new mag size is set
+        magSizeObject = device.findObject(new UiSelector().focusable(true).text(String.valueOf(newMagSize)));
+        assertTrue(magSizeObject.exists());
+
         //mirror updates to object for comparisons
-        report.setNumZombies(newGroupSize);
+        report.setNumHumans(newGroupSize);
+        report.setTypicalMagSize(newMagSize);
         report.setTimeSighted(new Date());
 
         //save the edited report
@@ -145,7 +168,7 @@ public class ZombieReportTest {
         return true;
     }
 
-    public boolean deleteZombieReport() throws Exception {
+    public boolean deleteHumanReport() throws Exception {
         UiDevice device = UiDevice.getInstance(getInstrumentation());
 
         //click the updated marker on the map
