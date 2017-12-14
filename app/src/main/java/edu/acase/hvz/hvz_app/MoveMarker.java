@@ -94,6 +94,11 @@ public class MoveMarker extends AppCompatActivity implements OnMapReadyCallback,
         });
     }
 
+    /**
+     *This method checks if the marker is zombie reports or human report
+     * and updates it correspondingly by using instanceof
+     * @param newLoc
+     */
     private void updateLoc(Marker newLoc){
         logger.error(marker.toString());
 

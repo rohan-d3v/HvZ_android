@@ -58,7 +58,10 @@ public class ViewCode extends AppCompatActivity {
         });
     }
 
-
+    /**
+     * Generates the random token for the zombie to scan using stringbuilder and the random class
+     * @return
+     */
     public String getToken() {
         Random random = new Random();
         String CHARS = "ABCDEFGHJKLMNOPQRSTUVWXYZ234567890";
@@ -69,6 +72,15 @@ public class ViewCode extends AppCompatActivity {
         return token.toString();
     }
 
+    /**
+     * Takes in the random token from above
+     * Uses multiformatWriter to encode
+     * Takes class methods from ZXing class
+     * Uses Bitmatrix width and height
+     * @param Value
+     * @return
+     * @throws WriterException
+     */
     Bitmap TextToImageEncode(String Value) throws WriterException {
         BitMatrix bitMatrix;
         try {
