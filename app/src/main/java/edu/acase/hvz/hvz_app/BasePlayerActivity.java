@@ -6,6 +6,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.widget.Button;
@@ -176,7 +177,11 @@ public abstract class BasePlayerActivity<ReportModel extends BaseReportModel> ex
                 caughtButton = (Button) findViewById(R.id.caughtButton),
                 reportButton = (Button) findViewById(R.id.reportButton);
 
-        helpButton.setOnClickListener(view -> CommonDialogs.getHelpButtonDialog(context, view));
+        helpButton.setOnClickListener(view -> {
+            Uri uri = Uri.parse("http://hvz.case.edu/contact/new");
+            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+            startActivity(intent);
+        });
 
         infoButton.setOnClickListener(view -> CommonDialogs.getInfoButtonDialog(context, view));
 
