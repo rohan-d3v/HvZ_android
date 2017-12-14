@@ -66,12 +66,15 @@ public class MoveMarker extends AppCompatActivity implements OnMapReadyCallback,
         // Center the camera on campus
         LatLng cwruQuad = new LatLng(41.50325, -81.60755);
         gmap.moveCamera(CameraUpdateFactory.newLatLng(cwruQuad));
-
+        newLoc = googleMap.addMarker(new MarkerOptions().position(marker.getMarkerOptions().getPosition()));
         gmap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
             @Override
             public void onMapLongClick(LatLng latLng) {
-                newLoc = googleMap.addMarker(new MarkerOptions()
-                        .position(latLng));
+                if (newLoc!=null){
+                    newLoc.setPosition(latLng);
+                }
+                else
+                newLoc = googleMap.addMarker(new MarkerOptions().position(latLng));
             }
         });
     }
