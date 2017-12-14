@@ -27,9 +27,7 @@ public class HumanActivity extends BasePlayerActivity<ZombieReportModel> {
     }
 
     @Override
-    Class<?> getCaughtButtonIntentClass() {
-        return IncubatingActivity.class;
-    }
+    Class<?> getCaughtButtonIntentClass() {return ViewCode.class;}
 
     @Override
     Class<?> getCreateReportIntentClass() {

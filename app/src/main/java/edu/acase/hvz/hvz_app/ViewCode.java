@@ -1,11 +1,14 @@
 package edu.acase.hvz.hvz_app;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import java.util.Random;
@@ -28,6 +31,11 @@ public class ViewCode extends AppCompatActivity {
 
         TextView viewC = (TextView) findViewById(R.id.textView);
         viewC.setText(code);
+        final Button startButton = (Button) findViewById(R.id.startButton);
+        startButton.setOnClickListener(view -> {
+            Intent intent = new Intent(getBaseContext(), IncubatingActivity.class);
+            startActivity(intent);
+        });
     }
 
 
