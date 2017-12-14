@@ -24,7 +24,7 @@ public class StunnedActivity extends BaseActivity {
 
         text1 = (TextView) findViewById(R.id.textView1);
 
-        new CountDownTimer(3000, 1000) { // 8 seconds for testing. Can be changed later
+        new CountDownTimer(60000, 1000) { // 8 seconds for testing. Can be changed later
             @Override
             public void onTick(long millisUntilFinished) {
 

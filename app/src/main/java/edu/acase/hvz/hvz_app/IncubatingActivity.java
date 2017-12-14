@@ -24,7 +24,7 @@ public class IncubatingActivity extends AppCompatActivity {
 
         text1 = (TextView) findViewById(R.id.textView1);
 
-        new CountDownTimer(2000, 1000) { // 8 seconds for testing. Can be changed later
+        new CountDownTimer(60000, 1000) { // 8 seconds for testing. Can be changed later
             @Override
             public void onTick(long millisUntilFinished) {
 
