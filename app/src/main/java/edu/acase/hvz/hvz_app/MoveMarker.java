@@ -8,6 +8,8 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -15,6 +17,7 @@ import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.Date;
@@ -31,16 +34,16 @@ import static edu.acase.hvz.hvz_app.HumanActivity.logger;
  * that is already on the map. It shows a blank map for the player to choose a new
  * location for the marker to be placed. */
 
-public class MoveMarker extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnMapLongClickListener {
+public class MoveMarker extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnMapClickListener {
     private static final Logger logger = new Logger("edit_marker_location");
 
     protected GoogleMap gmap;
     private static final HumanReportRequest humanReportRequest = new HumanReportRequest();
     private static final ZombieReportRequest zombieReportRequest = new ZombieReportRequest();
-    private MarkerOptions marker;
-    private MapMarker mapMarker;
+    private MapMarker marker;
+    private Marker newLoc;
         @Override
-        public void onMapLongClick(LatLng clickLocation) {
+        public void onMapClick(LatLng clickLocation) {
             Intent i = new Intent (getApplicationContext(), HumanActivity.class);
             startActivity(i);
         }
@@ -64,6 +67,13 @@ public class MoveMarker extends AppCompatActivity implements OnMapReadyCallback,
         LatLng cwruQuad = new LatLng(41.50325, -81.60755);
         gmap.moveCamera(CameraUpdateFactory.newLatLng(cwruQuad));
 
+        gmap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
+            @Override
+            public void onMapLongClick(LatLng latLng) {
+                newLoc = googleMap.addMarker(new MarkerOptions()
+                        .position(latLng));
+            }
+        });
     }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,27 +84,33 @@ public class MoveMarker extends AppCompatActivity implements OnMapReadyCallback,
 
         MapFragment mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-        mapMarker = getIntent().getParcelableExtra("mapMarker");
-
+        marker = getIntent().getParcelableExtra("mapMarker");
+        Button saveButton = (Button) findViewById(R.id.button2);
+        saveButton.setOnClickListener(view -> {
+            updateLoc(newLoc);
+        });
     }
 
-    private void updateLoc(MarkerOptions marker){
-        logger.error(mapMarker.toString());
+    private void updateLoc(Marker newLoc){
+        logger.error(marker.toString());
 
-        //if (mapMarker.getReport() instanceof ZombieReportModel){
-        ZombieReportModel report = mapMarker.getReport();
-        report.setLocation(marker.getPosition());
+        if (marker.getReport() instanceof ZombieReportModel){
+        ZombieReportModel report = marker.getReport();
+        report.setLocation(newLoc.getPosition());
         //logger.error("newLoc");
         report.setTimeSighted(new Date());
         zombieReportRequest.update(report);
-        //}
- /*       else{
-            HumanReportModel report = mapMarker.getReport();
-            report.setLocation(newLoc);
+        Intent edit = new Intent(getBaseContext(), HumanActivity.class);
+        startActivity(edit);
+        }
+      else if (marker.getReport() instanceof HumanReportModel){
+            HumanReportModel report = marker.getReport();
+            report.setLocation(newLoc.getPosition());
             report.setTimeSighted(new Date());
             humanReportRequest.update(report);
+            Intent edit = new Intent(getBaseContext(), ZombieActivity.class);
+            startActivity(edit);
         }
-*/
 
     }
 
