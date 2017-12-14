@@ -42,11 +42,11 @@ public class MoveMarker extends AppCompatActivity implements OnMapReadyCallback,
     private static final ZombieReportRequest zombieReportRequest = new ZombieReportRequest();
     private MapMarker marker;
     private Marker newLoc;
-        @Override
-        public void onMapClick(LatLng clickLocation) {
-            Intent i = new Intent (getApplicationContext(), HumanActivity.class);
-            startActivity(i);
-        }
+    @Override
+    public void onMapClick(LatLng clickLocation) {
+        Intent i = new Intent (getApplicationContext(), HumanActivity.class);
+        startActivity(i);
+    }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
@@ -95,15 +95,15 @@ public class MoveMarker extends AppCompatActivity implements OnMapReadyCallback,
         logger.error(marker.toString());
 
         if (marker.getReport() instanceof ZombieReportModel){
-        ZombieReportModel report = marker.getReport();
-        report.setLocation(newLoc.getPosition());
-        //logger.error("newLoc");
-        report.setTimeSighted(new Date());
-        zombieReportRequest.update(report);
-        Intent edit = new Intent(getBaseContext(), HumanActivity.class);
-        startActivity(edit);
+            ZombieReportModel report = marker.getReport();
+            report.setLocation(newLoc.getPosition());
+            //logger.error("newLoc");
+            report.setTimeSighted(new Date());
+            zombieReportRequest.update(report);
+            Intent edit = new Intent(getBaseContext(), HumanActivity.class);
+            startActivity(edit);
         }
-      else if (marker.getReport() instanceof HumanReportModel){
+        else if (marker.getReport() instanceof HumanReportModel){
             HumanReportModel report = marker.getReport();
             report.setLocation(newLoc.getPosition());
             report.setTimeSighted(new Date());

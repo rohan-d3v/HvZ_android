@@ -17,4 +17,5 @@
     <string name="title_activity_create_h">createH</string>
     <string name="title_activity_move_marker">moveMarker</string>
     <string name="title_activity_view_code">viewCode</string>
+    <string name="title_activity_marker_demo">MarkerDemoActivity</string>
 </resources>
